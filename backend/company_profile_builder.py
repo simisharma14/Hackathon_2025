@@ -425,15 +425,18 @@ def pull_financial_overview(symbol: str, save_path: str = "./financial_overviews
     print(f"[+] Saved financial overview for {symbol} to: {out_file}")
 
 def compute_5yr_cagr(revenue_series: pd.Series) -> float:
-    if len(revenue_series) < 2:
-        return None
-    start_val = revenue_series.iloc[0]
-    end_val = revenue_series.iloc[-1]
+    revenue_series = revenue_series.astype(float)
+    if len(revenue_series) < 5:
+        start_val = revenue_series.iloc[0]
+        end_val = revenue_series.iloc[-1]
+    else:
+        start_val = revenue_series.iloc[-5]
+        end_val = revenue_series.iloc[-1]
     # Number of intervals = (# of data points - 1)
     periods = len(revenue_series) - 1  
     if start_val <= 0:
         return None
-    cagr = (end_val / start_val) ** (1 / periods) - 1
+    cagr = (end_val / start_val) ** (1.0 / periods) - 1
     return cagr
 
 def pull_advanced_metrics(symbol: str, save_path: str = "./advanced_metrics"):
