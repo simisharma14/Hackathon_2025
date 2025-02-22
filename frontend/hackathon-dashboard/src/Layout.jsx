@@ -33,8 +33,9 @@ const Layout = ({ children }) => {
                   <Link to="/MacroOutlook"><span>📈</span> <span className={isOpen ? "show" : "hide"}>Macro Outlook</span></Link>
                 </li>
                 <li>
-                  <Link to="/StockProfile"><span>📜</span> <span className={isOpen ? "show" : "hide"}>Stock Profile</span></Link>
+                  <Link to="/ProfileViews"><span>📜</span> <span className={isOpen ? "show" : "hide"}>Profile Views</span></Link>
                 </li>
+
             </ul>
         </nav>
       </aside>

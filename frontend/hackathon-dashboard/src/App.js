@@ -5,8 +5,8 @@ import Dashboard from "./dashboard"; // Import the Dashboard component
 import LandingPage from "./LandingPage"; // Import the LandingPage component
 import Home from ".//Home"; // Make sure Home is imported
 import ETFPage from "./ETFPage"; // Make sure Home is imported
-// import StockProfile from "./StockProfile";
 import TopPerformers from "./TopPerformers";
+import ProfileViews from "./ProfileViews";
 // import MacroOutlook from "./pages/MacroOutlook";
 // import StockProfile from "./pages/StockProfile";
 // import TopPerformers from "./pages/TopPerformers";
@@ -18,7 +18,7 @@ function App() {
           {/* Route Definitions */}
           <Routes>
             {/* Landing Page Route */}
-            <Route path="/" element={<LandingPage />} />
+            <Route path="/"element={<LandingPage />} />
 
             {/* Home Page Route */}
             <Route path="/home" element={<Home />} /> {/* Home page route */}
@@ -30,6 +30,7 @@ function App() {
             <Route path="/TopPerformers" element={<TopPerformers />} />
 
             <Route path="/ETFPage" element={<ETFPage/>} />
+            <Route path="/ProfileViews" element={<ProfileViews />} /> 
           </Routes>
         </div>
     </Router>
