@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Papa from "papaparse"; // Import PapaParse
+import { Bar } from "react-chartjs-2"; // Import the Bar chart from react-chartjs-2
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
+
+// Register the necessary components for Chart.js
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const Dashboard = () => {
   const [data, setData] = useState([]);
@@ -17,29 +22,27 @@ const Dashboard = () => {
     });
   }, []); 
 
-  return (
-    <div style={{ width: "90%", margin: "20px auto" }}>
-      <h2>CSV Data</h2>
+  // Prepare data for the bar chart
+  const chartData = {
+    labels: data.map((row) => new Date(row.Timestamp)), // Convert Timestamp to Date
+    
+    datasets: [
+      {
+        label: "Close", // Y-axis data label
+        data: data.map((row) => row.close), // Y-axis values (close)
+        backgroundColor: "rgba(205, 29, 23, 0.2)", // Bar color
+        borderColor: "rgb(192, 168, 10)", // Bar border color
+        borderWidth: 1,
+      },
+    ]
+  };
 
-      {/* Display data as a table */}
-      <table border="1" style={{ width: "100%", marginTop: "20px" }}>
-        <thead>
-          <tr>
-            {data.length > 0 && Object.keys(data[0]).map((key) => (
-              <th key={key}>{key}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((row, index) => (
-            <tr key={index}>
-              {Object.values(row).map((value, idx) => (
-                <td key={idx}>{value}</td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+  return (
+    <div style={{ width: "50%", margin: "20px auto" }}>
+      <h2>Closing Price By Date</h2>
+
+      {/* Render the bar chart */}
+      <Bar data={chartData} options={{ responsive: true }} />
     </div>
   );
 };
