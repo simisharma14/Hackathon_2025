@@ -2,9 +2,11 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import "./Layout.css"; // Import the CSS file
+import { useGlobalContext } from "./GlobalContext";
 
 const Layout = ({ children }) => {
     const [isOpen, setIsOpen] = useState(true);
+    const { userData } = useGlobalContext();
 
   return (
     <div className="layout">
@@ -40,9 +42,16 @@ const Layout = ({ children }) => {
         </nav>
       </aside>
 
+      <div className="user-info">
+                <p><strong>Welcome, {userData.name}</strong></p>
+                <p>Energy: {userData.energyType}</p>
+                <p>Risk: {userData.riskType}</p>
+      </div>
+
       {/* Main content */}
       <main className="content">{children}</main>
     </div>
+    
   );
 };
 

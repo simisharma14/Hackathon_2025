@@ -9,9 +9,7 @@ import ETFPage from "./ETFPage"; // Make sure Home is imported
 import TopPerformers from "./TopPerformers";
 import ProfileViews from "./ProfileViews";
 import StockProfile from "./StockProfile";
-// import MacroOutlook from "./pages/MacroOutlook";
-// import StockProfile from "./pages/StockProfile";
-// import TopPerformers from "./pages/TopPerformers";
+import MacroOutlook from "./MacroOutlook";
 import { GlobalProvider } from "./GlobalContext";
 
 
