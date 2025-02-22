@@ -93,11 +93,11 @@ def add_finbert_sentiment(df: pd.DataFrame) -> pd.DataFrame:
 
 if __name__ == "__main__":
     POLYGON_API_KEY = "4cR_irLDgivxae1WO4y0Wb30VYxXRkQj"
-    # SYMBOLS = ["NEE", "FSLR", "ENPH", "RUN", "SEDG",
-    #            "CSIQ", "JKS", "NXT", "SPWR", "DQ", "ARRY", "NEP", "GE", "VWS", "IBDRY", "DNNGY", 'BEP', "NPI", "CWEN", "INOXWIND", "ORA", "IDA", "OPTT", "DRXGY", "EVA", "GPRE", "PLUG", "BE", "BLDP", "ARL", "OPTT", "CEG", "VST", "CCJ", "LEU", "SMR", "OKLO", "NNE", "BWXT", "BW", "TLNE"
-    #            ]
+    SYMBOLS = ["NEE", "FSLR", "ENPH", "RUN", "SEDG",
+               "CSIQ", "JKS", "NXT", "SPWR", "DQ", "ARRY", "NEP", "GE", "VWS", "IBDRY", "DNNGY", 'BEP', "NPI", "CWEN", "INOXWIND", "ORA", "IDA", "OPTT", "DRXGY", "EVA", "GPRE", "PLUG", "BE", "BLDP", "ARL", "OPTT", "CEG", "VST", "CCJ", "LEU", "SMR", "OKLO", "NNE", "BWXT", "BW", "TLNE"
+               ]
 
-    SYMBOLS = ["FSLR", "NEE"]
+    # SYMBOLS = ["FSLR", "NEE"]
     for symbol in SYMBOLS:
         # Step 1: Fetch news
         df_news = get_polygon_news(symbol, api_key=POLYGON_API_KEY, limit=20)
