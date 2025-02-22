@@ -1,0 +1,50 @@
+/* Global styling for the body */
+body {
+    background-color: #ADEBB3; /* Set background color */
+    color: #000000; /* Set text color */
+    font-family: Arial, sans-serif; /* Set font family */
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Styling for the landing page container */
+  .landing-page {
+    text-align: center; /* Center content */
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    padding: 50px; /* Add padding around the landing page */
+  }
+  
+  /* Styling for the heading */
+  .landing-page h1 {
+    background-color: #ADEBB3; /* Set background color for the heading */
+    color: #000000; /* Set text color for the heading */
+    font-size: 54px; /* Set font size for heading */
+    font-weight: bold; /* Make the heading bold */
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    padding: 20px;
+    margin: 0;
+  }
+  
+  /* Styling for the paragraph */
+  .landing-page p {
+    color:#03401c;
+    font-size: 36px; /* Set font size for paragraph */
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', 'sans-serif';
+    line-height: 3.0; /* Set line height for readability */
+  }
+
+  .landing-page-start-button {
+    background-color: #043106;  /* Green background */
+    color: #ffffff;  /* White text color */
+    font-size: 18px;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 300px;
+    align-self: center;
+    margin-top: 20px;
+  }
+  
+
