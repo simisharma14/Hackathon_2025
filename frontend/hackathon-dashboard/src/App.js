@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom"; // Import Routes instead of Switch
+import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom"; 
 import "./App.css";
 import Dashboard from "./dashboard"; // Import the Dashboard component
 

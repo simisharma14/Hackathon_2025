@@ -1,32 +1,45 @@
-import React from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer} from 'recharts';
-
-const data = [
-  { month: 'Jan', sales: 4000, profit: 2400 },
-  { month: 'Feb', sales: 3000, profit: 1398 },
-  { month: 'Mar', sales: 5000, profit: 2210 },
-  { month: 'Apr', sales: 7000, profit: 2290 },
-  { month: 'May', sales: 6000, profit: 2000 },
-];
+import React, { useEffect, useState } from "react";
+import Papa from "papaparse"; // Import PapaParse
 
 const Dashboard = () => {
-  return (
-    <div style={{ width: '90%', margin: '20px auto' }}>
-      {/* LineChart */}
-      <h2>Sales Overview</h2>
-      <ResponsiveContainer width="100%" height={300}>
-        <LineChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 10 }}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="month" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          <Line type="monotone" dataKey="sales" stroke="#8884d8" strokeWidth={2} />
-        </LineChart>
-      </ResponsiveContainer>
+  const [data, setData] = useState([]);
 
-   
-    
+  useEffect(() => {
+    // Fetch and parse the CSV file
+    Papa.parse("/FSLR_technical 2.csv", {
+      download: true,
+      header: true, 
+      dynamicTyping: true,
+      complete: (result) => {
+        console.log(result.data); // Check the parsed data
+        setData(result.data); 
+      },
+    });
+  }, []); 
+
+  return (
+    <div style={{ width: "90%", margin: "20px auto" }}>
+      <h2>CSV Data</h2>
+
+      {/* Display data as a table */}
+      <table border="1" style={{ width: "100%", marginTop: "20px" }}>
+        <thead>
+          <tr>
+            {data.length > 0 && Object.keys(data[0]).map((key) => (
+              <th key={key}>{key}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {data.map((row, index) => (
+            <tr key={index}>
+              {Object.values(row).map((value, idx) => (
+                <td key={idx}>{value}</td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
