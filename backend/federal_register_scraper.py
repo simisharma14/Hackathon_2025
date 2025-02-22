@@ -99,7 +99,7 @@ if __name__ == "__main__":
         "LEU", "SMR", "OKLO", "NNE", "BWXT", "BW", "TLNE"
     ]
     '''
-    SYMBOLS = ["clean energy", "renewable energy", "energy efficiency", "nuclear energy", "nuclear regulation", "solar energy", "solar power", "wind power", "wind energy", "hydropower", "geothermal"]
+    SYMBOLS = ["clean energy", "renewable energy", "energy efficiency", "nuclear energy", "nuclear regulation", "solar energy", "solar power", "wind power", "wind energy", "hydropower", "geothermal", "climate change"]
 
     # Create folder for federal register data
     save_dir = "./data/regulatory_data"
