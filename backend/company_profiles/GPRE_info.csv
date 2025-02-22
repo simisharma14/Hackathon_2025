@@ -1,0 +1,19 @@
+,Value
+ticker,GPRE
+name,"Green Plains, Inc."
+market,stocks
+locale,us
+primary_exchange,XNAS
+type,CS
+active,True
+currency_name,usd
+cik,0001309402
+composite_figi,BBG000KYNTQ5
+share_class_figi,BBG001SPVM17
+phone_number,402-884-8700
+address,"{'address1': '1811 AKSARBEN DRIVE', 'city': 'OMAHA', 'state': 'NE', 'postal_code': '68106'}"
+sic_code,2860
+sic_description,INDUSTRIAL ORGANIC CHEMICALS
+ticker_root,GPRE
+share_class_shares_outstanding,64650000
+round_lot,100
