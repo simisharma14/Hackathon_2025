@@ -3,6 +3,7 @@ import './Home.css'; // Import the CSS file
 import { Link } from "react-router-dom"; // Import Link
 
 const Home = () => {
+  
     return (
       <div className="home">
         <h1>NAME ENTRY!</h1>

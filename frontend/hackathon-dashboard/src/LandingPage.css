@@ -1,93 +1,113 @@
+/* Fullscreen Background */
 .fullscreen-bg {
     position: relative;
     width: 100vw;
     height: 100vh;
-    background-image: url("/public/wind-turbines.jpg");
+    background-image: url("/public/wind-turbines.jpg"); /* Ensure this is in the public folder */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
     text-align: center;
-  }
-  
-  /* Dark overlay effect */
-  .fullscreen-bg::before {
-    content: "";
+}
+
+/* Dark overlay for contrast */
+.fullscreen-overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Adjust the darkness (0.5 = 50% dark) */
-    z-index: -1;
-  }
-  
-  /* Ensure content is on top of overlay */
-  .fullscreen-content {
+    background: rgba(0, 0, 0, 0.6); /* Darker overlay */
+    z-index: 0; /* Keeps overlay behind content */
+}
+
+/* Content Box - Glassmorphism Effect */
+.content-box {
     position: relative;
     z-index: 1;
-  }
-  
-  /* Global styling for the body */
-body {
-    background-color: #ADEBB3; /* Set background color */
-    color: #000000; /* Set text color */
-    font-family: Arial, sans-serif; /* Set font family */
-    margin: 0;
-    padding: 0;
+    background: rgba(255, 255, 255, 0.1); /* Glass effect */
+    backdrop-filter: blur(10px);
+    padding: 40px 60px;
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    max-width: 700px;
 }
 
-/* Styling for the landing page container */
-.landing-page {
-    text-align: center; /* Center content */
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    padding: 50px; /* Add padding around the landing page */
+/* Modern, Bold Title */
+.fullscreen-content h1 {
+    font-size: 64px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: white;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
 }
 
-/* Styling for the heading */
-.landing-page h1 {
-    background-color: #ADEBB3; /* Set background color for the heading */
-    color: #000000; /* Set text color for the heading */
-    font-size: 54px; /* Set font size for heading */
-    font-weight: bold; /* Make the heading bold */
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    padding: 20px;
-    margin: 0;
+/* Elegant Paragraph */
+.fullscreen-content p {
+    font-size: 22px;
+    font-weight: 300;
+    line-height: 1.8;
+    margin-bottom: 30px;
+    color: rgba(255, 255, 255, 0.85);
 }
 
-/* Styling for the paragraph */
-.landing-page p {
-    color:#03401c;
-    font-size: 36px; /* Set font size for paragraph */
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', 'sans-serif';
-    line-height: 3.0; /* Set line height for readability */
-}
-
+/* Modern Call-to-Action Button */
 .landing-page-start-button {
-    background-color: #09460c;  /* Green background */
-    color: #ffffff;  /* White text color */
-    font-size: 18px;
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    padding: 10px 20px;
+    background: linear-gradient(90deg, #00c853, #009688); /* Professional gradient */
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 15px 30px;
     border: none;
-    border-radius: 5px;
+    border-radius: 50px;
     cursor: pointer;
-    width: 300px;
-    align-self: center;
-    margin-top: 20px;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }
 
-.dino4 {
-    width: 25%; /* Make the image smaller */
-    height: auto;
-    position: absolute;
-    top: 50%; /* Vertically center it */
-    right: 5%; /* Push it to the right side */
-    transform: translateY(-50%); /* Adjust vertical centering */
-    border-radius: 10px;
+/* Button Hover Effect */
+.landing-page-start-button:hover {
+    background: linear-gradient(90deg, #009688, #00c853);
+    transform: scale(1.07);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
 }
 
-  
+/* Text Fade-in Animations */
+.fade-in {
+    opacity: 0;
+    animation: fadeIn 1.5s ease-in forwards;
+}
+
+.delay-1 {
+    animation-delay: 0.5s;
+}
+
+.delay-2 {
+    animation-delay: 1s;
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .fullscreen-content h1 {
+        font-size: 42px;
+    }
+    .fullscreen-content p {
+        font-size: 18px;
+    }
+    .landing-page-start-button {
+        font-size: 16px;
+        padding: 12px 25px;
+    }
+}
+
