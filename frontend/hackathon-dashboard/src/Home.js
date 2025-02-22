@@ -8,14 +8,13 @@ const Home = () => {
         <h1>NAME ENTRY!</h1>
         <p>ENERGY TYPE Choices</p>
         <p>RISK TYPE</p>
-  
-    {/* Link to Top Performers page */}
-    <Link to="/TopPerformers">
-    <button class="home-page-start-button"> View Stocks and Profiles</button>
-      </Link>
+
+        {/* Link to Top Performers page */}
+        <Link to="/TopPerformers">
+          <button className="home-page-start-button">View Stocks and Profiles</button>
+        </Link>
       </div>
     );
-  };
-  
-  export default Home;
-  
+};
+
+export default Home;

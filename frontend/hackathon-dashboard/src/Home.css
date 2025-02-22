@@ -33,9 +33,9 @@ body {
     line-height: 3.0; /* Set line height for readability */
   }
 
-  home-page-start-button {
+  .home-page-start-button {
     background-color: #09460c;  /* Green background */
-    color: #890e0e;  /* White text color */
+    color: #ffffff;  /* Text color */
     font-size: 18px;
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     padding: 10px 20px;
@@ -46,5 +46,6 @@ body {
     align-self: center;
     margin-top: 20px;
 }
+
   
 
