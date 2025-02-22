@@ -6,12 +6,12 @@ const Home = () => {
     return (
       <div className="home">
         <h1>NAME ENTRY!</h1>
-        <p>ENERGY TYPE</p>
+        <p>ENERGY TYPE Choices</p>
         <p>RISK TYPE</p>
   
     {/* Link to Top Performers page */}
     <Link to="/TopPerformers">
-        <button>See Top Performers</button>
+    <button class="home-page-start-button"> View Stocks and Profiles</button>
       </Link>
       </div>
     );

@@ -33,9 +33,9 @@ body {
     line-height: 3.0; /* Set line height for readability */
   }
 
-  .home-continue-button {
-    background-color: #043106;  /* Green background */
-    color: #ffffff;  /* White text color */
+  home-page-start-button {
+    background-color: #09460c;  /* Green background */
+    color: #890e0e;  /* White text color */
     font-size: 18px;
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     padding: 10px 20px;
@@ -45,6 +45,6 @@ body {
     width: 300px;
     align-self: center;
     margin-top: 20px;
-  }
+}
   
 

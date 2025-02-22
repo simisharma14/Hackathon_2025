@@ -24,19 +24,6 @@ def convert_iso_to_mm_dd_yyyy(iso_str: str) -> str:
     return iso_str
 
 def get_federal_register_docs(symbol: str, per_page: int = 20, max_pages: int = 3) -> pd.DataFrame:
-    """
-    Mimic your get_polygon_news() but fetch from the Federal Register.
-    We'll search for the 'symbol' as our keyword.
-    Return only documents from the last 30 days, similar to your Polygon script.
-
-    Args:
-        symbol (str): The ticker symbol we want to search for as a keyword.
-        per_page (int): Number of results per page (max 100).
-        max_pages (int): How many pages to fetch (to approach 'limit=50' total).
-    
-    Returns:
-        pd.DataFrame: Columns: [timestamp, title, url, source]
-    """
     base_url = "https://www.federalregister.gov/api/v1/articles"
     # We'll filter by the last 30 days, similar to your approach
     today = datetime.now()
@@ -102,6 +89,7 @@ def get_federal_register_docs(symbol: str, per_page: int = 20, max_pages: int = 
 
 
 if __name__ == "__main__":
+    '''
     SYMBOLS = [
         "NEE", "FSLR", "ENPH", "RUN", "SEDG",
         "CSIQ", "JKS", "NXT", "SPWR", "DQ", "ARRY", "NEP", 
@@ -110,6 +98,8 @@ if __name__ == "__main__":
         "PLUG", "BE", "BLDP", "ARL", "OPTT", "CEG", "VST", "CCJ", 
         "LEU", "SMR", "OKLO", "NNE", "BWXT", "BW", "TLNE"
     ]
+    '''
+    SYMBOLS = ["clean energy", "renewable energy", "energy efficiency", "nuclear energy", "nuclear regulation", "solar energy", "solar power", "wind power", "wind energy", "hydropower", "geothermal", "climate change"]
 
     # Create folder for federal register data
     save_dir = "./data/regulatory_data"
@@ -117,7 +107,7 @@ if __name__ == "__main__":
 
     for symbol in SYMBOLS:
         print(f"Fetching Federal Register documents referencing {symbol} ...")
-        df_fr = get_federal_register_docs(symbol, per_page=20, max_pages=3)
+        df_fr = get_federal_register_docs(symbol, per_page=20, max_pages=5)
 
         if not df_fr.empty:
             # Convert 'timestamp' to mm-dd-yyyy just to be consistent

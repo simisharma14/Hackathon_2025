@@ -1,0 +1,20 @@
+,Value
+ticker,BEP
+name,Brookfield Renewable Partners L.P.
+market,stocks
+locale,us
+primary_exchange,XNYS
+type,CS
+active,True
+currency_name,usd
+cik,0001533232
+market_cap,6683007207.76
+description,"Brookfield Renewable is a globally diversified, multitechnology owner and operator of clean energy assets. The company's portfolio consists of hydroelectric, wind, solar, and storage facilities in North America, South America, Europe, and Asia and totals over 20 gigawatts of installed capacity. Brookfield Renewable invests in assets directly, as well as with institutional partners, joint venture partners, and through other arrangements. The company offers two separate listings for investors: Brookfield Renewable Partners and Brookfield Renewable Corp."
+ticker_root,BEP
+homepage_url,https://www.bep.brookfield.com
+total_employees,4770
+list_date,2001-10-16
+branding,"{'logo_url': 'https://api.polygon.io/v1/reference/company-branding/YmVwLmJyb29rZmllbGQuY29t/images/2024-10-01_logo.svg', 'icon_url': 'https://api.polygon.io/v1/reference/company-branding/YmVwLmJyb29rZmllbGQuY29t/images/2024-10-01_icon.png'}"
+share_class_shares_outstanding,285110000
+weighted_shares_outstanding,285111229
+round_lot,100

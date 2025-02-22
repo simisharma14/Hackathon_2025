@@ -2,6 +2,7 @@ from transformers import pipeline
 from polygon_scraper import get_polygon_news
 import pandas as pd
 import datetime
+import os
 
 
 def convert_iso_to_mm_dd_yyyy(iso_str):
@@ -124,5 +125,6 @@ if __name__ == "__main__":
 
             # Save to CSV
             out_path = f"./data/sentiment_scores/{symbol}_sentiment_news.csv"
+            os.makdirs(out_path, exist_ok=True)
             df_with_sentiment.to_csv(out_path, index=False)
             print(f"Saved sentiment analysis to {out_path}")

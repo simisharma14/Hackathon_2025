@@ -1,0 +1,26 @@
+,Value
+ticker,BWXT
+name,"BWX Technologies, Inc."
+market,stocks
+locale,us
+primary_exchange,XNYS
+type,CS
+active,True
+currency_name,usd
+cik,0001486957
+composite_figi,BBG000D86F25
+share_class_figi,BBG001SGJPH7
+market_cap,9268163655.199999
+phone_number,980-365-4300
+address,"{'address1': '800 MAIN STREET', 'address2': '4TH FLOOR', 'city': 'LYNCHBURG', 'state': 'VA', 'postal_code': '24504'}"
+description,"BWX Technologies Inc is a specialty manufacturer & service provider of nuclear components. It operates in two segments. The government Operations segment consists of legacy Nuclear Operations Group & Nuclear Services Group segments with certain research & development activities in the areas of advanced reactors & advanced manufacturing. The commercial Operations segment consists of the legacy Nuclear Power Group segment with certain research and development & commercialization activities in the areas of medical & industrial radioisotopes & radiopharmaceuticals. The majority is from the Government Operations segment. Geographically, it operates in the United States, Canada & United Kingdom, out of which the majority is from the United States."
+sic_code,3510
+sic_description,ENGINES & TURBINES
+ticker_root,BWXT
+homepage_url,https://www.bwxt.com
+total_employees,7800
+list_date,2010-07-12
+branding,"{'logo_url': 'https://api.polygon.io/v1/reference/company-branding/Ynd4dC5jb20/images/2024-10-01_logo.svg', 'icon_url': 'https://api.polygon.io/v1/reference/company-branding/Ynd4dC5jb20/images/2024-10-01_icon.png'}"
+share_class_shares_outstanding,91420000
+weighted_shares_outstanding,91420040
+round_lot,100

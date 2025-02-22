@@ -1,0 +1,26 @@
+,Value
+ticker,RUN
+name,Sunrun Inc
+market,stocks
+locale,us
+primary_exchange,XNAS
+type,CS
+active,True
+currency_name,usd
+cik,0001469367
+composite_figi,BBG0025XVR85
+share_class_figi,BBG0025XVR94
+market_cap,1888937529.08
+phone_number,415-580-6900
+address,"{'address1': '600 CALIFORNIA STREET, SUITE 1800', 'city': 'SAN FRANCISCO', 'state': 'CA', 'postal_code': '94108'}"
+description,"Sunrun is engaged in the design, development, installation, sale, ownership, and maintenance of residential solar energy systems in the United States. The company acquires customers directly and through relationships with various solar and strategic partners. The solar systems are constructed either by Sunrun or by Sunrun's partners and are owned by the company. Sunrun's customers typically enter into 20- to 25-year agreements to utilize its solar energy system. The company also sells solar energy systems and products, such as panels and racking, and solar leads generated to customers."
+sic_code,3690
+sic_description,"MISCELLANEOUS ELECTRICAL MACHINERY, EQUIPMENT & SUPPLIES"
+ticker_root,RUN
+homepage_url,https://www.sunrun.com
+total_employees,10833
+list_date,2015-08-05
+branding,"{'logo_url': 'https://api.polygon.io/v1/reference/company-branding/c3VucnVuLmNvbQ/images/2024-10-01_logo.svg', 'icon_url': 'https://api.polygon.io/v1/reference/company-branding/c3VucnVuLmNvbQ/images/2024-10-01_icon.jpeg'}"
+share_class_shares_outstanding,224340000
+weighted_shares_outstanding,224339374
+round_lot,100

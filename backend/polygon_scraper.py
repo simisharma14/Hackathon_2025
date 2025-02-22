@@ -1,7 +1,10 @@
 import requests
 import pandas as pd
 from datetime import datetime, timedelta
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
 
 def convert_iso_to_mm_dd_yyyy(iso_str):
     """
@@ -76,7 +79,7 @@ def get_polygon_news(symbol: str, api_key: str, limit: int = 50) -> pd.DataFrame
 
 
 if __name__ == "__main__":
-    API_KEY = "4cR_irLDgivxae1WO4y0Wb30VYxXRkQj"
+    API_KEY = os.getenv("POLYGON_API_KEY")
 
     SYMBOLS = ["NEE", "FSLR", "ENPH", "RUN", "SEDG",
                "CSIQ", "JKS", "NXT", "SPWR", "DQ", "ARRY", "NEP", "GE", "VWS", "IBDRY", "DNNGY", 'BEP', "NPI", "CWEN", "INOXWIND", "ORA", "IDA", "OPTT", "DRXGY", "EVA", "GPRE", "PLUG", "BE", "BLDP", "ARL", "OPTT", "CEG", "VST", "CCJ", "LEU", "SMR", "OKLO", "NNE", "BWXT", "BW", "TLNE"
@@ -89,5 +92,8 @@ if __name__ == "__main__":
         if "timestamp" in polygon_df.columns:
             polygon_df["timestamp"] = polygon_df["timestamp"].apply(
                 convert_iso_to_mm_dd_yyyy)
+
+        save_path = f"./data/polygon_scraped/{symbol}_news.csv"
+        os.makedirs(save_path, exist_ok=True)
         polygon_df.to_csv(
-            f"./data/polygon_scraped/{symbol}_news.csv", index=False)
+            save_path, index=False)

@@ -3,6 +3,8 @@ import requests
 import pandas as pd
 from datetime import datetime
 import yfinance as yf
+import numpy as np
+
 
 
 def compute_sma(series: pd.Series, window: int) -> pd.Series:
@@ -341,14 +343,15 @@ def pull_financial_statements(symbol: str, save_path: str = "./financial_stateme
 
     try:
         stock = yf.Ticker(symbol)
-        #row = {col: None for col in CSV_COLUMNS}
+        # row = {col: None for col in CSV_COLUMNS}
         info = stock.info
     except Exception as e:
         print(f"[Error] Could not retrieve .info for {symbol}: {e}")
         return
-    
+
     if not info:
-        print(f"[Warning] No 'info' returned for {symbol}. Possibly an invalid ticker.")
+        print(
+            f"[Warning] No 'info' returned for {symbol}. Possibly an invalid ticker.")
         return
 
     '''
@@ -367,7 +370,8 @@ def pull_financial_statements(symbol: str, save_path: str = "./financial_stateme
         income_statement = stock.financials  # Annual income statement
         cash_flow = stock.cashflow  # Annual cash flow statement
     except Exception as e:
-        print(f"[Error] Could not retrieve financial statements for {symbol}: {e}")
+        print(
+            f"[Error] Could not retrieve financial statements for {symbol}: {e}")
         return
 
     if not balance_sheet.empty:
@@ -392,7 +396,7 @@ def pull_financial_statements(symbol: str, save_path: str = "./financial_stateme
 def pull_financial_overview(symbol: str, save_path: str = "./financial_overviews"):
 
     os.makedirs(save_path, exist_ok=True)
-    
+
     try:
         ticker = yf.Ticker(symbol)
         info = ticker.info
@@ -404,7 +408,6 @@ def pull_financial_overview(symbol: str, save_path: str = "./financial_overviews
         print(f"[Warning] No overview info for {symbol}. Skipping.")
         return
 
-   
     # 3) Grab each metric (use .get() to avoid KeyErrors)
     market_cap = info.get("marketCap")
     day_high = info.get("dayHigh")
@@ -475,7 +478,6 @@ def pull_advanced_metrics(symbol: str, save_path: str = "./advanced_metrics"):
         print(f"[Warning] No overview info for {symbol}. Skipping.")
         return
 
-
     annual_fin = ticker.financials
 
     annual_bs = ticker.balance_sheet
@@ -486,7 +488,9 @@ def pull_advanced_metrics(symbol: str, save_path: str = "./advanced_metrics"):
         "five_yr_rev_cagr": None,
         "ev_ebitda": None,
         "roic": None,
-        "fcf_yield": None
+        "fcf_yield": None,
+        "implied_upside": None,
+        "volatility": None,
     }
 
     ebitda_val = info.get("ebitda")
@@ -542,6 +546,35 @@ def pull_advanced_metrics(symbol: str, save_path: str = "./advanced_metrics"):
         fcf_yield_val = fcf / mcap
     metrics["fcf_yield"] = fcf_yield_val
 
+    # Compute implied upside
+    try:
+        current_price = info.get("currentPrice")
+        if ebitda_val and total_debt is not None and current_price is not None:
+            # Compute Enterprise Value (EV)
+            # Compute Equity Value
+            equity_value = ev - total_debt
+            # Compute Target Price
+            target_price = equity_value / info.get("sharesOutstanding")
+            # Compute Implied Upside
+            metrics["implied_upside"] = (
+                (target_price - current_price) / current_price)
+    except Exception as e:
+        print(f"[Error] Could not calculate implied upside for {symbol}: {e}")
+
+    try:
+        # Calculate historical volatility
+        hist_prices = ticker.history(
+            start="2024-01-01", end="2025-01-01", period="1d")
+        hist_prices['daily_return'] = hist_prices["Close"].pct_change()
+        hist_prices["volatility"] = hist_prices["daily_return"].rolling(
+            window=30).std()
+        latest_volatility = hist_prices["volatility"].dropna(
+        ).iloc[-1] * np.sqrt(252)
+        metrics['volatility'] = latest_volatility * 100
+    except Exception as e:
+        print(
+            f"[Error] Could not calculate historical volatility for {symbol}: {e}")
+
     df_out = pd.DataFrame([metrics])
     csv_path = os.path.join(save_path, f"{symbol}_advanced_metrics.csv")
     df_out.to_csv(csv_path, index=False)
@@ -552,16 +585,18 @@ def pull_advanced_metrics(symbol: str, save_path: str = "./advanced_metrics"):
 
 if __name__ == "__main__":
     # Example usage
-    POLYGON_API_KEY = "4cR_irLDgivxae1WO4y0Wb30VYxXRkQj"
+    API_KEY = os.getenv("POLYGON_API_KEY")
+    
     SYMBOLS = ["NEE", "FSLR", "ENPH", "RUN", "SEDG",
                "CSIQ", "JKS", "NXT", "DQ", "ARRY", "GE", "VWS", "IBDRY", "DNNGY", 'BEP', "NPI", "CWEN", "INOXWIND", "ORA", "IDA", "OPTT", "DRXGY", "EVA", "GPRE", "PLUG", "BE", "BLDP", "ARL", "OPTT", "CEG", "VST", "CCJ", "LEU", "SMR", "OKLO", "NNE", "BWXT", "BW"
                ]
     # SYMBOLS = ["NEP"]
 
+
     for symbol in SYMBOLS:
         data_polygon = pull_technical_data_polygon(
             symbol=symbol,
-            api_key=POLYGON_API_KEY,
+            api_key=API_KEY,
             start="2022-01-01",
             end="2023-01-01"
         )

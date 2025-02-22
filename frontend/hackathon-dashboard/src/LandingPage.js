@@ -8,7 +8,7 @@ const LandingPage = () => {
       <h1>Welcome to Green Thumb!</h1>
       <p>Our Problem Statement</p>
       <p> Here at Green Thumb we... lallalalallal</p>
-      <Link to="/home">
+      <Link to="/Home">
       <button class="landing-page-start-button"> Get Started!</button>
       </Link>
     </div>
