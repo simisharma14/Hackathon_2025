@@ -254,7 +254,7 @@ def get_stock_profile(symbol: str):
     if "error" in stock_data:
         return jsonify({"error": stock_data["error"]}), 500
 
-    
+
 DATA_PATH = "./company_profiles"
 
 @app.route("/csv-data/<symbol>", methods=["GET"])
