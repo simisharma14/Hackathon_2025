@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+
 def convert_iso_to_mm_dd_yyyy(iso_str):
     """
     Convert an ISO timestamp (e.g. '2024-06-28T15:43:00Z')
@@ -87,13 +88,22 @@ if __name__ == "__main__":
     # SYMBOLS = ["FSLR", "NEE"]
     ETFS = ["NLR", "TAN", "FAN", "ICLN", "PBW", "HYDR", "NLR"]
     for symbol in SYMBOLS:
-        print(f"Fetching news for {symbol}")
+        print(f"Fetching news for stock {symbol}")
         polygon_df = get_polygon_news(symbol, API_KEY, limit=50)
         if "timestamp" in polygon_df.columns:
             polygon_df["timestamp"] = polygon_df["timestamp"].apply(
                 convert_iso_to_mm_dd_yyyy)
 
-        save_path = f"./data/polygon_scraped/{symbol}_news.csv"
-        os.makedirs(save_path, exist_ok=True)
+        save_path = f"./data/polygon_scraped/stocks/{symbol}_news.csv"
+        polygon_df.to_csv(
+            save_path, index=False)
+    for symbol in ETFS:
+        print(f"Fetching news for ETF {symbol}")
+        polygon_df = get_polygon_news(symbol, API_KEY, limit=50)
+        if "timestamp" in polygon_df.columns:
+            polygon_df["timestamp"] = polygon_df["timestamp"].apply(
+                convert_iso_to_mm_dd_yyyy)
+
+        save_path = f"./data/polygon_scraped/ETFs/{symbol}_news.csv"
         polygon_df.to_csv(
             save_path, index=False)

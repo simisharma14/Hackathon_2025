@@ -1,0 +1,2 @@
+timestamp,title,url,source,sentiment,score,prob_positive,prob_neutral,prob_negative,net_sentiment,average_sentiment,sentiment_score_ranking
+01-28-2025,"Trump's Federal Spending Freeze Puts $3 Trillion In Limbo, Threatens Industries Like Clean Energy, Defense, Health Care",https://www.benzinga.com/25/01/43290381/trumps-federal-spending-freeze-puts-3-trillion-in-limbo-threatens-industries-like-clean-energy-defense-healthcare,Benzinga,negative,0.932904064655304,0.009380154311656952,0.057715706527233124,0.932904064655304,-0.923523910343647,-0.923523910343647,0.0382380448281765

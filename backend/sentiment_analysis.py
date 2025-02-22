@@ -124,7 +124,66 @@ if __name__ == "__main__":
                 df_with_sentiment["average_sentiment"] + 1) / 2.0
 
             # Save to CSV
-            out_path = f"./data/sentiment_scores/{symbol}_sentiment_news.csv"
-            os.makdirs(out_path, exist_ok=True)
+            out_path = f"./data/sentiment_scores/stocks/{symbol}_sentiment_news.csv"
+            df_with_sentiment.to_csv(out_path, index=False)
+            print(f"Saved sentiment analysis to {out_path}")
+
+    ETFS = ["NLR", "TAN", "FAN", "ICLN", "PBW", "HYDR", "NLR"]
+    for symbol in ETFS:
+        # Step 1: Fetch news
+        df_news = get_polygon_news(symbol, api_key=POLYGON_API_KEY, limit=20)
+
+        # Convert ISO timestamps to MM-DD-YYYY
+        if "timestamp" in df_news.columns:
+            df_news["timestamp"] = df_news["timestamp"].apply(
+                convert_iso_to_mm_dd_yyyy)
+
+        print(f"\n=== Raw Data for {symbol} ===")
+        print(df_news.head())
+
+        # Step 2: Apply FinBERT sentiment
+        if not df_news.empty:
+            df_with_sentiment = add_finbert_sentiment(df_news)
+            print(f"\n=== Sentiment Data for {symbol} ===")
+            print(df_with_sentiment.head())
+            df_with_sentiment["net_sentiment"] = df_with_sentiment["prob_positive"] - \
+                df_with_sentiment["prob_negative"]
+            df_with_sentiment["average_sentiment"] = df_with_sentiment["net_sentiment"].mean(
+            )
+            df_with_sentiment["sentiment_score_ranking"] = (
+                df_with_sentiment["average_sentiment"] + 1) / 2.0
+
+            # Save to CSV
+            out_path = f"./data/sentiment_scores/ETFs/{symbol}_sentiment_news.csv"
+            df_with_sentiment.to_csv(out_path, index=False)
+            print(f"Saved sentiment analysis to {out_path}")
+
+    KEYWORDS = ["clean energy", "renewable energy", "energy efficiency", "nuclear energy", "nuclear regulation",
+                "solar energy", "solar power", "wind power", "wind energy", "hydropower", "geothermal", "climate change"]
+    for symbol in KEYWORDS:
+        df_keyword = pd.read_csv(
+            f"./data/regulatory_data/{symbol}_federal_register.csv")
+        # Convert ISO timestamps to MM-DD-YYYY
+        if "timestamp" in df_news.columns:
+            df_keyword["timestamp"] = df_keyword["timestamp"].apply(
+                convert_iso_to_mm_dd_yyyy)
+
+        print(f"\n=== Raw Data for {symbol} ===")
+        print(df_keyword.head())
+
+        # Step 2: Apply FinBERT sentiment
+        if not df_keyword.empty:
+            df_with_sentiment = add_finbert_sentiment(df_keyword)
+            print(f"\n=== Sentiment Data for {symbol} ===")
+            print(df_with_sentiment.head())
+            df_with_sentiment["net_sentiment"] = df_with_sentiment["prob_positive"] - \
+                df_with_sentiment["prob_negative"]
+            df_with_sentiment["average_sentiment"] = df_with_sentiment["net_sentiment"].mean(
+            )
+            df_with_sentiment["sentiment_score_ranking"] = (
+                df_with_sentiment["average_sentiment"] + 1) / 2.0
+
+            # Save to CSV
+            out_path = f"./data/sentiment_scores/regulatory/{symbol}_sentiment_news.csv"
             df_with_sentiment.to_csv(out_path, index=False)
             print(f"Saved sentiment analysis to {out_path}")
