@@ -1,0 +1,60 @@
+# =============== Python-related ===============
+__pycache__/
+*.py[cod]
+*$py.class
+
+# =============== Virtual Environments ===============
+env/
+venv/
+.venv/
+pip-wheel-metadata/
+*.egg-info/
+.eggs/
+
+# =============== Distribution/Packaging ===============
+build/
+dist/
+wheelhouse/
+*.egg
+*.egg-info/
+.eggs/
+*.manifest
+*.spec
+
+# =============== IDE / Editor Configurations ===============
+# PyCharm
+.idea/
+*.iml
+# VSCode
+.vscode/
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# =============== OS-Specific ===============
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# =============== Logs & Others ===============
+*.log
+*.pid
+*.lock
+*.crt
+*.key
+*.pem
+
+# =============== Environment Variables ===============
+.env
+.env.*
+
+# =============== Coverage / Testing ===============
+.coverage
+.tox/
+htmlcov/
+pytest_cache/
+coverage.xml
