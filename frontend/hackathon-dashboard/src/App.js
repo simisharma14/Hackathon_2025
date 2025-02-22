@@ -1,5 +1,6 @@
-import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+
+import React, { useEffect } from "react";
+import { BrowserRouter as Router, Route, Routes} from "react-router-dom"; 
 import "./App.css";
 import Dashboard from "./dashboard"; // Import the Dashboard component
 import LandingPage from "./LandingPage"; // Import the LandingPage component
@@ -11,9 +12,16 @@ import StockProfile from "./StockProfile";
 // import MacroOutlook from "./pages/MacroOutlook";
 // import StockProfile from "./pages/StockProfile";
 // import TopPerformers from "./pages/TopPerformers";
+import { GlobalProvider } from "./GlobalContext";
+
 
 function App() {
+  useEffect(() => {
+    // Optionally clear any history in the browser to ensure it doesn't show the last visited page
+    window.history.replaceState(null, "", "/");
+  }, []);
   return (
+    <GlobalProvider> {/* Wrap the entire Router inside GlobalProvider */}
     <Router>
       <div className="App">
         {/* Route Definitions */}
@@ -32,6 +40,7 @@ function App() {
         </Routes>
       </div>
     </Router>
+    </GlobalProvider>
   );
 }
 
