@@ -186,7 +186,7 @@ def get_most_recent_value(df: pd.DataFrame, row_label: str):
     except (KeyError, IndexError):
         return None
 
-
+'''
 def pull_financial_data_yf(symbol: str, save_path: str = "./company_profiles"):
     """
     Fetches quarterly data from yfinance (balance sheet, income statement, cash flow),
@@ -219,7 +219,7 @@ def pull_financial_data_yf(symbol: str, save_path: str = "./company_profiles"):
     cfs = stock.quarterly_cashflow
     # Contains market data (marketCap, enterpriseValue, etc.)
     info = stock.info
-    print(inc)
+    # print(inc)
 
     # 3) Prepare a dictionary for the row data with all columns = None initially
     row = {col: None for col in CSV_COLUMNS}
@@ -331,6 +331,102 @@ def pull_financial_data_yf(symbol: str, save_path: str = "./company_profiles"):
 
     # Return the DataFrame as well
     return df_out
+'''
+
+def pull_financial_statements(symbol: str, save_path: str = "./financial_statements"):
+    
+    os.makedirs(save_path, exist_ok=True)
+
+    stock = yf.Ticker(symbol)
+
+    row = {col: None for col in CSV_COLUMNS}
+    info = stock.info
+
+    # Fill the easy ones:
+    row["ticker"] = symbol.upper()
+    row["company_name"] = info.get("shortName", None)
+    row["fiscal_year"] = None
+    row["fiscal_period"] = None
+    row["start_date"] = None
+    row["end_date"] = None
+    row["filing_date"] = None
+
+    balance_sheet = stock.balance_sheet # Annual balance sheet
+    income_statement = stock.financials # Annual income statement
+    cash_flow = stock.cashflow # Annual cash flow statement
+
+    if not balance_sheet.empty:
+        balance_sheet.to_csv(
+            os.path.join(save_path, f"{symbol}_balance_sheet.csv"))
+    else:
+        print(f"No balance sheet data found for {symbol}.")
+
+    if not income_statement.empty:
+        income_statement.to_csv(
+            os.path.join(save_path, f"{symbol}_income_statement.csv"))
+    else:
+        print(f"No income statement data found for {symbol}.")
+
+    if not cash_flow.empty:
+        cash_flow.to_csv(
+            os.path.join(save_path, f"{symbol}_cash_flow.csv"))
+    else:
+        print(f"No cash flow data found for {symbol}.")
+
+    
+
+def pull_financial_overview(symbol: str, save_path: str = "./financial_overviews"):
+    """
+    Pull an overview of key metrics (marketCap, dayHigh/Low, etc.) for ONE symbol
+    and save it to a single CSV named '{symbol}_overview.csv' in `save_path`.
+    """
+    # 1) Ensure the output folder exists
+    os.makedirs(save_path, exist_ok=True)
+
+    # 2) Get the ticker info
+    ticker = yf.Ticker(symbol)
+    info = ticker.info  # dictionary of fundamental data
+
+    # 3) Grab each metric (use .get() to avoid KeyErrors)
+    market_cap = info.get("marketCap")
+    day_high = info.get("dayHigh")
+    day_low = info.get("dayLow")
+    fifty_two_week_high = info.get("fiftyTwoWeekHigh")
+    fifty_two_week_low = info.get("fiftyTwoWeekLow")
+    previous_close = info.get("previousClose")
+    open_price = info.get("open")
+    beta_val = info.get("beta")
+
+    # For P/E ratio, we'll prefer trailingPE if present, otherwise forwardPE
+    p_e = info.get("trailingPE")
+    if p_e is None:
+        p_e = info.get("forwardPE")
+
+    # 4) Build a single dict row
+    row = {
+        "symbol": symbol.upper(),
+        "market_cap": market_cap,
+        "day_high": day_high,
+        "day_low": day_low,
+        "52wk_high": fifty_two_week_high,
+        "52wk_low": fifty_two_week_low,
+        "previous_close": previous_close,
+        "open": open_price,
+        "beta": beta_val,
+        "p_e_ratio": p_e
+    }
+
+    # 5) Create a DataFrame with one row
+    df = pd.DataFrame([row])
+    df1 = df.T.reset_index()
+    df1.columns = ["Metric", "Value"]
+    
+
+    # 6) Save to CSV named '{symbol}_overview.csv'
+    out_file = os.path.join(save_path, f"{symbol}_overview.csv")
+    df1.to_csv(out_file, index=False)
+    print(f"[+] Saved financial overview for {symbol} to: {out_file}")
+
 
 
 if __name__ == "__main__":
@@ -339,21 +435,16 @@ if __name__ == "__main__":
     symbols = ["NEE", "FSLR"]
 
     for symbol in symbols:
+        '''
         data_polygon = pull_technical_data_polygon(
             symbol=symbol,
             api_key=POLYGON_API_KEY,
             start="2022-01-01",
             end="2023-01-01"
         )
+        '''
 
-        data_yf = pull_financial_data_yf(symbol)
+        # data_yf = pull_financial_data_yf(symbol)
+        data_yf = pull_financial_statements(symbol)
+        data_yf2 = pull_financial_overview(symbol)
 
-        print("\n=== Basic Ticker Info ===")
-        print(data_polygon["info"].head(10)
-              if data_polygon["info"] is not None else "None")
-
-        print("\n=== Financials (head) ===")
-        print(data_yf.head())
-
-        print("\n=== Technical Data (tail) ===")
-        print(data_polygon["tech_data"].tail())
