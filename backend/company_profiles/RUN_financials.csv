@@ -1,0 +1,2 @@
+ticker,company_name,fiscal_year,fiscal_period,start_date,end_date,filing_date,total_assets,total_liabilities,equity,short_term_debt,long_term_debt,cash_on_hand,revenues,net_income,ebitda,net_cash_flow,operating_cashflow,capex,fcf,fcf_yield,ev_ebitda,p_e,p_e_g,debt_ebitda,roic
+RUN,Sunrun Inc.,,,,,,22104323000.0,,,0.0,12215932000.0,0.0,537173000.0,-83766000.0,,,,,,,-452.009615944104,-22.550134040063988,,-349.80619666685755,-0.006857110861455352

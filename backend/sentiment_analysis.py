@@ -93,8 +93,11 @@ def add_finbert_sentiment(df: pd.DataFrame) -> pd.DataFrame:
 
 if __name__ == "__main__":
     POLYGON_API_KEY = "4cR_irLDgivxae1WO4y0Wb30VYxXRkQj"
-    SYMBOLS = ["NEE", "FSLR"]
+    # SYMBOLS = ["NEE", "FSLR", "ENPH", "RUN", "SEDG",
+    #            "CSIQ", "JKS", "NXT", "SPWR", "DQ", "ARRY", "NEP", "GE", "VWS", "IBDRY", "DNNGY", 'BEP', "NPI", "CWEN", "INOXWIND", "ORA", "IDA", "OPTT", "DRXGY", "EVA", "GPRE", "PLUG", "BE", "BLDP", "ARL", "OPTT", "CEG", "VST", "CCJ", "LEU", "SMR", "OKLO", "NNE", "BWXT", "BW", "TLNE"
+    #            ]
 
+    SYMBOLS = ["FSLR", "NEE"]
     for symbol in SYMBOLS:
         # Step 1: Fetch news
         df_news = get_polygon_news(symbol, api_key=POLYGON_API_KEY, limit=20)
@@ -112,6 +115,12 @@ if __name__ == "__main__":
             df_with_sentiment = add_finbert_sentiment(df_news)
             print(f"\n=== Sentiment Data for {symbol} ===")
             print(df_with_sentiment.head())
+            df_with_sentiment["net_sentiment"] = df_with_sentiment["prob_positive"] - \
+                df_with_sentiment["prob_negative"]
+            df_with_sentiment["average_sentiment"] = df_with_sentiment["net_sentiment"].mean(
+            )
+            df_with_sentiment["sentiment_score_ranking"] = (
+                df_with_sentiment["average_sentiment"] + 1) / 2.0
 
             # Save to CSV
             out_path = f"./data/sentiment_scores/{symbol}_sentiment_news.csv"

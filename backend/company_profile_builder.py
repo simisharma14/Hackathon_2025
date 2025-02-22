@@ -517,7 +517,10 @@ def pull_advanced_metrics(symbol: str, save_path: str = "./advanced_metrics"):
 if __name__ == "__main__":
     # Example usage
     POLYGON_API_KEY = "4cR_irLDgivxae1WO4y0Wb30VYxXRkQj"
-    symbols = ["NEE", "FSLR"]
+    SYMBOLS = ["NEE", "FSLR", "ENPH", "RUN", "SEDG",
+               "CSIQ", "JKS", "NXT", "SPWR", "DQ", "ARRY", "NEP", "GE", "VWS", "IBDRY", "DNNGY", 'BEP', "NPI", "CWEN", "INOXWIND", "ORA", "IDA", "OPTT", "DRXGY", "EVA", "GPRE", "PLUG", "BE", "BLDP", "ARL", "OPTT", "CEG", "VST", "CCJ", "LEU", "SMR", "OKLO", "NNE", "BWXT", "BW", "TLNE"
+               ]
+
 
     for symbol in symbols:
         '''
