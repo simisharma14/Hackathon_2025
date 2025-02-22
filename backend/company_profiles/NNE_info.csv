@@ -1,0 +1,25 @@
+,Value
+ticker,NNE
+name,Nano Nuclear Energy Inc. Common Stock
+market,stocks
+locale,us
+primary_exchange,XNAS
+type,CS
+active,True
+currency_name,usd
+cik,0001923891
+composite_figi,BBG01F7QNWC1
+share_class_figi,BBG01F7QNWH6
+market_cap,1072795844.6400001
+phone_number,(604) 687-5792
+address,"{'address1': '10 TIMES SQUARE', 'address2': '30TH FLOOR', 'city': 'NEW YORK', 'state': 'NY', 'postal_code': '10018'}"
+description,"Nano Nuclear Energy Inc is an early-stage nuclear energy company developing smaller, cheaper, and safer portable clean energy solutions. It is focused on four business lines as part of development-Micro Nuclear Reactor Business is developing the next-generation nuclear microreactors, in particular ZEUS, a solid core battery reactor, and ODIN, a low-pressure salt coolant reactor; Fuel Processing Business; Fuel Fabrication Business; Fuel Transportation Business, and Nuclear Consultation Services."
+sic_code,4911
+sic_description,ELECTRIC SERVICES
+ticker_root,NNE
+homepage_url,https://nanonuclearenergy.com
+list_date,2024-05-08
+branding,"{'logo_url': 'https://api.polygon.io/v1/reference/company-branding/bmFub251Y2xlYXJlbmVyZ3kuY29t/images/2024-10-01_logo.png', 'icon_url': 'https://api.polygon.io/v1/reference/company-branding/bmFub251Y2xlYXJlbmVyZ3kuY29t/images/2024-10-01_icon.jpeg'}"
+share_class_shares_outstanding,37070000
+weighted_shares_outstanding,37069656
+round_lot,100

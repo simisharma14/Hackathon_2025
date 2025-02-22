@@ -1,0 +1,22 @@
+,Value
+ticker,DQ
+name,Daqo New Energy Corp. American Depositary Shares (each representing 5 Ordinary Shares)
+market,stocks
+locale,us
+primary_exchange,XNYS
+type,ADRC
+active,True
+currency_name,usd
+cik,0001477641
+composite_figi,BBG000Q5T9W3
+share_class_figi,BBG001T6LDF4
+market_cap,1432252800.0
+description,"Daqo New Energy Corp is a polysilicon manufacturer based in China. The company manufactures and sells high-purity polysilicon to manufacturers who use it to make ingots, cells, and modules for solar power solutions. The polysilicon is packaged to meet crucible stacking, pulling, and solidification needs. All of the company's revenues come from the People's Republic of China."
+ticker_root,DQ
+homepage_url,https://www.dqsolar.com
+total_employees,5765
+list_date,2010-10-07
+branding,{'logo_url': 'https://api.polygon.io/v1/reference/company-branding/ZHFzb2xhci5jb20/images/2024-10-01_logo.png'}
+share_class_shares_outstanding,330040000
+weighted_shares_outstanding,65760000
+round_lot,100

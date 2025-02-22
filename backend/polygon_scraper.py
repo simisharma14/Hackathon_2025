@@ -92,5 +92,8 @@ if __name__ == "__main__":
         if "timestamp" in polygon_df.columns:
             polygon_df["timestamp"] = polygon_df["timestamp"].apply(
                 convert_iso_to_mm_dd_yyyy)
+
+        save_path = f"./data/polygon_scraped/{symbol}_news.csv"
+        os.makedirs(save_path, exist_ok=True)
         polygon_df.to_csv(
-            f"./data/polygon_scraped/{symbol}_news.csv", index=False)
+            save_path, index=False)

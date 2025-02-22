@@ -1,0 +1,26 @@
+,Value
+ticker,OPTT
+name,"Ocean Power Technologies, Inc."
+market,stocks
+locale,us
+primary_exchange,XASE
+type,CS
+active,True
+currency_name,usd
+cik,0001378140
+composite_figi,BBG000RKMB42
+share_class_figi,BBG001SDFV49
+market_cap,94107350.5236
+phone_number,609-730-0400
+address,"{'address1': '28 ENGELHARD DRIVE', 'address2': 'SUITE B', 'city': 'MONROE TOWNSHIP', 'state': 'NJ', 'postal_code': '08831'}"
+description,"Ocean Power Technologies Inc provides intelligent maritime solutions and services that enable safer, cleaner, and more productive ocean operations for the defense and security, oil and gas, science and research, and offshore wind markets. It provides ocean data collection and reporting, marine power, offshore communications, and Maritime Domain Awareness System (MDAS) products, integrated solutions, and consulting services. The company offers its products and services to a wide range of customers, including those in government and offshore energy, oil and gas, construction, wind power, and other industries. The company has operations in North and South America, Europe, Asia and Australia."
+sic_code,4911
+sic_description,ELECTRIC SERVICES
+ticker_root,OPTT
+homepage_url,https://www.oceanpowertechnologies.com
+total_employees,43
+list_date,2007-04-24
+branding,"{'logo_url': 'https://api.polygon.io/v1/reference/company-branding/b2NlYW5wb3dlcnRlY2hub2xvZ2llcy5jb20/images/2024-10-01_logo.png', 'icon_url': 'https://api.polygon.io/v1/reference/company-branding/b2NlYW5wb3dlcnRlY2hub2xvZ2llcy5jb20/images/2024-10-01_icon.png'}"
+share_class_shares_outstanding,146130000
+weighted_shares_outstanding,146038719
+round_lot,100
