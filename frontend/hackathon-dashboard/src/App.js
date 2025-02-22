@@ -10,9 +10,12 @@ import ProfileViews from "./ProfileViews";
 // import MacroOutlook from "./pages/MacroOutlook";
 // import StockProfile from "./pages/StockProfile";
 // import TopPerformers from "./pages/TopPerformers";
+import { GlobalProvider } from "./GlobalContext";
+
 
 function App() {
   return (
+    <GlobalProvider> {/* Wrap the entire Router inside GlobalProvider */}
     <Router>
         <div className="App">
           {/* Route Definitions */}
@@ -34,6 +37,7 @@ function App() {
           </Routes>
         </div>
     </Router>
+    </GlobalProvider>
   );
 }
 
