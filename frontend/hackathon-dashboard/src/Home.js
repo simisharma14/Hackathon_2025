@@ -10,8 +10,8 @@ const Home = () => {
         <p>RISK TYPE</p>
 
         {/* Link to Top Performers page */}
-        <Link to="/TopPerformers">
-          <button className="home-page-start-button">View Stocks and Profiles</button>
+        <Link to="/ETFPage">
+          <button className="home-page-start-button">View ETF Breakdown</button>
         </Link>
       </div>
     );
