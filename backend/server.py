@@ -1,7 +1,8 @@
 import yfinance as yf
-from flask import Flask, jsonify
+from flask import Flask, jsonify, Response
 import pandas as pd
 import os
+from flask_cors import CORS
 
 # Import scripts
 from sentiment_analysis import add_finbert_sentiment
@@ -10,6 +11,7 @@ from ranking_algorithm import build_stocks_metrics, rank_stocks
 from stock_AI_prompt import fetch_stock_data, generate_stock_report
 
 app = Flask(__name__)
+CORS(app)
 
 DATA_PATH = "./data"
 
@@ -224,6 +226,25 @@ def get_stock_profile(symbol: str):
     if "error" in stock_data:
         return jsonify({"error": stock_data["error"]}), 500
 
+    
+DATA_PATH = "./company_profiles"
+
+@app.route("/csv-data/<symbol>", methods=["GET"])
+def get_csv_data(symbol):
+    csv_file = os.path.join(DATA_PATH, f"{symbol}_technical_all_time.csv")
+    if not os.path.exists(csv_file):
+        return jsonify({"error": "CSV file not found"}), 404
+
+    try:
+        df = pd.read_csv(csv_file)
+        # Replace NaN with None so that they become null in JSON
+        df = df.where(pd.notnull(df), None)
+        json_str = df.to_json(orient="records")
+        return Response(json_str, mimetype="application/json")
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+=======
     stock_report = generate_stock_report(symbol, stock_data)
 
     return jsonify({

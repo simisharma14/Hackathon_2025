@@ -420,7 +420,7 @@ if __name__ == "__main__":
                "IBDRY", "DNNGY", 'BEP', "CWEN", "ORA", 
                "IDA", "OPTT", "DRXGY", "EVA", "GPRE", "PLUG", "BE", "BLDP", 
                "ARL", "OPTT", "CEG", "VST", "CCJ", "LEU", "SMR", "OKLO", 
-               "NNE", "BWXT", "BW"
+               "NNE", "BWXT", "BW", "NLR", "TAN", "FAN", "ICLN", "PBW", "HYDR"
                ]
 
     #SYMBOLS = ["VWS"]
