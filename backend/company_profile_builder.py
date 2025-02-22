@@ -376,10 +376,7 @@ def pull_financial_statements(symbol: str, save_path: str = "./financial_stateme
     
 
 def pull_financial_overview(symbol: str, save_path: str = "./financial_overviews"):
-    """
-    Pull an overview of key metrics (marketCap, dayHigh/Low, etc.) for ONE symbol
-    and save it to a single CSV named '{symbol}_overview.csv' in `save_path`.
-    """
+
     # 1) Ensure the output folder exists
     os.makedirs(save_path, exist_ok=True)
 
@@ -427,6 +424,94 @@ def pull_financial_overview(symbol: str, save_path: str = "./financial_overviews
     df1.to_csv(out_file, index=False)
     print(f"[+] Saved financial overview for {symbol} to: {out_file}")
 
+def compute_5yr_cagr(revenue_series: pd.Series) -> float:
+    if len(revenue_series) < 2:
+        return None
+    start_val = revenue_series.iloc[0]
+    end_val = revenue_series.iloc[-1]
+    # Number of intervals = (# of data points - 1)
+    periods = len(revenue_series) - 1  
+    if start_val <= 0:
+        return None
+    cagr = (end_val / start_val) ** (1 / periods) - 1
+    return cagr
+
+def pull_advanced_metrics(symbol: str, save_path: str = "./advanced_metrics"):
+    os.makedirs(save_path, exist_ok=True)
+
+    ticker = yf.Ticker(symbol)
+    info = ticker.info
+
+    annual_fin = ticker.financials
+
+    annual_bs = ticker.balance_sheet
+
+    metrics = {
+        "symbol": symbol.upper(),
+        "ebitda": None,
+        "five_yr_rev_cagr": None,
+        "ev_ebitda": None,
+        "roic": None,
+        "fcf_yield": None
+    }
+    
+    ebitda_val = info.get("ebitda")
+    metrics["ebitda"] = ebitda_val
+
+    if (annual_fin is not None) and (not annual_fin.empty):
+        if "Total Revenue" in annual_fin.index:
+            rev_row = annual_fin.loc["Total Revenue"].sort_index()  # Ascending by column date
+            rev_row.dropna(inplace=True)
+            if len(rev_row) >= 2:
+                metrics["five_yr_rev_cagr"] = compute_5yr_cagr(rev_row)
+
+    ev = info.get("enterpriseValue")
+    if ev and ebitda_val and ebitda_val != 0:
+        metrics["ev_ebitda"] = ev / ebitda_val
+
+    net_income = None
+    if (annual_fin is not None) and ("Net Income" in annual_fin.index):
+        ni_row = annual_fin.loc["Net Income"].sort_index().dropna()
+        if not ni_row.empty:
+            net_income = ni_row.iloc[-1]  # The most recent annual net income
+
+    # For equity and debt, let's see if annual_bs has them
+    equity = 0
+    total_debt = 0
+    if (annual_bs is not None) and (not annual_bs.empty):
+        if "Total Stockholder Equity" in annual_bs.index:
+            eq_row = annual_bs.loc["Total Stockholder Equity"].sort_index().dropna()
+            if not eq_row.empty:
+                equity = eq_row.iloc[-1]
+        if "Long Term Debt" in annual_bs.index:
+            lt_debt_row = annual_bs.loc["Long Term Debt"].sort_index().dropna()
+            if not lt_debt_row.empty:
+                total_debt += lt_debt_row.iloc[-1]
+        if "Short Long Term Debt" in annual_bs.index:
+            st_debt_row = annual_bs.loc["Short Long Term Debt"].sort_index().dropna()
+            if not st_debt_row.empty:
+                total_debt += st_debt_row.iloc[-1]
+
+    roic_val = None
+    denom = equity + total_debt
+    if net_income and denom != 0:
+        roic_val = net_income / denom
+    metrics["roic"] = roic_val
+
+
+    fcf = info.get("freeCashflow")
+    mcap = info.get("marketCap")
+    fcf_yield_val = None
+    if fcf and mcap and mcap != 0:
+        fcf_yield_val = fcf / mcap
+    metrics["fcf_yield"] = fcf_yield_val
+
+    df_out = pd.DataFrame([metrics])
+    csv_path = os.path.join(save_path, f"{symbol}_advanced_metrics.csv")
+    df_out.to_csv(csv_path, index=False)
+    print(f"[+] Saved advanced metrics for {symbol} to {csv_path}")
+
+    return df_out
 
 
 if __name__ == "__main__":
@@ -447,4 +532,5 @@ if __name__ == "__main__":
         # data_yf = pull_financial_data_yf(symbol)
         data_yf = pull_financial_statements(symbol)
         data_yf2 = pull_financial_overview(symbol)
+        data_yf3 = pull_advanced_metrics(symbol)
 
