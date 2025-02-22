@@ -31,10 +31,10 @@ const Dashboard = () => {
         label: "Close", // Y-axis data label
         data: data.map((row) => row.close), // Y-axis values (close)
         backgroundColor: "rgba(205, 29, 23, 0.2)", // Bar color
-        borderColor: "rgb(218, 20, 20)", // Bar border color
+        borderColor: "rgb(192, 168, 10)", // Bar border color
         borderWidth: 1,
       },
-    ],
+    ]
   };
 
   return (
