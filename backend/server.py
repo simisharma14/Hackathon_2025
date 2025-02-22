@@ -22,6 +22,22 @@ DATA_PATH = "./data"
 def home():
     return jsonify({"message": "Stock Sentiment & Financial API is Running!"})
 
+
+@app.route("/csv-data/<symbol>", methods=["GET"])
+def get_csv_data(symbol):
+    csv_file = os.path.join("./company_profiles",
+                            f"{symbol}_technical_all_time.csv")
+    if not os.path.exists(csv_file):
+        return jsonify({"error": "CSV file not found"}), 404
+
+    try:
+        df = pd.read_csv(csv_file)
+        # Replace NaN with None so that they become null in JSON
+        df = df.where(pd.notnull(df), None)
+        json_str = df.to_json(orient="records")
+        return Response(json_str, mimetype="application/json")
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 # ==========================
 # 1) Fetch Sentiment Analysis
 # ==========================
@@ -254,23 +270,22 @@ def get_stock_profile(symbol: str):
     if "error" in stock_data:
         return jsonify({"error": stock_data["error"]}), 500
 
+    stock_report = generate_stock_report(symbol, stock_data)
 
-DATA_PATH = "./company_profiles"
 
-@app.route("/csv-data/<symbol>", methods=["GET"])
-def get_csv_data(symbol):
-    csv_file = os.path.join(DATA_PATH, f"{symbol}_technical_all_time.csv")
-    if not os.path.exists(csv_file):
-        return jsonify({"error": "CSV file not found"}), 404
+    # Save the AI-generated report to a text file
+    output_filename = f"./data/ai_reports/{symbol}_stock_profile.txt"
+    os.makedirs("./data/ai_reports", exist_ok=True)
+    with open(output_filename, "w", encoding="utf-8") as f:
+        f.write(stock_report)
 
-    try:
-        df = pd.read_csv(csv_file)
-        # Replace NaN with None so that they become null in JSON
-        df = df.where(pd.notnull(df), None)
-        json_str = df.to_json(orient="records")
-        return Response(json_str, mimetype="application/json")
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+    return jsonify({
+        "symbol": symbol,
+        "stock_data": stock_data,
+        "stock_report": stock_report,
+        "report_saved": output_filename
+    })
+
 
 if __name__ == "__main__":
     app.run(debug=True)
