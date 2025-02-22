@@ -5,6 +5,7 @@ from datetime import datetime
 import yfinance as yf
 
 
+
 def compute_sma(series: pd.Series, window: int) -> pd.Series:
     """
     Compute Simple Moving Average (SMA) over a given window.
@@ -552,16 +553,18 @@ def pull_advanced_metrics(symbol: str, save_path: str = "./advanced_metrics"):
 
 if __name__ == "__main__":
     # Example usage
-    POLYGON_API_KEY = "4cR_irLDgivxae1WO4y0Wb30VYxXRkQj"
+    API_KEY = os.getenv("POLYGON_API_KEY")
+    
     SYMBOLS = ["NEE", "FSLR", "ENPH", "RUN", "SEDG",
                "CSIQ", "JKS", "NXT", "DQ", "ARRY", "GE", "VWS", "IBDRY", "DNNGY", 'BEP', "NPI", "CWEN", "INOXWIND", "ORA", "IDA", "OPTT", "DRXGY", "EVA", "GPRE", "PLUG", "BE", "BLDP", "ARL", "OPTT", "CEG", "VST", "CCJ", "LEU", "SMR", "OKLO", "NNE", "BWXT", "BW"
                ]
     # SYMBOLS = ["NEP"]
 
+
     for symbol in SYMBOLS:
         data_polygon = pull_technical_data_polygon(
             symbol=symbol,
-            api_key=POLYGON_API_KEY,
+            api_key=API_KEY,
             start="2022-01-01",
             end="2023-01-01"
         )
