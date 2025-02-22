@@ -42,7 +42,7 @@ def main():
     print(outlook_report)
     
     # Save the report to a text file
-    output_filename = "macro_outlook_report.txt"
+    output_filename = "./data/macro_outlook_report.txt"
     with open(output_filename, "w", encoding="utf-8") as f:
         f.write(outlook_report)
     
