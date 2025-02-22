@@ -1,3 +1,4 @@
+import yfinance as yf
 from flask import Flask, jsonify
 import pandas as pd
 import os
@@ -21,10 +22,26 @@ def home():
 # ==========================
 
 
-@app.route("/sentiment/<symbol>", methods=["GET"])
-def get_sentiment(symbol):
+@app.route("/sentiment/stock/<symbol>", methods=["GET"])
+def get_sentiment_stock(symbol):
     try:
-        file_path = f"{DATA_PATH}/sentiment_scores/{symbol}_sentiment_news.csv"
+        file_path = f"{DATA_PATH}/sentiment_scores/stocks/{symbol}_sentiment_news.csv"
+        if not os.path.exists(file_path):
+            return jsonify({"error": "Sentiment data not found for stock"}), 404
+
+        df_sentiment = pd.read_csv(file_path)
+        sentiment_data = df_sentiment.to_dict(orient="records")
+
+        return jsonify({"symbol": symbol, "sentiment_data": sentiment_data})
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/sentiment/ETF/<symbol>", methods=["GET"])
+def get_sentiment_etf(symbol):
+    try:
+        file_path = f"{DATA_PATH}/sentiment_scores/ETFs/{symbol}_sentiment_news.csv"
         if not os.path.exists(file_path):
             return jsonify({"error": "Sentiment data not found for stock"}), 404
 
@@ -68,7 +85,7 @@ def get_rankings():
                    "CSIQ", "JKS", "NXT", "DQ", "ARRY", "GE", "VWS", "IBDRY", "DNNGY", 'BEP', "NPI", "CWEN", "INOXWIND", "ORA", "IDA", "OPTT", "DRXGY", "EVA", "GPRE", "PLUG", "BE", "BLDP", "ARL", "OPTT", "CEG", "VST", "CCJ", "LEU", "SMR", "OKLO", "NNE", "BWXT", "BW"
                    ]
         df_stocks = pd.DataFrame(columns=[
-            'ticker', 'sentiment_score', 'ebitda', 'five_yr_rev_cagr', 'ev_ebitda', 'roic', 'fcf_yield'])
+            'ticker', 'sentiment_score', 'ebitda', 'five_yr_rev_cagr', 'ev_ebitda', 'roic', 'fcf_yield', 'volatility', 'implied_upside'])
 
         # Aggregate sentiment & financial data
         for symbol in SYMBOLS:
@@ -81,6 +98,128 @@ def get_rankings():
         ranked_data = df_ranked.to_dict(orient="records")
         return jsonify({"rankings": ranked_data})
 
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/rankings/<int:n>", methods=["GET"])
+def get_top_n_rankings(n):
+    try:
+        SYMBOLS = ["NEE", "FSLR", "ENPH", "RUN", "SEDG",
+                   "CSIQ", "JKS", "NXT", "DQ", "ARRY", "GE", "VWS", "IBDRY", "DNNGY", 'BEP', "NPI", "CWEN", "INOXWIND", "ORA", "IDA", "OPTT", "DRXGY", "EVA", "GPRE", "PLUG", "BE", "BLDP", "ARL", "OPTT", "CEG", "VST", "CCJ", "LEU", "SMR", "OKLO", "NNE", "BWXT", "BW"
+                   ]
+        df_stocks = pd.DataFrame(columns=[
+            'ticker', 'sentiment_score', 'ebitda', 'five_yr_rev_cagr', 'ev_ebitda', 'roic', 'fcf_yield', 'volatility', 'implied_upside'])
+
+        # Aggregate sentiment & financial data
+        for symbol in SYMBOLS:
+            df_stocks = build_stocks_metrics(symbol, df_stocks)
+
+        # Rank stocks
+        df_ranked = rank_stocks(df_stocks)
+        df_ranked = df_ranked[df_ranked['rank'] <= n]
+
+        # Convert to JSON
+        ranked_data = df_ranked.to_dict(orient="records")
+        return jsonify({"rankings": ranked_data})
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+# ==========================
+# 1) Get Top Performers
+# ==========================
+@app.route("/top-performers", methods=["GET"])
+def get_top_performers():
+    """
+    Fetches the top-rated stocks based on ranking algorithm and provides key metrics.
+    """
+    try:
+        # Load rankings
+        ranking_file = "./stocks_ranked.csv"
+        if not os.path.exists(ranking_file):
+            return jsonify({"error": "Ranked stock data not found"}), 404
+
+        df_ranked = pd.read_csv(ranking_file)
+
+        # Select top 10 performers
+        df_top = df_ranked.head(
+            10)[["ticker", "sentiment_score", "implied_upside"]]
+
+        # Convert to JSON
+        top_data = df_top.to_dict(orient="records")
+        return jsonify({"top_performers": top_data})
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/stock-price/<symbol>/<start_date>/<end_date>", methods=["GET"])
+def get_stock_price_data(symbol: str, start_date: str, end_date: str):
+    """
+    Fetches historical stock price data between start_date and end_date.
+
+    Args:
+        symbol (str): Stock ticker (e.g., "AAPL").
+        start_date (str): Start date in YYYY-MM-DD format.
+        end_date (str): End date in YYYY-MM-DD format.
+
+    Returns:
+        list: List of {"Date": date, "Close": closing_price}.
+    """
+    try:
+        stock = yf.Ticker(symbol)
+        df_history = stock.history(start=start_date, end=end_date, period="1d")
+
+        if df_history.empty:
+            return {"error": f"No stock price data available for {symbol} between {start_date} and {end_date}"}
+
+        # Format data
+        df_history.reset_index(inplace=True)
+        df_history["Date"] = df_history["Date"].dt.strftime("%Y-%m-%d")
+
+        return df_history[["Date", "Close"]].to_dict(orient="records")
+
+    except Exception as e:
+        return {"error": str(e)}
+
+
+@app.route("/balance-sheet/<symbol>", methods=["GET"])
+def get_balance_sheet(symbol):
+    """
+    Fetches the balance sheet for a given stock symbol.
+    """
+    try:
+        stock = yf.Ticker(symbol)
+        balance_sheet = stock.balance_sheet.to_dict()
+        return jsonify({"symbol": symbol.upper(), "balance_sheet": balance_sheet})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/income-statement/<symbol>", methods=["GET"])
+def get_income_statement(symbol):
+    """
+    Fetches the income statement for a given stock symbol.
+    """
+    try:
+        stock = yf.Ticker(symbol)
+        income_statement = stock.financials.to_dict()
+        return jsonify({"symbol": symbol.upper(), "income_statement": income_statement})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/cash-flow/<symbol>", methods=["GET"])
+def get_cash_flow(symbol):
+    """
+    Fetches the cash flow statement for a given stock symbol.
+    """
+    try:
+        stock = yf.Ticker(symbol)
+        cash_flow = stock.cashflow.to_dict()
+        return jsonify({"symbol": symbol.upper(), "cash_flow": cash_flow})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 

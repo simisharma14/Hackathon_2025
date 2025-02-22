@@ -45,7 +45,9 @@ def build_stocks_metrics(stock: str, df: pd.DataFrame) -> pd.DataFrame:
         "five_yr_rev_cagr": None,
         "ev_ebitda": None,
         "roic": None,
-        "fcf_yield": None
+        "fcf_yield": None,
+        'implied_upside': None,
+        'volatility': None,
     }
 
     # Load Sentiment Data
@@ -62,9 +64,10 @@ def build_stocks_metrics(stock: str, df: pd.DataFrame) -> pd.DataFrame:
 
         if not df_fin.empty:
             # Ensure correct column names based on example CSV structure
-            for col in ["ebitda", "five_yr_rev_cagr", "ev_ebitda", "roic", "fcf_yield"]:
+            for col in ["ebitda", "five_yr_rev_cagr", "ev_ebitda", "roic", "fcf_yield", 'implied_upside', 'volatility']:
                 if col in df_fin.columns:
                     stock_data[col] = df_fin[col].iloc[0]
+                    print(f"added {col}")
                 else:
                     print(
                         f"⚠️ Warning: Column '{col}' missing in {stock}'s CSV!")
@@ -151,6 +154,9 @@ def rank_stocks(
         w_fcf * df_rank["fcf_yield_scaled"]
     )
 
+    df_rank['implied_upside'] = df_factors['implied_upside']
+    df_rank['volatility'] = df_factors['volatility']
+
     # ==============================
     # 5) Sort descending
     # ==============================
@@ -166,7 +172,7 @@ if __name__ == "__main__":
     SYMBOLS = ["NEE", "FSLR", "ENPH", "RUN", "SEDG",
                "CSIQ", "JKS", "NXT", "SPWR", "DQ", "ARRY", "NEP", "GE", "VWS", "IBDRY", "DNNGY", 'BEP', "NPI", "CWEN", "INOXWIND", "ORA", "IDA", "OPTT", "DRXGY", "EVA", "GPRE", "PLUG", "BE", "BLDP", "ARL", "OPTT", "CEG", "VST", "CCJ", "LEU", "SMR", "OKLO", "NNE", "BWXT", "BW", "TLNE"]
     df_stocks = pd.DataFrame(columns=[
-        'ticker', 'sentiment_score', 'ebitda', 'five_yr_rev_cagr', 'ev_ebitda', 'roic', 'fcf_yield'])
+        'ticker', 'sentiment_score', 'ebitda', 'five_yr_rev_cagr', 'ev_ebitda', 'roic', 'fcf_yield', 'implied_upside', 'volatility'])
     for symbol in SYMBOLS:
         df_stocks = build_stocks_metrics(symbol, df_stocks)
 
