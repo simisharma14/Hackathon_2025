@@ -1,7 +1,7 @@
 /* Global styling for the body */
 body {
-    background-color: #ADEBB3; /* Set background color */
-    color: #000000; /* Set text color */
+    background-color: #FFFFFF; /* Set background color */
+    color: #09460c; /* Set text color */
     font-family: Arial, sans-serif; /* Set font family */
     margin: 0;
     padding: 0;
@@ -16,8 +16,8 @@ body {
   
   /* Styling for the heading */
   .home h1 {
-    background-color: #ADEBB3; /* Set background color for the heading */
-    color: #000000; /* Set text color for the heading */
+    background-color: #FFFFFF; /* Set background color for the heading */
+    color: #09460c; /* Set text color for the heading */
     font-size: 54px; /* Set font size for heading */
     font-weight: bold; /* Make the heading bold */
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
