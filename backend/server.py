@@ -64,7 +64,9 @@ def get_financials(symbol):
 @app.route("/rankings", methods=["GET"])
 def get_rankings():
     try:
-        SYMBOLS = ["NEE", "FSLR", "ENPH", "RUN", "SEDG", "CSIQ", "JKS"]
+        SYMBOLS = ["NEE", "FSLR", "ENPH", "RUN", "SEDG",
+                   "CSIQ", "JKS", "NXT", "DQ", "ARRY", "GE", "VWS", "IBDRY", "DNNGY", 'BEP', "NPI", "CWEN", "INOXWIND", "ORA", "IDA", "OPTT", "DRXGY", "EVA", "GPRE", "PLUG", "BE", "BLDP", "ARL", "OPTT", "CEG", "VST", "CCJ", "LEU", "SMR", "OKLO", "NNE", "BWXT", "BW"
+                   ]
         df_stocks = pd.DataFrame(columns=[
             'ticker', 'sentiment_score', 'ebitda', 'five_yr_rev_cagr', 'ev_ebitda', 'roic', 'fcf_yield'])
 
