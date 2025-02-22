@@ -9,7 +9,6 @@ import {
   CircularProgress,
   Card,
   CardContent,
-  Divider,
 } from "@mui/material";
 
 const StockProfile = () => {
@@ -94,7 +93,6 @@ const StockProfile = () => {
           }}
         >
           <CardContent>
-            <Typography variant="h5">Stock Overview</Typography>
             <Typography variant="body1" sx={{ marginTop: 1 }}>
               {formattedMarkdown ? (
                 <ReactMarkdown>{formattedMarkdown}</ReactMarkdown>
