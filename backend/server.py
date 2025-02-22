@@ -272,6 +272,7 @@ def get_stock_profile(symbol: str):
 
     stock_report = generate_stock_report(symbol, stock_data)
 
+
     # Save the AI-generated report to a text file
     output_filename = f"./data/ai_reports/{symbol}_stock_profile.txt"
     os.makedirs("./data/ai_reports", exist_ok=True)
