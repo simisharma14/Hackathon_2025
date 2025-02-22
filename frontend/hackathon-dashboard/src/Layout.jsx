@@ -24,6 +24,9 @@ const Layout = ({ children }) => {
                   <Link to="/Home"><span>🏠</span> <span className={isOpen ? "show" : "hide"}>Home</span></Link>
                 </li>
                 <li>
+                  <Link to="/ETFPage"><span>💵</span> <span className={isOpen ? "show" : "hide"}>ETF Breakdown</span></Link>
+                </li>
+                <li>
                   <Link to="/TopPerformers"><span>📊</span> <span className={isOpen ? "show" : "hide"}>Top Performers</span></Link>
                 </li>
                 <li>
