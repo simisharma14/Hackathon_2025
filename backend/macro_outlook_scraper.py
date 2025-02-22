@@ -87,7 +87,7 @@ if __name__ == "__main__":
                ]
     '''
     # SYMBOLS = ["FSLR", "NEE"]
-    ETFS = ["NLR", "TAN", "FAN", "ICLN", "PBW", "HYDR", "NLR"]
+    ETFS = ["NLR", "TAN", "FAN", "ICLN", "PBW", "HYDR"]
     for symbol in ETFS:
         print(f"Fetching news for ETF {symbol}")
         polygon_df = get_polygon_news(symbol, API_KEY, limit=50)
