@@ -2,6 +2,7 @@ import yfinance as yf
 from flask import Flask, jsonify, Response
 import pandas as pd
 import os
+import openai
 from flask_cors import CORS
 
 # Import scripts
@@ -9,6 +10,7 @@ from sentiment_analysis import add_finbert_sentiment
 from company_profile_builder import pull_advanced_metrics
 from ranking_algorithm import build_stocks_metrics, rank_stocks
 from stock_AI_prompt import fetch_stock_data, generate_stock_report
+from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app)
@@ -23,6 +25,32 @@ def home():
 # ==========================
 # 1) Fetch Sentiment Analysis
 # ==========================
+
+
+def generate_macro_outlook():
+    prompt = (
+        "Write a comprehensive macro outlook report for the energy sector. "
+        "Include discussions of renewable energy, nuclear, solar, wind, hydropower, and geothermal trends, "
+        "as well as recent regulatory changes and government policies. "
+        "Highlight key market trends, international developments, and potential future challenges and opportunities. "
+        "Conclude with a summary and key takeaways."
+    )
+
+    response = openai.ChatCompletion.create(
+        model="gpt-4",
+        messages=[{"role": "user", "content": prompt}],
+        temperature=0.7,
+        max_tokens=800
+    )
+
+    outlook = response.choices[0].message["content"]
+    return outlook
+
+
+@app.route("/macro-outlook", methods=["GET"])
+def get_macro_outlook():
+    outlook_report = generate_macro_outlook()
+    return jsonify({"outlook_report": outlook_report})
 
 
 @app.route("/sentiment/stock/<symbol>", methods=["GET"])
