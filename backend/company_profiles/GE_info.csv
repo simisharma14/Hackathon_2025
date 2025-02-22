@@ -1,0 +1,26 @@
+,Value
+ticker,GE
+name,GE Aerospace
+market,stocks
+locale,us
+primary_exchange,XNYS
+type,CS
+active,True
+currency_name,usd
+cik,0000040545
+composite_figi,BBG000BK6MB5
+share_class_figi,BBG001S5PVD5
+market_cap,214475641614.15002
+phone_number,617-443-3000
+address,"{'address1': '1 NEUMANN WAY', 'city': 'EVENDALE', 'state': 'OH', 'postal_code': '45215'}"
+description,"GE Aerospace is the leader in designing, manufacturing, and servicing large aircraft engines, along with partner Safran in their CFM joint venture. With its massive installed base of nearly 70,000 commercial and military engines, GE Aerospace earns its profits on recurring service revenue of that equipment, which operates for decades. GE Aerospace is the remaining core business of the company formed in 1892 with historical ties to American inventor Thomas Edison; that company became a storied conglomerate with peak revenue of $130 billion in 2000 until GE spun off its appliance, finance, healthcare, and wind and power businesses between 2016 and 2024."
+sic_code,3600
+sic_description,ELECTRONIC & OTHER ELECTRICAL EQUIPMENT (NO COMPUTER EQUIP)
+ticker_root,GE
+homepage_url,https://www.geaerospace.com
+total_employees,53000
+list_date,1892-06-23
+branding,"{'logo_url': 'https://api.polygon.io/v1/reference/company-branding/Z2VhZXJvc3BhY2UuY29t/images/2024-10-01_logo.png', 'icon_url': 'https://api.polygon.io/v1/reference/company-branding/Z2VhZXJvc3BhY2UuY29t/images/2024-10-01_icon.jpeg'}"
+share_class_shares_outstanding,1073290000
+weighted_shares_outstanding,1073290505
+round_lot,100
