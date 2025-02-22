@@ -155,9 +155,10 @@ def rank_stocks(
     # 5) Sort descending
     # ==============================
     df_rank = df_rank.sort_values(
-        "rank_score", ascending=False).reset_index(drop=True)
+        "rank_score", ascending=False)
+    df_rank['rank'] = range(1, len(df_rank) + 1)
 
-    return df_rank
+    return df_rank.reset_index(drop=True)
 
 
 if __name__ == "__main__":
