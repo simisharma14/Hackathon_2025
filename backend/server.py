@@ -8,6 +8,7 @@ from flask_cors import CORS
 from sentiment_analysis import add_finbert_sentiment
 from company_profile_builder import pull_advanced_metrics
 from ranking_algorithm import build_stocks_metrics, rank_stocks
+from stock_AI_prompt import fetch_stock_data, generate_stock_report
 
 app = Flask(__name__)
 CORS(app)
@@ -157,6 +158,16 @@ def get_top_performers():
         return jsonify({"error": str(e)}), 500
 
 
+@app.route("/stock-price/all/<symbol>", methods=["GET"])
+def get_stock_price_all(symbol: str):
+    try:
+        df = pd.read_csv(
+            f"./company_profiles/{symbol.upper()}_technical_all_time.csv")
+        return df[["timestamp", "close"]].to_dict(orient="records")
+    except Exception as e:
+        return {"error": str(e)}
+
+
 @app.route("/stock-price/<symbol>/<start_date>/<end_date>", methods=["GET"])
 def get_stock_price_data(symbol: str, start_date: str, end_date: str):
     """
@@ -187,43 +198,34 @@ def get_stock_price_data(symbol: str, start_date: str, end_date: str):
         return {"error": str(e)}
 
 
-@app.route("/balance-sheet/<symbol>", methods=["GET"])
-def get_balance_sheet(symbol):
+@app.route("/financial-statements/<symbol>", methods=["GET"])
+def fetch_financial_statements(symbol: str):
     """
-    Fetches the balance sheet for a given stock symbol.
-    """
-    try:
-        stock = yf.Ticker(symbol)
-        balance_sheet = stock.balance_sheet.to_dict()
-        return jsonify({"symbol": symbol.upper(), "balance_sheet": balance_sheet})
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
-
-@app.route("/income-statement/<symbol>", methods=["GET"])
-def get_income_statement(symbol):
-    """
-    Fetches the income statement for a given stock symbol.
+    Fetches balance sheet, income statement, and cash flow statement for a given stock symbol.
     """
     try:
         stock = yf.Ticker(symbol)
-        income_statement = stock.financials.to_dict()
-        return jsonify({"symbol": symbol.upper(), "income_statement": income_statement})
+        financials = {
+            "Balance Sheet": stock.balance_sheet.to_dict(),
+            "Income Statement": stock.financials.to_dict(),
+            "Cash Flow Statement": stock.cashflow.to_dict()
+        }
+        return financials
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        return {"error": str(e)}
 
 
-@app.route("/cash-flow/<symbol>", methods=["GET"])
-def get_cash_flow(symbol):
+@app.route("/stock-profile/<symbol>", methods=["GET"])
+def get_stock_profile(symbol: str):
     """
-    Fetches the cash flow statement for a given stock symbol.
+    API endpoint to generate a stock profile report.
     """
-    try:
-        stock = yf.Ticker(symbol)
-        cash_flow = stock.cashflow.to_dict()
-        return jsonify({"symbol": symbol.upper(), "cash_flow": cash_flow})
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+    symbol = symbol.upper()
+    stock_data = fetch_stock_data(symbol)
+
+    if "error" in stock_data:
+        return jsonify({"error": stock_data["error"]}), 500
+
     
 DATA_PATH = "./company_profiles"
 
@@ -242,6 +244,14 @@ def get_csv_data(symbol):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+=======
+    stock_report = generate_stock_report(symbol, stock_data)
+
+    return jsonify({
+        "symbol": symbol,
+        "stock_data": stock_data,
+        "stock_report": stock_report,
+    })
 
 
 if __name__ == "__main__":
