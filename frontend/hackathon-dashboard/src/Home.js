@@ -51,9 +51,11 @@ const Home = () => {
                     </select>
 
                     {/* Proceed Button */}
+                    <Link to= "/ETFPage">
                     <button className="home-page-start-button fade-in delay-3">
                         Proceed
                     </button>
+                    </Link>
                 </div>
             </div>
         </div>

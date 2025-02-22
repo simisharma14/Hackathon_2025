@@ -244,15 +244,5 @@ def get_csv_data(symbol):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-=======
-    stock_report = generate_stock_report(symbol, stock_data)
-
-    return jsonify({
-        "symbol": symbol,
-        "stock_data": stock_data,
-        "stock_report": stock_report,
-    })
-
-
 if __name__ == "__main__":
     app.run(debug=True)
