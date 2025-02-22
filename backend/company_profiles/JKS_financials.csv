@@ -1,0 +1,2 @@
+ticker,company_name,fiscal_year,fiscal_period,start_date,end_date,filing_date,total_assets,total_liabilities,equity,short_term_debt,long_term_debt,cash_on_hand,revenues,net_income,ebitda,net_cash_flow,operating_cashflow,capex,fcf,fcf_yield,ev_ebitda,p_e,p_e_g,debt_ebitda,roic
+JKS,JinkoSolar Holding Company Limi,,,,,,130215828000.0,,,0.0,27166955000.0,0.0,24508244000.0,22532000.0,,,,,,,2.8400425087569565,50.466522279424815,,2.2731739850886474,0.0008293899702782295

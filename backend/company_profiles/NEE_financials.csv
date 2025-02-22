@@ -1,0 +1,2 @@
+ticker,company_name,fiscal_year,fiscal_period,start_date,end_date,filing_date,total_assets,total_liabilities,equity,short_term_debt,long_term_debt,cash_on_hand,revenues,net_income,ebitda,net_cash_flow,operating_cashflow,capex,fcf,fcf_yield,ev_ebitda,p_e,p_e_g,debt_ebitda,roic
+NEE,"NextEra Energy, Inc.",,,,,,190144000000.0,,,0.0,72385000000.0,0.0,5385000000.0,1203000000.0,,,,,,,18.068491498139352,122.3958480332502,,5.51588800083181,0.016619465358845065
