@@ -37,6 +37,7 @@ function App() {
           <Route path="/ETFPage" element={<ETFPage />} />
           <Route path="/ProfileViews" element={<ProfileViews />} />
           <Route path="/stock/:symbol" element={<StockProfile />} />
+            <Route path="/MacroOutlook" element={<MacroOutlook />} />
         </Routes>
       </div>
     </Router>
