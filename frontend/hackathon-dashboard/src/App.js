@@ -4,7 +4,8 @@ import "./App.css";
 import Dashboard from "./dashboard"; // Import the Dashboard component
 import LandingPage from "./LandingPage"; // Import the LandingPage component
 import Home from ".//Home"; // Make sure Home is imported
-import StockProfile from "./StockProfile";
+import ETFPage from "./ETFPage"; // Make sure Home is imported
+// import StockProfile from "./StockProfile";
 import TopPerformers from "./TopPerformers";
 // import MacroOutlook from "./pages/MacroOutlook";
 // import StockProfile from "./pages/StockProfile";
@@ -27,6 +28,8 @@ function App() {
 
             {/* Top Performers Page Route */}
             <Route path="/TopPerformers" element={<TopPerformers />} />
+
+            <Route path="/ETFPage" element={<ETFPage/>} />
           </Routes>
         </div>
     </Router>
