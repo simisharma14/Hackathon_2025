@@ -18,33 +18,67 @@ Steps:
 """
 
 import pandas as pd
+import os
 
 
-def aggregate_sentiment(df_articles: pd.DataFrame) -> pd.DataFrame:
+def build_stocks_metrics(stock: str, df: pd.DataFrame) -> pd.DataFrame:
     """
-    Given a DataFrame with columns:
-      [ticker, p_pos, p_neu, p_neg]
-    we compute a net sentiment per article => net_sent = p_pos - p_neg
-    Then group by ticker to find avg_sentiment => mean of net_sent.
+    Reads sentiment and financial metrics for a given stock and appends to df.
 
-    Returns a DataFrame with:
-      [ticker, avg_sentiment, sent_score]
-    where avg_sentiment is in [-1, +1],
-    and sent_score is in [0, 1] after transformation.
+    Args:
+        stock (str): Stock ticker symbol (e.g., "FSLR")
+        df (pd.DataFrame): Existing DataFrame to append results to.
+
+    Returns:
+        pd.DataFrame: Updated DataFrame with stock metrics.
     """
-    # 1) Compute net_sentiment for each article
-    df_articles["net_sentiment"] = df_articles["prob_positive"] - \
-        df_articles["prob_negative"]
 
-    # 2) Group by ticker, average net_sent
-    df_agg = df_articles.groupby(
-        "ticker")["net_sentiment"].mean().reset_index()
-    df_agg.rename(columns={"net_sentiment": "avg_sentiment"}, inplace=True)
+    # Define file paths
+    sentiment_file = f"./data/sentiment_scores/{stock}_sentiment_news.csv"
+    financial_file = f"./advanced_metrics/{stock}_advanced_metrics.csv"
 
-    # 3) Convert [-1..+1] to [0..1]
-    df_agg["sentiment_score"] = (df_agg["avg_sentiment"] + 1) / 2.0
+    # Initialize dictionary with default None values
+    stock_data = {
+        "ticker": stock,
+        "sentiment_score": None,
+        "ebitda": None,
+        "five_yr_rev_cagr": None,
+        "ev_ebitda": None,
+        "roic": None,
+        "fcf_yield": None
+    }
 
-    return df_agg[["ticker", "avg_sentiment", "sentiment_score"]]
+    # Load Sentiment Data
+    if os.path.exists(sentiment_file):
+        # Ensure proper header reading
+        df_sent = pd.read_csv(sentiment_file, header=0)
+        if not df_sent.empty and "sentiment_score_ranking" in df_sent.columns:
+            stock_data["sentiment_score"] = df_sent["sentiment_score_ranking"].iloc[0]
+
+    # Load Financial Data
+    if os.path.exists(financial_file):
+        # Ensure proper header reading
+        df_fin = pd.read_csv(financial_file, header=0)
+
+        if not df_fin.empty:
+            # Ensure correct column names based on example CSV structure
+            for col in ["ebitda", "five_yr_rev_cagr", "ev_ebitda", "roic", "fcf_yield"]:
+                if col in df_fin.columns:
+                    stock_data[col] = df_fin[col].iloc[0]
+                else:
+                    print(
+                        f"⚠️ Warning: Column '{col}' missing in {stock}'s CSV!")
+
+    # Convert dictionary to a properly formatted DataFrame
+    new_row = pd.DataFrame([stock_data])
+
+    # Ensure new_row matches df column structure before concatenation
+    new_row = new_row[df.columns]
+
+    # Append to existing DataFrame
+    df = pd.concat([df, new_row], ignore_index=True)
+
+    return df
 
 
 def min_max_scale(series: pd.Series) -> pd.Series:
@@ -59,7 +93,6 @@ def min_max_scale(series: pd.Series) -> pd.Series:
 
 
 def rank_stocks(
-    df_articles: pd.DataFrame,
     df_factors: pd.DataFrame,
     w_sent=0.10,
     w_ebitda=0.15,
@@ -70,98 +103,71 @@ def rank_stocks(
 ) -> pd.DataFrame:
     """
     Main function to produce a final ranking.
-
-    Inputs:
-      - df_articles: columns [ticker, p_pos, p_neu, p_neg]
-      - df_factors: columns [ticker, ebitda, revCAGR5, ev_ebitda, roic, fcf_yield]
-      - Weights: w_sent, w_ebitda, w_rev, w_ev_ebitda, w_roic, w_fcf
-
     Returns:
       A DataFrame with the final rank_score in descending order.
     """
+    df_rank = pd.DataFrame()
 
-    # ==============================
-    # 1) Aggregate Sentiment
-    # ==============================
-    df_sents = aggregate_sentiment(df_articles)
-    # df_sents has [ticker, avg_sentiment, sent_score]
-
-    # ==============================
-    # 2) Merge with df_factors
-    # ==============================
-    df_merged = pd.merge(df_factors, df_sents, on="ticker", how="left")
+    df_rank['ticker'] = df_factors['ticker']
 
     # If some tickers have no articles => sent_score might be NaN => fill with 0.5 (neutral)
-    df_merged["sent_score"].fillna(0.5, inplace=True)
+    df_factors["sentiment_score"].fillna(
+        0.5, inplace=True)
+    df_rank['sentiment_score'] = df_factors["sentiment_score"]
 
     # ==============================
     # 3) Scale the other factors
     # ==============================
     # ebitda => higher is better => min-max
-    df_merged["ebitda_scaled"] = min_max_scale(df_merged["ebitda"])
+    df_rank["ebitda_scaled"] = min_max_scale(df_factors["ebitda"])
 
     # revCAGR5 => 5yr revenue CAGR => higher is better => min-max
-    df_merged["revCAGR5_scaled"] = min_max_scale(df_merged["revCAGR5"])
+    df_rank["revCAGR5_scaled"] = min_max_scale(
+        df_factors["five_yr_rev_cagr"])
 
     # ev_ebitda => lower is better => invert it after min-max
     # We'll do scaled_ev_ebitda = 1 - min_max_scale(ev_ebitda)
     # If ev_ebitda is missing, fill with median or something
-    df_merged["ev_ebitda"].fillna(
-        df_merged["ev_ebitda"].median(), inplace=True)
-    df_merged["ev_ebitda_scaled"] = 1 - min_max_scale(df_merged["ev_ebitda"])
+    df_factors["ev_ebitda"].fillna(
+        df_factors["ev_ebitda"].median(), inplace=True)
+    df_rank["ev_ebitda_scaled"] = 1 - min_max_scale(df_factors["ev_ebitda"])
 
     # roic => higher is better => min-max
-    df_merged["roic_scaled"] = min_max_scale(df_merged["roic"])
+    df_rank["roic_scaled"] = min_max_scale(df_factors["roic"])
 
     # fcf_yield => higher is better => min-max
-    df_merged["fcf_yield_scaled"] = min_max_scale(df_merged["fcf_yield"])
+    df_rank["fcf_yield_scaled"] = min_max_scale(df_factors["fcf_yield"])
 
+    df_rank.fillna(0, inplace=True)
     # ==============================
     # 4) Compute final rank_score
     # ==============================
-    df_merged["rank_score"] = (
-        w_sent * df_merged["sent_score"] +
-        w_ebitda * df_merged["ebitda_scaled"] +
-        w_rev * df_merged["revCAGR5_scaled"] +
-        w_ev_ebitda * df_merged["ev_ebitda_scaled"] +
-        w_roic * df_merged["roic_scaled"] +
-        w_fcf * df_merged["fcf_yield_scaled"]
+    df_rank["rank_score"] = (
+        w_sent * df_rank["sentiment_score"] +
+        w_ebitda * df_rank["ebitda_scaled"] +
+        w_rev * df_rank["revCAGR5_scaled"] +
+        w_ev_ebitda * df_rank["ev_ebitda_scaled"] +
+        w_roic * df_rank["roic_scaled"] +
+        w_fcf * df_rank["fcf_yield_scaled"]
     )
 
     # ==============================
     # 5) Sort descending
     # ==============================
-    df_ranked = df_merged.sort_values(
+    df_rank = df_rank.sort_values(
         "rank_score", ascending=False).reset_index(drop=True)
 
-    return df_ranked
+    return df_rank
 
 
-# ==============================
-# Example Main Usage
-# ==============================
 if __name__ == "__main__":
 
-    # EXAMPLE df_articles with columns: ticker, p_pos, p_neu, p_neg
-    df_articles = pd.DataFrame({
-        "ticker": ["AAPL", "AAPL", "MSFT", "GOOG", "GOOG"],
-        "p_pos": [0.7, 0.6, 0.8, 0.2, 0.4],
-        "p_neu": [0.2, 0.3, 0.1, 0.6, 0.3],
-        "p_neg": [0.1, 0.1, 0.1, 0.2, 0.3],
-    })
+    SYMBOLS = ["NEE", "FSLR", "ENPH", "RUN", "SEDG",
+               "CSIQ", "JKS", "NXT", "SPWR", "DQ", "ARRY", "NEP", "GE", "VWS", "IBDRY", "DNNGY", 'BEP', "NPI", "CWEN", "INOXWIND", "ORA", "IDA", "OPTT", "DRXGY", "EVA", "GPRE", "PLUG", "BE", "BLDP", "ARL", "OPTT", "CEG", "VST", "CCJ", "LEU", "SMR", "OKLO", "NNE", "BWXT", "BW", "TLNE"]
+    df_stocks = pd.DataFrame(columns=[
+        'ticker', 'sentiment_score', 'ebitda', 'five_yr_rev_cagr', 'ev_ebitda', 'roic', 'fcf_yield'])
+    for symbol in SYMBOLS:
+        df_stocks = build_stocks_metrics(symbol, df_stocks)
 
-    # EXAMPLE df_factors with columns: ticker, ebitda, revCAGR5, ev_ebitda, roic, fcf_yield
-    df_factors = pd.DataFrame({
-        "ticker": ["AAPL", "MSFT", "GOOG", "AMZN"],
-        "ebitda": [100e9, 80e9, 65e9, 50e9],
-        "revCAGR5": [0.15, 0.12, 0.10, 0.25],
-        "ev_ebitda": [22.5, 18.0, 20.0, 30.0],
-        "roic": [0.25, 0.18, 0.22, 0.05],
-        "fcf_yield": [0.04, 0.03, 0.02, 0.01],
-    })
-
-    # Example usage:
-    df_ranked = rank_stocks(df_articles, df_factors)
-    print("\nFinal Ranking:")
-    print(df_ranked[["ticker", "rank_score", "sent_score", "ebitda_scaled",
-          "revCAGR5_scaled", "ev_ebitda_scaled", "roic_scaled", "fcf_yield_scaled"]])
+    df_ranked = rank_stocks(df_stocks)
+    df_ranked.to_csv("./stocks_ranked.csv")

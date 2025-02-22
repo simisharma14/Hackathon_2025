@@ -2,17 +2,6 @@ import pandas as pd
 
 
 def aggregate_sentiment(ticker) -> pd.DataFrame:
-    """
-    Given a DataFrame with columns:
-      [ticker, p_pos, p_neu, p_neg]
-    we compute a net sentiment per article => net_sent = p_pos - p_neg
-    Then group by ticker to find avg_sentiment => mean of net_sent.
-
-    Returns a DataFrame with:
-      [ticker, avg_sentiment, sent_score]
-    where avg_sentiment is in [-1, +1],
-    and sent_score is in [0, 1] after transformation.
-    """
     # 1) Compute net_sentiment for each article
     try:
         df_articles = pd.read_csv(
