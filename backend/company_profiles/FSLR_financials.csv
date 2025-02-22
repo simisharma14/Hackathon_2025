@@ -1,2 +1,0 @@
-ticker,company_name,fiscal_year,fiscal_period,start_date,end_date,filing_date,total_assets,total_liabilities,equity,short_term_debt,long_term_debt,cash_on_hand,revenues,net_income,ebitda,net_cash_flow,operating_cashflow,capex,fcf,fcf_yield,ev_ebitda,p_e,p_e_g,debt_ebitda,roic
-FSLR,"First Solar, Inc.",,,,,,11436638000.0,,,0.0,373321000.0,0.0,887668000.0,312956000.0,,,,,,,9.896192107275814,53.17391479952453,,0.21743062851629558,0.8383026939282816

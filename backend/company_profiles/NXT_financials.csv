@@ -1,2 +1,0 @@
-ticker,company_name,fiscal_year,fiscal_period,start_date,end_date,filing_date,total_assets,total_liabilities,equity,short_term_debt,long_term_debt,cash_on_hand,revenues,net_income,ebitda,net_cash_flow,operating_cashflow,capex,fcf,fcf_yield,ev_ebitda,p_e,p_e_g,debt_ebitda,roic
-NXT,Nextracker Inc.,,,,,,2983559000.0,,,0.0,138770000.0,0.0,679363000.0,115283000.0,,,,,,,8.368508224114972,59.01989920456615,,0.19043554812414576,0.8307487209050948

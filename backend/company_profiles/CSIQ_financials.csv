@@ -1,2 +1,0 @@
-ticker,company_name,fiscal_year,fiscal_period,start_date,end_date,filing_date,total_assets,total_liabilities,equity,short_term_debt,long_term_debt,cash_on_hand,revenues,net_income,ebitda,net_cash_flow,operating_cashflow,capex,fcf,fcf_yield,ev_ebitda,p_e,p_e_g,debt_ebitda,roic
-CSIQ,Canadian Solar Inc.,,,,,,13779988000.0,,,0.0,2633059000.0,0.0,1507624000.0,-14026000.0,,,,,,,9.286034062714645,-53.21922600884072,,4.613638752996257,-0.0053268840538704225

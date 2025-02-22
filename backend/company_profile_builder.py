@@ -339,11 +339,19 @@ def pull_financial_statements(symbol: str, save_path: str = "./financial_stateme
 
     os.makedirs(save_path, exist_ok=True)
 
-    stock = yf.Ticker(symbol)
+    try:
+        stock = yf.Ticker(symbol)
+        #row = {col: None for col in CSV_COLUMNS}
+        info = stock.info
+    except Exception as e:
+        print(f"[Error] Could not retrieve .info for {symbol}: {e}")
+        return
+    
+    if not info:
+        print(f"[Warning] No 'info' returned for {symbol}. Possibly an invalid ticker.")
+        return
 
-    row = {col: None for col in CSV_COLUMNS}
-    info = stock.info
-
+    '''
     # Fill the easy ones:
     row["ticker"] = symbol.upper()
     row["company_name"] = info.get("shortName", None)
@@ -352,10 +360,15 @@ def pull_financial_statements(symbol: str, save_path: str = "./financial_stateme
     row["start_date"] = None
     row["end_date"] = None
     row["filing_date"] = None
+    '''
 
-    balance_sheet = stock.balance_sheet  # Annual balance sheet
-    income_statement = stock.financials  # Annual income statement
-    cash_flow = stock.cashflow  # Annual cash flow statement
+    try:
+        balance_sheet = stock.balance_sheet  # Annual balance sheet
+        income_statement = stock.financials  # Annual income statement
+        cash_flow = stock.cashflow  # Annual cash flow statement
+    except Exception as e:
+        print(f"[Error] Could not retrieve financial statements for {symbol}: {e}")
+        return
 
     if not balance_sheet.empty:
         balance_sheet.to_csv(
@@ -378,13 +391,20 @@ def pull_financial_statements(symbol: str, save_path: str = "./financial_stateme
 
 def pull_financial_overview(symbol: str, save_path: str = "./financial_overviews"):
 
-    # 1) Ensure the output folder exists
     os.makedirs(save_path, exist_ok=True)
+    
+    try:
+        ticker = yf.Ticker(symbol)
+        info = ticker.info
+    except Exception as e:
+        print(f"[Error] Could not retrieve info for {symbol}: {e}")
+        return
 
-    # 2) Get the ticker info
-    ticker = yf.Ticker(symbol)
-    info = ticker.info  # dictionary of fundamental data
+    if not info:
+        print(f"[Warning] No overview info for {symbol}. Skipping.")
+        return
 
+   
     # 3) Grab each metric (use .get() to avoid KeyErrors)
     market_cap = info.get("marketCap")
     day_high = info.get("dayHigh")
@@ -444,8 +464,17 @@ def compute_5yr_cagr(revenue_series: pd.Series) -> float:
 def pull_advanced_metrics(symbol: str, save_path: str = "./advanced_metrics"):
     os.makedirs(save_path, exist_ok=True)
 
-    ticker = yf.Ticker(symbol)
-    info = ticker.info
+    try:
+        ticker = yf.Ticker(symbol)
+        info = ticker.info
+    except Exception as e:
+        print(f"[Error] Could not retrieve info for {symbol}: {e}")
+        return
+
+    if not info:
+        print(f"[Warning] No overview info for {symbol}. Skipping.")
+        return
+
 
     annual_fin = ticker.financials
 
@@ -525,19 +554,17 @@ if __name__ == "__main__":
     # Example usage
     POLYGON_API_KEY = "4cR_irLDgivxae1WO4y0Wb30VYxXRkQj"
     SYMBOLS = ["NEE", "FSLR", "ENPH", "RUN", "SEDG",
-               "CSIQ", "JKS", "NXT", "SPWR", "DQ", "ARRY", "NEP", "GE", "VWS", "IBDRY", "DNNGY", 'BEP', "NPI", "CWEN", "INOXWIND", "ORA", "IDA", "OPTT", "DRXGY", "EVA", "GPRE", "PLUG", "BE", "BLDP", "ARL", "OPTT", "CEG", "VST", "CCJ", "LEU", "SMR", "OKLO", "NNE", "BWXT", "BW", "TLNE"
+               "CSIQ", "JKS", "NXT", "DQ", "ARRY", "GE", "VWS", "IBDRY", "DNNGY", 'BEP', "NPI", "CWEN", "INOXWIND", "ORA", "IDA", "OPTT", "DRXGY", "EVA", "GPRE", "PLUG", "BE", "BLDP", "ARL", "OPTT", "CEG", "VST", "CCJ", "LEU", "SMR", "OKLO", "NNE", "BWXT", "BW"
                ]
+    # SYMBOLS = ["NEP"]
 
     for symbol in SYMBOLS:
-        '''
         data_polygon = pull_technical_data_polygon(
             symbol=symbol,
             api_key=POLYGON_API_KEY,
             start="2022-01-01",
             end="2023-01-01"
         )
-        '''
-
         # data_yf = pull_financial_data_yf(symbol)
         data_yf = pull_financial_statements(symbol)
         data_yf2 = pull_financial_overview(symbol)

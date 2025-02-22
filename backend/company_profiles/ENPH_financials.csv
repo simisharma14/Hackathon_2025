@@ -1,2 +1,0 @@
-ticker,company_name,fiscal_year,fiscal_period,start_date,end_date,filing_date,total_assets,total_liabilities,equity,short_term_debt,long_term_debt,cash_on_hand,revenues,net_income,ebitda,net_cash_flow,operating_cashflow,capex,fcf,fcf_yield,ev_ebitda,p_e,p_e_g,debt_ebitda,roic
-ENPH,"Enphase Energy, Inc.",,,,,,3249676000.0,,,0.0,1201089000.0,0.0,382713000.0,62160000.0,,,,,,,51.971553550811514,138.20374157014157,,7.3661582967141985,0.05175303412153471
