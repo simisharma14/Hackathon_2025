@@ -186,6 +186,7 @@ def get_most_recent_value(df: pd.DataFrame, row_label: str):
     except (KeyError, IndexError):
         return None
 
+
 '''
 def pull_financial_data_yf(symbol: str, save_path: str = "./company_profiles"):
     """
@@ -333,8 +334,9 @@ def pull_financial_data_yf(symbol: str, save_path: str = "./company_profiles"):
     return df_out
 '''
 
+
 def pull_financial_statements(symbol: str, save_path: str = "./financial_statements"):
-    
+
     os.makedirs(save_path, exist_ok=True)
 
     stock = yf.Ticker(symbol)
@@ -351,9 +353,9 @@ def pull_financial_statements(symbol: str, save_path: str = "./financial_stateme
     row["end_date"] = None
     row["filing_date"] = None
 
-    balance_sheet = stock.balance_sheet # Annual balance sheet
-    income_statement = stock.financials # Annual income statement
-    cash_flow = stock.cashflow # Annual cash flow statement
+    balance_sheet = stock.balance_sheet  # Annual balance sheet
+    income_statement = stock.financials  # Annual income statement
+    cash_flow = stock.cashflow  # Annual cash flow statement
 
     if not balance_sheet.empty:
         balance_sheet.to_csv(
@@ -373,7 +375,6 @@ def pull_financial_statements(symbol: str, save_path: str = "./financial_stateme
     else:
         print(f"No cash flow data found for {symbol}.")
 
-    
 
 def pull_financial_overview(symbol: str, save_path: str = "./financial_overviews"):
 
@@ -417,12 +418,12 @@ def pull_financial_overview(symbol: str, save_path: str = "./financial_overviews
     df = pd.DataFrame([row])
     df1 = df.T.reset_index()
     df1.columns = ["Metric", "Value"]
-    
 
     # 6) Save to CSV named '{symbol}_overview.csv'
     out_file = os.path.join(save_path, f"{symbol}_overview.csv")
     df1.to_csv(out_file, index=False)
     print(f"[+] Saved financial overview for {symbol} to: {out_file}")
+
 
 def compute_5yr_cagr(revenue_series: pd.Series) -> float:
     revenue_series = revenue_series.astype(float)
@@ -433,11 +434,12 @@ def compute_5yr_cagr(revenue_series: pd.Series) -> float:
         start_val = revenue_series.iloc[-5]
         end_val = revenue_series.iloc[-1]
     # Number of intervals = (# of data points - 1)
-    periods = len(revenue_series) - 1  
+    periods = len(revenue_series) - 1
     if start_val <= 0:
         return None
     cagr = (end_val / start_val) ** (1.0 / periods) - 1
     return cagr
+
 
 def pull_advanced_metrics(symbol: str, save_path: str = "./advanced_metrics"):
     os.makedirs(save_path, exist_ok=True)
@@ -457,13 +459,14 @@ def pull_advanced_metrics(symbol: str, save_path: str = "./advanced_metrics"):
         "roic": None,
         "fcf_yield": None
     }
-    
+
     ebitda_val = info.get("ebitda")
     metrics["ebitda"] = ebitda_val
 
     if (annual_fin is not None) and (not annual_fin.empty):
         if "Total Revenue" in annual_fin.index:
-            rev_row = annual_fin.loc["Total Revenue"].sort_index()  # Ascending by column date
+            # Ascending by column date
+            rev_row = annual_fin.loc["Total Revenue"].sort_index()
             rev_row.dropna(inplace=True)
             if len(rev_row) >= 2:
                 metrics["five_yr_rev_cagr"] = compute_5yr_cagr(rev_row)
@@ -483,7 +486,8 @@ def pull_advanced_metrics(symbol: str, save_path: str = "./advanced_metrics"):
     total_debt = 0
     if (annual_bs is not None) and (not annual_bs.empty):
         if "Total Stockholder Equity" in annual_bs.index:
-            eq_row = annual_bs.loc["Total Stockholder Equity"].sort_index().dropna()
+            eq_row = annual_bs.loc["Total Stockholder Equity"].sort_index(
+            ).dropna()
             if not eq_row.empty:
                 equity = eq_row.iloc[-1]
         if "Long Term Debt" in annual_bs.index:
@@ -491,7 +495,8 @@ def pull_advanced_metrics(symbol: str, save_path: str = "./advanced_metrics"):
             if not lt_debt_row.empty:
                 total_debt += lt_debt_row.iloc[-1]
         if "Short Long Term Debt" in annual_bs.index:
-            st_debt_row = annual_bs.loc["Short Long Term Debt"].sort_index().dropna()
+            st_debt_row = annual_bs.loc["Short Long Term Debt"].sort_index(
+            ).dropna()
             if not st_debt_row.empty:
                 total_debt += st_debt_row.iloc[-1]
 
@@ -500,7 +505,6 @@ def pull_advanced_metrics(symbol: str, save_path: str = "./advanced_metrics"):
     if net_income and denom != 0:
         roic_val = net_income / denom
     metrics["roic"] = roic_val
-
 
     fcf = info.get("freeCashflow")
     mcap = info.get("marketCap")
@@ -524,8 +528,7 @@ if __name__ == "__main__":
                "CSIQ", "JKS", "NXT", "SPWR", "DQ", "ARRY", "NEP", "GE", "VWS", "IBDRY", "DNNGY", 'BEP', "NPI", "CWEN", "INOXWIND", "ORA", "IDA", "OPTT", "DRXGY", "EVA", "GPRE", "PLUG", "BE", "BLDP", "ARL", "OPTT", "CEG", "VST", "CCJ", "LEU", "SMR", "OKLO", "NNE", "BWXT", "BW", "TLNE"
                ]
 
-
-    for symbol in symbols:
+    for symbol in SYMBOLS:
         '''
         data_polygon = pull_technical_data_polygon(
             symbol=symbol,
@@ -539,4 +542,3 @@ if __name__ == "__main__":
         data_yf = pull_financial_statements(symbol)
         data_yf2 = pull_financial_overview(symbol)
         data_yf3 = pull_advanced_metrics(symbol)
-
