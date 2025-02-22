@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -16,7 +17,7 @@ export default function Home() {
         />
         <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
           <li className="mb-2">
-            Get started by editing{" "}
+            Clean Energy Stock Dashboard{" "}
             <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
               app/page.tsx
             </code>
@@ -25,8 +26,10 @@ export default function Home() {
           <li>Save and see your changes instantly.</li>
         </ol>
 
-        {/* Add Button Below List */}
-        <Button onClick={() => alert("Button clicked!")}>Click Me</Button>
+        {/* Button to Navigate to Dashboard */}
+        <Link href="/about">
+          <Button className="mt-4 px-4 py-2">View Dashboard</Button>
+        </Link>
 
         <div className="flex gap-4 items-center flex-col sm:flex-row">
           <a
