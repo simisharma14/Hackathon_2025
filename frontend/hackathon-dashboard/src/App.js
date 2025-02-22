@@ -1,5 +1,6 @@
-import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom"; 
+
+import React, { useEffect } from "react";
+import { BrowserRouter as Router, Route, Routes} from "react-router-dom"; 
 import "./App.css";
 import Dashboard from "./dashboard"; // Import the Dashboard component
 import LandingPage from "./LandingPage"; // Import the LandingPage component
@@ -12,6 +13,10 @@ import ProfileViews from "./ProfileViews";
 // import TopPerformers from "./pages/TopPerformers";
 
 function App() {
+  useEffect(() => {
+    // Optionally clear any history in the browser to ensure it doesn't show the last visited page
+    window.history.replaceState(null, "", "/");
+  }, []);
   return (
     <Router>
         <div className="App">
@@ -31,6 +36,9 @@ function App() {
 
             <Route path="/ETFPage" element={<ETFPage/>} />
             <Route path="/ProfileViews" element={<ProfileViews />} /> 
+
+          
+
           </Routes>
         </div>
     </Router>
