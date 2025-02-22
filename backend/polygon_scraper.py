@@ -3,6 +3,20 @@ import pandas as pd
 import datetime
 
 
+def convert_iso_to_mm_dd_yyyy(iso_str):
+    """
+    Convert an ISO timestamp (e.g. '2024-06-28T15:43:00Z')
+    to 'MM-DD-YYYY'. If parsing fails, return the original string.
+    """
+    if not isinstance(iso_str, str):
+        return iso_str
+    try:
+        dt = datetime.datetime.strptime(iso_str, "%Y-%m-%dT%H:%M:%SZ")
+        return dt.strftime("%m-%d-%Y")
+    except ValueError:
+        return iso_str
+
+
 def get_polygon_news(symbol: str, api_key: str, limit: int = 50) -> pd.DataFrame:
     """
     Fetch recent news articles from Polygon for a given stock symbol.
@@ -45,9 +59,16 @@ def get_polygon_news(symbol: str, api_key: str, limit: int = 50) -> pd.DataFrame
 if __name__ == "__main__":
     API_KEY = "4cR_irLDgivxae1WO4y0Wb30VYxXRkQj"
 
-    symbols = ["NEE", "FSLR"]
-    for symbol in symbols:
+    # SYMBOLS = ["NEE", "FSLR", "ENPH", "RUN", "SEDG",
+    #            "CSIQ", "JKS", "NXT", "SPWR", "DQ", "ARRY", "NEP", "GE", "VWS", "IBDRY", "DNNGY", 'BEP', "NPI", "CWEN", "INOXWIND", "ORA", "IDA", "OPTT", "DRXGY", "EVA", "GPRE", "PLUG", "BE", "BLDP", "ARL", "OPTT", "CEG", "VST", "CCJ", "LEU", "SMR", "OKLO", "NNE", "BWXT", "BW", "TLNE"
+    #            ]
+    SYMBOLS = ["FSLR", "NEE"]
+    ETFS = ["NLR", "TAN", "FAN", "ICLN", "PBW", "HYDR", "NLR"]
+    for symbol in SYMBOLS:
+        print(f"Fetching news for {symbol}")
         polygon_df = get_polygon_news(symbol, API_KEY, limit=50)
-        print(polygon_df)
+        if "timestamp" in polygon_df.columns:
+            polygon_df["timestamp"] = polygon_df["timestamp"].apply(
+                convert_iso_to_mm_dd_yyyy)
         polygon_df.to_csv(
-            f"./data/polygon_scraped/polygon_{symbol}_news.csv", index=False)
+            f"./data/polygon_scraped/{symbol}_news.csv", index=False)

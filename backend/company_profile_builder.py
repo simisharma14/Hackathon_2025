@@ -336,9 +336,11 @@ def pull_financial_data_yf(symbol: str, save_path: str = "./company_profiles"):
 if __name__ == "__main__":
     # Example usage
     POLYGON_API_KEY = "4cR_irLDgivxae1WO4y0Wb30VYxXRkQj"
-    symbols = ["NEE", "FSLR"]
+    SYMBOLS = ["NEE", "FSLR", "ENPH", "RUN", "SEDG",
+               "CSIQ", "JKS", "NXT", "SPWR", "DQ", "ARRY", "NEP", "GE", "VWS", "IBDRY", "DNNGY", 'BEP', "NPI", "CWEN", "INOXWIND", "ORA", "IDA", "OPTT", "DRXGY", "EVA", "GPRE", "PLUG", "BE", "BLDP", "ARL", "OPTT", "CEG", "VST", "CCJ", "LEU", "SMR", "OKLO", "NNE", "BWXT", "BW", "TLNE"
+               ]
 
-    for symbol in symbols:
+    for symbol in SYMBOLS:
         data_polygon = pull_technical_data_polygon(
             symbol=symbol,
             api_key=POLYGON_API_KEY,

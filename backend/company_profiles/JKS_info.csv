@@ -1,0 +1,21 @@
+,Value
+ticker,JKS
+name,JINKOSOLAR HOLDINGS CO
+market,stocks
+locale,us
+primary_exchange,XNYS
+type,ADRC
+active,True
+currency_name,usd
+cik,0001481513
+composite_figi,BBG000Q72QF9
+share_class_figi,BBG001SF91V7
+market_cap,1137110922.08
+description,"JinkoSolar Holding Co Ltd is engaged in the photovoltaic industry. The firm has built a vertically integrated solar power product value chain, manufacturing from silicon wafers to solar modules. It sells solar modules under the JinkoSolar brand. The company's products include Silicon wafers, Solar cells, and Solar modules. Its geographical segments are China (including Hong Kong and Taiwan), North America, Europe, Asia Pacific (except China, which includes Hong Kong and Taiwan), and the Rest of the world."
+ticker_root,JKS
+homepage_url,https://www.jinkosolar.com/en
+total_employees,31030
+list_date,2010-05-14
+share_class_shares_outstanding,212620000
+weighted_shares_outstanding,49310968
+round_lot,100

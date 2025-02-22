@@ -1,0 +1,2 @@
+ticker,company_name,fiscal_year,fiscal_period,start_date,end_date,filing_date,total_assets,total_liabilities,equity,short_term_debt,long_term_debt,cash_on_hand,revenues,net_income,ebitda,net_cash_flow,operating_cashflow,capex,fcf,fcf_yield,ev_ebitda,p_e,p_e_g,debt_ebitda,roic
+SEDG,"SolarEdge Technologies, Inc.",,,,,,2816394000.0,,,0.0,329614000.0,0.0,260903000.0,-1205321000.0,,,,,,,-0.7440539145398988,-0.848269936390389,,-0.2018338253950563,-3.6567651859447716
