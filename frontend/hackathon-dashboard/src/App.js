@@ -1,6 +1,5 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom"; 
-import Layout from "./components/Layout";
 import "./App.css";
 import Dashboard from "./dashboard"; // Import the Dashboard component
 import LandingPage from "./LandingPage"; // Import the LandingPage component
@@ -12,7 +11,6 @@ import Home from ".//Home"; // Make sure Home is imported
 function App() {
   return (
     <Router>
-      <Layout>
         <div className="App">
           {/* Route Definitions */}
           <Routes>
@@ -26,7 +24,6 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
           </Routes>
         </div>
-      </Layout>
     </Router>
   );
 }
