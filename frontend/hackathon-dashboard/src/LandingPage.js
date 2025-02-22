@@ -1,16 +1,18 @@
-import React from 'react';
-import './LandingPage.css'; // Import the CSS file
+import React from "react";
+import { Link } from "react-router-dom"; // Import Link
 
-const LandingPage = () => {
+function LandingPage() {
   return (
     <div className="landing-page">
       <h1>Welcome to Green Thumb!</h1>
       <p>Our Problem Statement</p>
-      <p> Here at Green Thumb we... lallalalallal</p>
-
-      <button class="landing-page-start-button"> Get Started!</button>
+      <p>We aim to...lallaala</p>
+      {/* Link to Home page */}
+      <Link to="/home">
+        <button>Get Started</button>
+      </Link>
     </div>
   );
-};
+}
 
 export default LandingPage;
