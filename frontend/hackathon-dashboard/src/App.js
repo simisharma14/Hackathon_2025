@@ -18,7 +18,7 @@ function App() {
           {/* Route Definitions */}
           <Routes>
             {/* Landing Page Route */}
-            <Route path="/" element={<LandingPage />} />
+            <Route path="/"element={<LandingPage />} />
 
             {/* Home Page Route */}
             <Route path="/home" element={<Home />} /> {/* Home page route */}

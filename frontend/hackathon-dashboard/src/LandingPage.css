@@ -46,3 +46,15 @@ body {
     align-self: center;
     margin-top: 20px;
 }
+
+.dino4 {
+    width: 25%; /* Make the image smaller */
+    height: auto;
+    position: absolute;
+    top: 50%; /* Vertically center it */
+    right: 5%; /* Push it to the right side */
+    transform: translateY(-50%); /* Adjust vertical centering */
+    border-radius: 10px;
+}
+
+  

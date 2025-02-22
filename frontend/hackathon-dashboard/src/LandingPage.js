@@ -2,6 +2,8 @@ import React from 'react';
 import './LandingPage.css'; // Import the CSS file
 import { Link } from "react-router-dom"; // Import Link
 
+
+
 const LandingPage = () => {
   return (
     <div className="landing-page">
