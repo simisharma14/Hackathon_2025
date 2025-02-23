@@ -121,6 +121,7 @@ def generate_macro_outlook():
         " focus on current events or regulator changes "
         "Highlight key market trends, international developments, and potential future challenges and opportunities. "
         "Conclude with a summary and key takeaways."
+        "Bold important words and put in paragraph form except for key takeaways can be centered bullet points"
     )
 
     response = openai.ChatCompletion.create(
