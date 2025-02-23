@@ -8,13 +8,12 @@ load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 
-def generate_investment_strategy(risk_tolerance, sector_preference, top_stocks):
+def generate_investment_strategy(risk_tolerance, top_stocks):
     """
     Generates a tailored investment strategy based on risk tolerance, sector preference, and top-rated stocks.
 
     Args:
         risk_tolerance (str): "Low", "Medium", or "High"
-        sector_preference (str): Preferred sector (e.g., "Solar", "Wind", "Hydro", "Nuclear")
         top_stocks (pd.DataFrame): DataFrame of ranked stocks
 
     Returns:
@@ -34,7 +33,6 @@ def generate_investment_strategy(risk_tolerance, sector_preference, top_stocks):
     # Define the AI prompt
     prompt = (
         f"Create a personalized investment strategy for an investor with {risk_tolerance.lower()} risk tolerance, "
-        f"who prefers to invest in the {sector_preference} energy sector. "
         f"Here are the top-rated stocks based on our financial ranking system:\n\n{stock_list}\n\n"
         "The strategy should include:\n"
         "- An overview of the sector and why it's a strong investment choice.\n"
@@ -61,17 +59,16 @@ if __name__ == "__main__":
     # Example Usage
     df_ranked = pd.read_csv("./stocks_ranked.csv")  # Load ranked stocks
     user_risk_tolerance = "Low"  # Low, Medium, High
-    user_sector_preference = "Solar"  # Example sector preference
 
     strategy = generate_investment_strategy(
-        user_risk_tolerance, user_sector_preference, df_ranked)
+        user_risk_tolerance, df_ranked)
 
     print("\n=== Personalized Investment Strategy ===\n")
     print(strategy)
 
     # Save to file
     os.makedirs("./data/investment_strategies", exist_ok=True)
-    filename = f"./data/investment_strategies/{user_sector_preference}_{user_risk_tolerance}_strategy.txt"
+    filename = f"./data/investment_strategies/{user_risk_tolerance}_strategy.txt"
     with open(filename, "w", encoding="utf-8") as f:
         f.write(strategy)
 

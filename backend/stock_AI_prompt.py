@@ -65,7 +65,7 @@ def generate_stock_report(symbol, stock_data):
 
     # Call the OpenAI API (using the ChatCompletion endpoint)
     response = openai.ChatCompletion.create(
-        model="gpt-4",  # or gpt-3.5-turbo if preferred
+        model="gpt-3.5-turbo",  # or gpt-3.5-turbo if preferred
         messages=[
             {"role": "user", "content": prompt}
         ],
