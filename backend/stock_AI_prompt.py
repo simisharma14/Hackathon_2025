@@ -60,8 +60,7 @@ def generate_stock_report(symbol, stock_data):
         "- **Strengths & Weaknesses:** Discuss key advantages, risks, and challenges.\n"
         "- **Catalysts for Growth:** Identify upcoming trends, market movements, and potential drivers for future stock price appreciation.\n"
         "- **Market Sentiment Analysis:** Provide insight into current investor sentiment based on financial performance, earnings reports, and recent news.\n"
-        "- **Financial Health:** Evaluate the company’s financial stability, debt levels, profitability, and cash flow.\n\n"
-        "- **Relative Valuation:** Evaluate how the comapny compares to competitors"
+        "- **Financial Health:** Evaluate the company’s financial stability, debt levels, profitability, and cash flow.\n"
         "Ensure the report is professional, insightful, and data-driven. Try to focus on current events in your report, giving actionable items for a potential investor.\nAdditionally, provide information the stocks sector ETF to allow for benchmarking performance against the overall sector. Making sure to include relative valuations in the report."
     )
 
