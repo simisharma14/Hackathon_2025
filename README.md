@@ -1,201 +1,171 @@
-# Green Thumb: AI-Driven Clean Energy Investment Platform
+# 🌱 Green Thumb: AI-Driven Clean Energy Investment Platform
 
-Green Thumb is an AI-powered investment platform designed to democratize access to high-quality financial data and actionable insights for retail investors—especially those interested in the clean energy and nuclear sectors. By integrating machine learning, sentiment analysis, and advanced financial modeling, Green Thumb delivers comprehensive stock profiles, personalized investment strategies, and macro outlook reports tailored to the evolving landscape of clean energy investments.
+**Green Thumb** is an **AI-powered investment platform** designed to democratize access to **high-quality financial data and actionable insights** for retail investors—especially those interested in **clean energy and nuclear sectors**.  
+
+By integrating **machine learning, sentiment analysis, and advanced financial modeling**, Green Thumb delivers:  
+✅ **Comprehensive stock profiles**  
+✅ **Personalized investment strategies**  
+✅ **Macro outlook reports** tailored to the evolving clean energy landscape  
 
 ---
 
-## Table of Contents
+## Table of Contents  
 
-- [Overview](#overview)
-- [Features](#features)
-- [Problem Statement & Background](#problem-statement--background)
-- [Data Sources](#data-sources)
-- [Project Architecture](#project-architecture)
+- [Overview](#overview)  
+- [Features](#features)  
+- [Problem Statement & Background](#problem-statement--background)  
+- [Data Sources](#data-sources)  
+- [Project Architecture](#project-architecture)  
 - [Setup & Installation](#setup--installation)
-- [Usage](#usage)
-- [Project Structure](#project-structure)
-- [Contributing](#contributing)
-- [License](#license)
+- [Contributors](#contributors)
+- [Acknowledgements](#acknowledgements)
 
 ---
 
-## Overview
+## Overview  
 
-Green Thumb leverages multiple data sources—such as Yahoo Finance, Polygon.io, government regulatory data, and macroeconomic reports—to generate detailed financial profiles, technical analysis charts, and AI-generated reports for stocks and ETFs within the clean energy space. The platform also includes sentiment analysis from financial news and regulatory announcements, providing investors with a forward-looking perspective.
+Green Thumb **leverages multiple data sources** such as **Yahoo Finance, Polygon.io, government regulatory data, and macroeconomic reports** to generate:  
+- **Detailed financial profiles**  
+- **Technical analysis charts**  
+- **AI-generated reports** on stocks and ETFs in the clean energy space  
 
----
-
-## Features
-
-- **Stock & ETF Profiles**
-  - Detailed company profiles with balance sheets, income statements, cash flows, and advanced financial metrics.
-  - AI-generated stock reports that combine historical data, financial metrics, and market sentiment.
-  - Interactive charts showing stock price movement for various time horizons (day, week, year, all time).
-
-- **Investment Strategy**
-  - Personalized investment strategies based on user risk tolerance.
-  - Aggregation of sentiment scores, financial ratios, and technical indicators to rank stocks.
-  
-- **Macro Outlook**
-  - Comprehensive macro outlook reports for the energy sector, integrating policy updates and regulatory changes.
-  - Emphasis on current events and regulatory news affecting clean and nuclear energy.
-
-- **User Experience**
-  - Modern, responsive UI built with React, Material-UI, and Recharts.
-  - Global user context stores user preferences (e.g., name, risk tolerance) across all pages.
-  - Sidebar navigation with account management, ETF breakdown, top performers, macro outlook, and personalized strategy.
+It also **performs sentiment analysis** from financial news and regulatory announcements to provide **forward-looking insights**.
 
 ---
 
-## Problem Statement & Background
+## Features  
 
-### Problem Statement
+### **Stock & ETF Profiles**  
+- **Company financials** (Balance Sheet, Income Statement, Cash Flows)  
+- **AI-generated reports** combining historical data, metrics, and market sentiment  
+- **Interactive charts** for stock price trends over multiple time horizons  
+
+### **Investment Strategy**  
+- **Personalized strategies** based on user risk tolerance  
+- **Stock ranking system** using sentiment scores, financial ratios & technical indicators  
+
+### **Macro Outlook**  
+- **Energy sector macro reports**, integrating policy updates and regulatory shifts  
+- **Real-time regulatory news analysis** affecting clean & nuclear energy  
+
+### **User Experience**  
+- **Modern UI** (React + Material-UI + Recharts)  
+- **Global user context** stores preferences like risk tolerance  
+- **Easy navigation** (Sidebar with Account, ETFs, Top Performers, Macro Reports, Strategy)  
+
+---
+
+## Problem Statement & Background  
+
+### **Problem Statement**  
 
 **Enhancing Investment Strategies in Clean Energy Amid Regulatory Uncertainty**  
-The clean energy industry is rapidly evolving with technological advances, yet investors face uncertainty due to shifting government policies, fluctuating subsidies, and evolving environmental mandates. Traditional financial analysis often overlooks the impact of investor sentiment and policy changes. Green Thumb aims to bridge this gap by providing a data-driven, AI-powered approach that integrates both quantitative metrics and qualitative insights to inform investment decisions.
 
-### Background
+The clean energy sector **faces uncertainty** due to:  
+- **Shifting government policies**  
+- **Fluctuating subsidies**  
+- **Evolving environmental mandates**  
 
-- **Industry Context:**  
-  The clean energy sector—including solar, wind, nuclear, and hydrogen—is at a crossroads. Despite growing demand and technological breakthroughs, the sector remains highly sensitive to regulatory and policy changes.
-  
-- **Investment Challenges:**  
-  Retail investors traditionally lack access to institutional-grade tools and analysis, making it difficult to assess the true potential of clean energy investments.
-  
-- **Our Approach:**  
-  By combining historical stock data, advanced financial metrics, sentiment analysis from regulatory news and market articles, and machine learning forecasts, Green Thumb provides actionable insights to empower retail investors with transparent, objective recommendations.
+**Traditional investment analysis often overlooks** regulatory shifts and investor sentiment. Green Thumb **bridges this gap** by providing:  
+✔️ **Data-driven AI-powered insights**  
+✔️ **Comprehensive financial + qualitative analysis**  
+✔️ **Objective, transparent stock recommendations**  
 
----
+### **Background**  
 
-## Data Sources
-
-Potential data sets and APIs include:
-
-- **Stock & ETF Data:**
-  - [Yahoo Finance API](https://finance.yahoo.com/)
-  - [Polygon.io](https://polygon.io/)
-  - [Alpha Vantage](https://www.alphavantage.co/)
-  - [Quandl](https://www.quandl.com/)
-
-- **Financial Performance & Investment Data:**
-  - SEC EDGAR
-  - Morningstar
-  - Crunchbase & CB Insights
-
-- **Macro & Regulatory Data:**
-  - U.S. Energy Information Administration (EIA)
-  - International Renewable Energy Agency (IRENA)
-  - Kaggle datasets on energy crises and stock prices
-
-- **News & Sentiment:**
-  - Financial news outlets (Reuters, CNBC, Bloomberg, Seeking Alpha)
-  - Government regulatory filings
-  - Custom web scrapers for regulatory and macroeconomic articles
+- The clean energy sector (solar, wind, nuclear, hydrogen) is at a **critical juncture**.  
+- **Retail investors** struggle with access to **institutional-grade** analysis tools.  
+- **Green Thumb’s approach:** AI-powered financial modeling, sentiment analysis, and policy tracking.
 
 ---
 
-## Project Architecture
+## Data Sources  
 
-- **Backend (Flask):**
-  - Serves API endpoints to fetch stock profiles, historical price data, sentiment analysis, and macro outlook reports.
-  - Integrates with third-party APIs (Yahoo Finance, Polygon, OpenAI).
-  - Uses Pandas for data aggregation and manipulation.
-  - Implements CORS to enable frontend access.
+**Stock & ETF Data:**  
+- [Yahoo Finance API](https://finance.yahoo.com/)  
+- [Polygon.io](https://polygon.io/)  
+- [Alpha Vantage](https://www.alphavantage.co/)  
+- [Quandl](https://www.quandl.com/)  
 
-- **Frontend (React):**
-  - Built with React and Material-UI.
-  - Uses Recharts for interactive financial charts.
-  - Global state is managed via a custom React Context.
-  - Provides routing for pages like Home, Stock Profile, ETF Breakdown, Macro Outlook, and Investment Strategy.
+**Macro & Regulatory Data:**  
+- U.S. Energy Information Administration (EIA)  
+- International Renewable Energy Agency (IRENA)  
+- Kaggle datasets on energy markets  
 
-- **AI & Sentiment Analysis:**
-  - Utilizes OpenAI’s GPT models to generate stock and macro reports.
-  - Incorporates sentiment analysis models (e.g., FinBERT) for real-time news evaluation.
+**News & Sentiment Analysis:**  
+- Reuters, CNBC, Bloomberg, Seeking Alpha  
+- Government filings & regulatory updates  
+- Custom NLP web scrapers for macro news  
 
 ---
 
-## Setup & Installation
+## Project Architecture  
 
-### Backend
+### **Backend (Flask)**  
+- **API server** for stock data, sentiment analysis & macro reports  
+- **ML integration** with OpenAI & FinBERT for AI-generated insights  
+- **Third-party APIs:** Yahoo Finance, Polygon.io, OpenAI  
 
-1. **Clone the Repository:**
+### **Frontend (React)**  
+- **Built with React + Material-UI + Recharts**  
+- **Real-time financial charts** with smooth UI/UX  
+- **Global state management** using React Context API  
 
-   ```bash
-   git clone https://github.com/yourusername/GreenThumb.git
-   cd GreenThumb
+---
 
-2. **Set Up a Python Virtual Environment:**
-  '''bash 
-  python3 -m venv venv
-  source venv/bin/activate
+## Setup & Installation  
 
-3. **Install Dependencies:**
-  '''bash
-  pip install -r requirements.txt
+### **Backend Setup (Flask)**  
 
-4. **Configure Environment Variables:**
-  Create a .env file in the backend directory with:
-  dotenv
-  OPENAI_API_KEY=your_openai_api_key
-  POLYGON_API_KEY=your_polygon_api_key
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/GreenThumb.git
+cd GreenThumb
 
-5. **Start the Flask Server:**
-  '''bash
-  python app.py
+# Set up virtual environment
+python3 -m venv venv
+source venv/bin/activate
 
-Frontend
-Navigate to the Frontend Directory:
+# Install dependencies
+pip install -r requirements.txt
 
-bash
-Copy
+# Configure API keys (create a .env file)
+echo "OPENAI_API_KEY=your_openai_api_key" >> .env
+echo "POLYGON_API_KEY=your_polygon_api_key" >> .env
+
+# Start the backend server
+python app.py
+```
+### **Backend Setup (Flask)** 
+
+```bash
 cd frontend/hackathon-dashboard
-Install Dependencies:
 
-bash
-Copy
+# Install dependencies
 npm install
-Start the React Development Server:
 
-bash
-Copy
+# Start the development server
 npm start
-Usage
-Access the App:
-Open your web browser and navigate to http://localhost:3000.
+```
 
-Navigation:
+### **Contributors**
 
-Landing Page: Enter your name and risk tolerance.
-Home: View a list of stocks (dropdown) and access detailed profiles.
-Stock Profile: Access comprehensive financial data, interactive stock movement charts, and AI-generated reports.
-ETF Breakdown & Macro Outlook: View comparative charts and market trends.
-Project Structure
-backend/
-Contains the Flask server code, API endpoints, data processing scripts, and AI integration.
+Simran Sharma (simisharma14), Jeslyn Guo (jeslyn-guo), Andrew Verzino (drewverzino), Chloe Nicola (chloen3).
 
-frontend/
-Contains the React application, including components, pages, and styles.
 
-data/
-Stores CSV files, AI-generated reports, and financial data used by the application.
+### **Acknowledgements**
 
-.env
-Contains sensitive environment variables (API keys).
+We would like to thank the following resources and organizations for their contributions:
 
-Contributing
-Contributions are welcome! To contribute:
+# APIs & Data Sources
+- Yahoo Finance, Polygon.io, SEC EDGAR, U.S. EIA, IRENA, and Quandl for financial and macroeconomic data.
+- OpenAI and FinBERT for AI-generated insights and sentiment analysis.
 
-Fork the repository.
-Create a new branch for your changes.
-Commit your changes.
-Submit a pull request with a detailed description of your changes.
-License
-This project is licensed under the MIT License.
+# Tools & Technologies
+- Flask, React, Material-UI, Recharts, and Pandas for making data analysis and visualization efficient.
 
-Acknowledgements
-APIs & Data Sources:
-Yahoo Finance, Polygon.io, SEC EDGAR, EIA, IRENA, Kaggle
-Tools & Libraries:
-React, Material-UI, Recharts, Flask, Pandas, OpenAI
-Special Thanks:
-To the hackathon organizers, contributors, and open-source communities for their support.
+# Community & Support
+- The open-source community and developers contributing to finance and clean energy research.
+- Hackathon organizers, mentors, and contributors for guidance and support.
+
+# A special thanks to all those working toward making clean energy investments accessible and data-driven.
