@@ -40,8 +40,6 @@ const Layout = ({ children }) => {
 
       <div className="user-info">
                 <p><strong>Welcome, {userData.name}</strong></p>
-                <p>Energy: {userData.energyType}</p>
-                <p>Risk: {userData.riskType}</p>
       </div>
 
       {/* Main content */}
