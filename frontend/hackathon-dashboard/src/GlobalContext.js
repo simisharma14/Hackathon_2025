@@ -7,8 +7,6 @@ const GlobalContext = createContext();
 export const GlobalProvider = ({ children }) => {
     const [userData, setUserData] = useState({
         name: "",
-        energyType: "",
-        riskType: ""
     });
 
     return (

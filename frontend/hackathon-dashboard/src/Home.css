@@ -1,9 +1,10 @@
 /* Buttons Container */
 .home-page-button-container {
   display: flex;
+  flex-direction: row;
   justify-content: center; /* Center buttons */
-  gap: 15px; /* Space between buttons */
-  padding: 20px;
+  align-items: center;
+  height: 100vh;
 }
 
 /* Buttons */
