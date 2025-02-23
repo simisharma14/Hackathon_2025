@@ -25,7 +25,7 @@ const Layout = ({ children }) => {
             <li>
               <Link to="/Home">
                 <span>⚙️</span>{" "}
-                <span className={isOpen ? "show" : "hide"}>Account</span>
+                <span className={isOpen ? "show" : "hide"}>Home</span>
               </Link>
             </li>
             <li>

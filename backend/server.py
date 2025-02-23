@@ -172,6 +172,28 @@ def get_rankings():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+@app.route("/all-rankings/<int:n>", methods=["GET"])
+def get_all_rankings(n):
+    try:
+        SYMBOLS = ["NEE", "FSLR", "ENPH", "RUN", "SEDG",
+                   "CSIQ", "JKS", "NXT", "DQ", "ARRY", "GE", "VWS", "IBDRY", "DNNGY", 'BEP', "NPI", "CWEN", "INOXWIND", "ORA", "IDA", "OPTT", "DRXGY", "EVA", "GPRE", "PLUG", "BE", "BLDP", "ARL", "OPTT", "CEG", "VST", "CCJ", "LEU", "SMR", "OKLO", "NNE", "BWXT", "BW"
+                   ]
+        df_stocks = pd.DataFrame(columns=[
+            'ticker', 'sentiment_score', 'ebitda', 'five_yr_rev_cagr', 'ev_ebitda', 'roic', 'fcf_yield', 'volatility', 'implied_upside', 'sharpe_ratio'])
+
+        # Aggregate sentiment & financial data
+        for symbol in SYMBOLS:
+            df_stocks = build_stocks_metrics(symbol, df_stocks)
+
+        # Convert to JSON
+        all_stocks = df_stocks.to_dict(orient="records")
+        print(df_stocks.head())
+        print(len(df_stocks))  # Check if any data is present
+        print(all_stocks)
+        return jsonify({"rankings": all_stocks})
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 @app.route("/rankings/<int:n>", methods=["GET"])
 def get_top_n_rankings(n):
