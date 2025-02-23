@@ -10,6 +10,7 @@ import {
   Card,
   CardContent,
 } from "@mui/material";
+import StockMovementChart from "./StockMovementChart"; // your custom chart component
 
 const StockProfile = () => {
   const { symbol } = useParams();
@@ -26,17 +27,17 @@ const StockProfile = () => {
         setStockData(response.data.stock_data);
         setLoading(false);
       })
-      .catch((error) => {
-        console.error("Error fetching stock profile:", error);
+      .catch((err) => {
+        console.error("Error fetching stock profile:", err);
         setError("Failed to load stock data. Please try again.");
         setLoading(false);
       });
   }, [symbol]);
 
-  // Function to convert raw text to Markdown format
+  // Convert raw text (with **bold** markers) to simpler Markdown
   const formatMarkdown = (rawText) => {
     return rawText
-      .split("**") // Split at bold markers
+      .split("**")
       .map((section, index) =>
         index % 2 === 1 ? `### ${section.trim()}` : section.trim()
       )
@@ -75,20 +76,113 @@ const StockProfile = () => {
   return (
     <Layout>
       <Box sx={{ padding: 4 }}>
+        {/* Company Name & Symbol */}
         <Typography variant="h4" gutterBottom>
           {stockData["Company Name"]} ({symbol.toUpperCase()})
         </Typography>
-        <Typography variant="subtitle1" color="text.secondary">
-          {stockData["Sector"]} - {stockData["Industry"]}
-        </Typography>
 
-        {/* Stock Overview Section */}
+        {/* CHART SECTION */}
+        <StockMovementChart symbol={symbol} />
+
+        {/* Financial Overview Section */}
+        <Card
+          variant="outlined"
+          sx={{
+            padding: 2,
+            border: "2px solid #09460c",
+            backgroundColor: "#f9f9f9",
+            marginBottom: 3,
+            marginTop: 3,
+          }}
+        >
+          <CardContent>
+            <Typography variant="h5" gutterBottom>
+              Financial Overview
+            </Typography>
+            <Box
+              sx={{
+                display: "grid",
+                gridTemplateColumns: { xs: "1fr", md: "repeat(3, 1fr)" },
+                gap: 2,
+                marginTop: 2,
+                textAlign: "left",
+              }}
+            >
+              {/* Column 1 */}
+              <Box>
+                <Typography variant="body1">
+                  <strong>Previous Close:</strong>{" "}
+                  ${stockData["Previous Close"] || "N/A"}
+                </Typography>
+                <Typography variant="body1">
+                  <strong>Open:</strong> ${stockData["Open"] || "N/A"}
+                </Typography>
+                <Typography variant="body1">
+                  <strong>52-Week High:</strong>{" "}
+                  ${stockData["52-Week High"] || "N/A"}
+                </Typography>
+                <Typography variant="body1">
+                  <strong>52-Week Low:</strong>{" "}
+                  ${stockData["52-Week Low"] || "N/A"}
+                </Typography>
+              </Box>
+              {/* Column 2 */}
+              <Box>
+                <Typography variant="body1">
+                  <strong>Market Cap:</strong>{" "}
+                  {stockData["Market Cap"]
+                    ? `$${stockData["Market Cap"].toLocaleString()}`
+                    : "N/A"}
+                </Typography>
+                <Typography variant="body1">
+                  <strong>Beta:</strong> {stockData["Beta"] || "N/A"}
+                </Typography>
+                <Typography variant="body1">
+                  <strong>PE Ratio:</strong> {stockData["PE Ratio"] || "N/A"}
+                </Typography>
+                <Typography variant="body1">
+                  <strong>Dividend Yield:</strong>{" "}
+                  {stockData["Dividend Yield"]
+                    ? `${stockData["Dividend Yield"]}%`
+                    : "N/A"}
+                </Typography>
+              </Box>
+              {/* Column 3 */}
+              <Box>
+                <Typography variant="body1">
+                  <strong>Current Price:</strong>{" "}
+                  ${stockData["Current Price"] || "N/A"}
+                </Typography>
+                <Typography variant="body1">
+                  <strong>EBITDA:</strong>{" "}
+                  {stockData["EBITDA"]
+                    ? `$${stockData["EBITDA"].toLocaleString()}`
+                    : "N/A"}
+                </Typography>
+                <Typography variant="body1">
+                  <strong>Free Cash Flow:</strong>{" "}
+                  {stockData["Free Cash Flow"]
+                    ? `$${stockData["Free Cash Flow"].toLocaleString()}`
+                    : "N/A"}
+                </Typography>
+                <Typography variant="body1">
+                  <strong>Net Income:</strong>{" "}
+                  {stockData["Net Income"]
+                    ? `$${stockData["Net Income"].toLocaleString()}`
+                    : "N/A"}
+                </Typography>
+              </Box>
+            </Box>
+          </CardContent>
+        </Card>
+
+        {/* AI-generated Report Section */}
         <Card
           variant="outlined"
           sx={{
             marginY: 3,
             padding: 2,
-            border: "2px solid #09460c", // Dark green border
+            border: "2px solid #09460c",
             backgroundColor: "#f9f9f9",
           }}
         >
@@ -99,56 +193,6 @@ const StockProfile = () => {
               ) : (
                 "No AI-generated report available."
               )}
-            </Typography>
-          </CardContent>
-        </Card>
-
-        {/* Stock Data Section */}
-        <Card
-          variant="outlined"
-          sx={{
-            padding: 2,
-            border: "2px solid #09460c", // Matching dark green border
-            backgroundColor: "#f9f9f9",
-          }}
-        >
-          <CardContent>
-            <Typography variant="h5">Financial Data</Typography>
-            <Typography variant="body1">
-              <strong>Market Cap:</strong> $
-              {stockData["Market Cap"]?.toLocaleString()}
-            </Typography>
-            <Typography variant="body1">
-              <strong>PE Ratio:</strong> {stockData["PE Ratio"]}
-            </Typography>
-            <Typography variant="body1">
-              <strong>EBITDA:</strong> ${stockData["EBITDA"]?.toLocaleString()}
-            </Typography>
-            <Typography variant="body1">
-              <strong>Free Cash Flow:</strong> $
-              {stockData["Free Cash Flow"]?.toLocaleString()}
-            </Typography>
-            <Typography variant="body1">
-              <strong>Net Income:</strong> $
-              {stockData["Net Income"]?.toLocaleString()}
-            </Typography>
-            <Typography variant="body1">
-              <strong>52-Week High:</strong> ${stockData["52-Week High"]}
-            </Typography>
-            <Typography variant="body1">
-              <strong>52-Week Low:</strong> ${stockData["52-Week Low"]}
-            </Typography>
-            <Typography variant="body1">
-              <strong>Dividend Yield:</strong> {stockData["Dividend Yield"]}%
-            </Typography>
-            <Typography variant="body1">
-              <strong>Beta:</strong> {stockData["Beta"]}
-            </Typography>
-            <Typography variant="body1">
-              <strong>Current Price:</strong> ${stockData["Current Price"]}
-            </Typography>
-            <Typography variant="body1">
-              <strong>Previous Close:</strong> ${stockData["Previous Close"]}
             </Typography>
           </CardContent>
         </Card>
