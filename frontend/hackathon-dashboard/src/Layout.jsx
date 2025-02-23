@@ -57,11 +57,7 @@ const Layout = ({ children }) => {
       </aside>
 
       <div className="user-info">
-        <p>
-          <strong>Welcome, {userData.name}</strong>
-        </p>
-        <p>Energy: {userData.energyType}</p>
-        <p>Risk: {userData.riskType}</p>
+                <p><strong>Welcome, {userData.name}</strong></p>
       </div>
 
       {/* Main content */}
