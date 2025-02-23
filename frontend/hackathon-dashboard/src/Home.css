@@ -1,18 +1,12 @@
 
 .home-page-button-container {
   display: flex;
-<<<<<<< HEAD
   flex-direction: row; /* Keep buttons in a row */
   justify-content: center; 
   align-items: center; 
   height: 100vh; /* Full viewport height */
-=======
-  flex-direction: row;
-  justify-content: center; /* Center buttons */
-  align-items: center;
-  height: 100vh;
->>>>>>> 08a82ceeac59c24b67f119e083da2015850f6abf
 }
+
 
 /* Buttons */
 .home-page-button {

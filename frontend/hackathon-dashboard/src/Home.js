@@ -1,10 +1,7 @@
 import "./Home.css";
-<<<<<<< HEAD
 import { Link } from "react-router-dom";
-=======
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import MenuItem from "@mui/material/MenuItem";
@@ -12,51 +9,43 @@ import Select from "@mui/material/Select";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Layout from "./Layout";
-import { Link } from "react-router-dom";
 
 
->>>>>>> 08a82ceeac59c24b67f119e083da2015850f6abf
 
 const Home = () => {
-  const [stockTickers, setStockTickers] = useState([]);
-  const [selectedStock, setSelectedStock] = useState("");
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    // Fetch stock tickers from the API
-    axios
-      .get("http://127.0.0.1:5000/rankings/10") // This will need to be changed
-      .then((response) => {
-        console.log("API Response: ", response.data)
-        setStockTickers(response.data.rankings);
-      })
-      .catch((error) => {
-        console.error("Error fetching stock tickers:", error);
-      });
-  }, []);
-
-  // Define the handleStockChange function
-  const handleStockChange = (event) => {
-    const ticker = event.target.value;
-    setSelectedStock(ticker);
-    navigate(`/stock/${ticker}`); // Navigate to the stock details page
-  };
-
-  return (
-    <Layout>
-      <Box sx={{ padding: 4, textAlign: "center" }}>
-        <Typography variant="h4" gutterBottom>
-          Select a Stock
-        </Typography>
-        <FormControl sx={{ minWidth: 200 }}>
-          <InputLabel>Select a Stock</InputLabel>
-          <Select value={selectedStock} onChange={handleStockChange} displayEmpty>
-            {stockTickers.map((stock, index) => (
-              <MenuItem key={index} value={stock.ticker}>
-                {stock.ticker} - {stock.company_name}
-              </MenuItem>
-            ))}
-          </Select>
+    const stockTickers = [
+        "NEE", "FSLR", "ENPH", "RUN", "SEDG",
+        "CSIQ", "JKS", "NXT", "DQ", "ARRY", "GE", "VWS", "IBDRY", "DNNGY",
+        "BEP", "NPI", "CWEN", "INOXWIND", "ORA", "IDA", "OPTT", "DRXGY", "EVA",
+        "GPRE", "PLUG", "BE", "BLDP", "ARL", "CEG", "VST", "CCJ", "LEU", "SMR",
+        "OKLO", "NNE", "BWXT", "BW"
+      ];
+      
+      const [selectedStock, setSelectedStock] = useState("");
+      const navigate = useNavigate();
+      
+      const handleStockChange = (event) => {
+        const ticker = event.target.value;
+        setSelectedStock(ticker);
+        navigate(`/stock/${ticker}`); // Navigate to the stock details page
+      };
+      
+      return (
+        <Layout>
+          <Box sx={{ padding: 4, textAlign: "center" }}>
+            <Typography variant="h4" gutterBottom>
+              Select a Stock
+            </Typography>
+            <FormControl sx={{ minWidth: 200 }}>
+              <InputLabel>Select a Stock</InputLabel>
+              <Select value={selectedStock} onChange={handleStockChange} displayEmpty>
+                {stockTickers.map((ticker, index) => (
+                  <MenuItem key={index} value={ticker}>
+                    {ticker}
+                  </MenuItem>
+                ))}
+              </Select>
+    
         </FormControl>
 
         <div className="home-page-button-container">
@@ -69,18 +58,15 @@ const Home = () => {
             </Link>
 
             <Link to="/MacroOutlook"> 
+
             <button className="home-page-button">Macro Outlook</button>
             </Link>
-<<<<<<< HEAD
-        </div>
-    );
-=======
+
       </div>
       </Box>
     </Layout>
 
   );
->>>>>>> 08a82ceeac59c24b67f119e083da2015850f6abf
 };
 
 export default Home;
