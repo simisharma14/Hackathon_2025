@@ -1,68 +1,71 @@
 /* Fullscreen Background */
 .fullscreen-bg {
-    position: relative;
-    width: 100vw;
-    height: 100vh;
-    background-image: url("/public/wind-turbines.jpg"); /* Ensure this is in the public folder */
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background-image: url("/public/wind-turbines.jpg"); /* Ensure this is in the public folder */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow-y: auto;
 }
 
 .user-date-choices {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    font-size: 18px;
-    font-weight: bold;
-    color: #333;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
 }
 
 /* Dark overlay for contrast */
 .fullscreen-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.6); /* Darker overlay */
-    z-index: 0; /* Keeps overlay behind content */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6); /* Darker overlay */
+  z-index: 0; /* Keeps overlay behind content */
+  overflow-y: auto;
 }
 
 /* Content Box - Glassmorphism Effect */
 .content-box {
-    position: relative;
-    z-index: 1;
-    background: rgba(255, 255, 255, 0.1); /* Glass effect */
-    backdrop-filter: blur(10px);
-    padding: 40px 60px;
-    border-radius: 15px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    max-width: 700px;
+  position: relative;
+  z-index: 1;
+  background: rgba(255, 255, 255, 0.1); /* Glass effect */
+  backdrop-filter: blur(10px);
+  padding: 40px 60px;
+  border-radius: 15px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  max-width: 700px;
+  overflow-y: auto;
 }
 
 /* Modern, Bold Title */
 .fullscreen-content h1 {
-    font-size: 64px;
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 3px;
-    color: white;
-    margin-bottom: 20px;
-    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+  font-size: 64px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: white;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
 }
 
 /* Elegant Paragraph */
 .fullscreen-content p {
-    font-size: 22px;
-    font-weight: 300;
-    line-height: 1.8;
-    margin-bottom: 30px;
-    color: rgba(255, 255, 255, 0.85);
+  font-size: 22px;
+  font-weight: 300;
+  line-height: 1.8;
+  margin-bottom: 30px;
+  color: rgba(255, 255, 255, 0.85);
 }
 
 /* 
@@ -71,92 +74,96 @@
 */
 .landing-input,
 .landing-dropdown {
-    width: 100%;
-    box-sizing: border-box; /* Ensures padding doesn't expand total width */
-    padding: 15px;
-    font-size: 18px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 10px;
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
-    text-align: center;
-    outline: none;
-    transition: 0.3s;
-    margin-bottom: 20px;
+  width: 100%;
+  box-sizing: border-box; /* Ensures padding doesn't expand total width */
+  padding: 15px;
+  font-size: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  text-align: center;
+  outline: none;
+  transition: 0.3s;
+  margin-bottom: 20px;
 }
 
 .landing-input::placeholder {
-    color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 0.7);
 }
 
 /* Optional pointer for the dropdown */
 .landing-dropdown {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .landing-dropdown:hover,
 .landing-dropdown:focus,
 .landing-input:focus {
-    background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.3);
 }
 
 /* Modern Call-to-Action Button */
 .landing-page-start-button {
-    background: linear-gradient(90deg, #00c853, #009688); /* Professional gradient */
-    color: white;
-    font-size: 20px;
-    font-weight: bold;
-    text-transform: uppercase;
-    padding: 15px 30px;
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(
+    90deg,
+    #00c853,
+    #009688
+  ); /* Professional gradient */
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }
 
 /* Button Hover Effect */
 .landing-page-start-button:hover {
-    background: linear-gradient(90deg, #009688, #00c853);
-    transform: scale(1.07);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  background: linear-gradient(90deg, #009688, #00c853);
+  transform: scale(1.07);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
 }
 
 /* Text Fade-in Animations */
 .fade-in {
-    opacity: 0;
-    animation: fadeIn 1.5s ease-in forwards;
+  opacity: 0;
+  animation: fadeIn 1.5s ease-in forwards;
 }
 
 .delay-1 {
-    animation-delay: 0.5s;
+  animation-delay: 0.5s;
 }
 
 .delay-2 {
-    animation-delay: 1s;
+  animation-delay: 1s;
 }
 
 @keyframes fadeIn {
-    0% {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    .fullscreen-content h1 {
-        font-size: 42px;
-    }
-    .fullscreen-content p {
-        font-size: 18px;
-    }
-    .landing-page-start-button {
-        font-size: 16px;
-        padding: 12px 25px;
-    }
+  .fullscreen-content h1 {
+    font-size: 42px;
+  }
+  .fullscreen-content p {
+    font-size: 18px;
+  }
+  .landing-page-start-button {
+    font-size: 16px;
+    padding: 12px 25px;
+  }
 }

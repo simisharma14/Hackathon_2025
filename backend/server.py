@@ -10,6 +10,7 @@ from sentiment_analysis import add_finbert_sentiment
 from company_profile_builder import pull_advanced_metrics
 from ranking_algorithm import build_stocks_metrics, rank_stocks
 from stock_AI_prompt import fetch_stock_data, generate_stock_report
+from macro_AI_prompt import generate_macro_outlook
 from flask_cors import CORS
 from investment_strategy import generate_investment_strategy
 
@@ -113,26 +114,26 @@ def get_csv_data(symbol):
 # ==========================
 
 
-def generate_macro_outlook():
-    prompt = (
-        "Write a comprehensive macro outlook report for the energy sector. "
-        "Include relevant discussions on all types of clean and nuclear energy "
-        "as well as recent regulatory changes and government policies. "
-        " focus on current events or regulator changes "
-        "Highlight key market trends, international developments, and potential future challenges and opportunities. "
-        "Conclude with a summary and key takeaways."
-        "Bold important words and put in paragraph form except for key takeaways can be centered bullet points"
-    )
+# def generate_macro_outlook():
+#     prompt = (
+#         "Write a comprehensive macro outlook report for the energy sector. "
+#         "Include relevant discussions on all types of clean and nuclear energy "
+#         "as well as recent regulatory changes and government policies. "
+#         " focus on current events or regulator changes "
+#         "Highlight key market trends, international developments, and potential future challenges and opportunities. "
+#         "Conclude with a summary and key takeaways."
+#         "Bold important words and put in paragraph form except for key takeaways can be centered bullet points"
+#     )
 
-    response = openai.ChatCompletion.create(
-        model="gpt-4",
-        messages=[{"role": "user", "content": prompt}],
-        temperature=0.7,
-        max_tokens=800
-    )
+#     response = openai.ChatCompletion.create(
+#         model="gpt-3.5-turbo",
+#         messages=[{"role": "user", "content": prompt}],
+#         temperature=0.7,
+#         max_tokens=800
+#     )
 
-    outlook = response.choices[0].message["content"]
-    return outlook
+#     outlook = response.choices[0].message["content"]
+#     return outlook
 
 
 @app.route("/macro-outlook", methods=["GET"])

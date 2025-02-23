@@ -13,6 +13,13 @@ const LandingPage = () => {
         <div className="fullscreen-content">
           <div className="content-box">
             <h1 className="fade-in">Welcome to Green Thumb</h1>
+            <p>
+              Green Thumb is an AI-powered investment platform designed to
+              democratize access to clean energy financial data. We leverage
+              Natural Language Processing (NLP), sentiment analysis, and
+              mathematical ranking models to provide retail investors with an
+              easy-to-understand investment framework.
+            </p>
             <p className="fade-in delay-1">
               Join us in investing towards a sustainable and renewable world.
             </p>
