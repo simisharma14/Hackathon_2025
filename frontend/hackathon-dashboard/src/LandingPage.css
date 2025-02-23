@@ -13,6 +13,15 @@
     text-align: center;
 }
 
+.user-date-choices {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
 /* Dark overlay for contrast */
 .fullscreen-overlay {
     position: absolute;
@@ -56,6 +65,41 @@
     color: rgba(255, 255, 255, 0.85);
 }
 
+/* 
+   Ensuring input & dropdown have the same style/size 
+   so they look consistent.
+*/
+.landing-input,
+.landing-dropdown {
+    width: 100%;
+    box-sizing: border-box; /* Ensures padding doesn't expand total width */
+    padding: 15px;
+    font-size: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    text-align: center;
+    outline: none;
+    transition: 0.3s;
+    margin-bottom: 20px;
+}
+
+.landing-input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Optional pointer for the dropdown */
+.landing-dropdown {
+    cursor: pointer;
+}
+
+.landing-dropdown:hover,
+.landing-dropdown:focus,
+.landing-input:focus {
+    background: rgba(255, 255, 255, 0.3);
+}
+
 /* Modern Call-to-Action Button */
 .landing-page-start-button {
     background: linear-gradient(90deg, #00c853, #009688); /* Professional gradient */
@@ -93,8 +137,14 @@
 }
 
 @keyframes fadeIn {
-    0% { opacity: 0; transform: translateY(20px); }
-    100% { opacity: 1; transform: translateY(0); }
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* Responsive Design */
@@ -110,4 +160,3 @@
         padding: 12px 25px;
     }
 }
-
