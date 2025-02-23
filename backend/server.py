@@ -11,6 +11,7 @@ from company_profile_builder import pull_advanced_metrics
 from ranking_algorithm import build_stocks_metrics, rank_stocks
 from stock_AI_prompt import fetch_stock_data, generate_stock_report
 from flask_cors import CORS
+from investment_strategy import generate_investment_strategy
 
 app = Flask(__name__)
 CORS(app)
@@ -21,6 +22,29 @@ DATA_PATH = "./data"
 @app.route("/")
 def home():
     return jsonify({"message": "Stock Sentiment & Financial API is Running!"})
+
+
+# Load stock rankings
+df_ranked = pd.read_csv("./stocks_ranked.csv")
+
+
+@app.route("/investment-strategy/<risk_tolerance>", methods=["GET"])
+def get_investment_strategy(risk_tolerance):
+    """
+    API endpoint to generate a personalized investment strategy.
+    Requires query parameters: risk_tolerance and sector_preference.
+    """
+    risk_tolerance = risk_tolerance.capitalize()
+    sector_preference = sector_preference.capitalize()
+
+    strategy = generate_investment_strategy(
+        risk_tolerance, df_ranked)
+
+    return jsonify({
+        "risk_tolerance": risk_tolerance,
+        "sector_preference": sector_preference,
+        "investment_strategy": strategy
+    })
 
 
 @app.route("/csv-data/<symbol>", methods=["GET"])
@@ -132,7 +156,7 @@ def get_rankings():
                    "CSIQ", "JKS", "NXT", "DQ", "ARRY", "GE", "VWS", "IBDRY", "DNNGY", 'BEP', "NPI", "CWEN", "INOXWIND", "ORA", "IDA", "OPTT", "DRXGY", "EVA", "GPRE", "PLUG", "BE", "BLDP", "ARL", "OPTT", "CEG", "VST", "CCJ", "LEU", "SMR", "OKLO", "NNE", "BWXT", "BW"
                    ]
         df_stocks = pd.DataFrame(columns=[
-            'ticker', 'sentiment_score', 'ebitda', 'five_yr_rev_cagr', 'ev_ebitda', 'roic', 'fcf_yield', 'volatility', 'implied_upside'])
+            'ticker', 'sentiment_score', 'ebitda', 'five_yr_rev_cagr', 'ev_ebitda', 'roic', 'fcf_yield', 'volatility', 'implied_upside', 'sharpe_ratio'])
 
         # Aggregate sentiment & financial data
         for symbol in SYMBOLS:
@@ -156,7 +180,7 @@ def get_top_n_rankings(n):
                    "CSIQ", "JKS", "NXT", "DQ", "ARRY", "GE", "VWS", "IBDRY", "DNNGY", 'BEP', "NPI", "CWEN", "INOXWIND", "ORA", "IDA", "OPTT", "DRXGY", "EVA", "GPRE", "PLUG", "BE", "BLDP", "ARL", "OPTT", "CEG", "VST", "CCJ", "LEU", "SMR", "OKLO", "NNE", "BWXT", "BW"
                    ]
         df_stocks = pd.DataFrame(columns=[
-            'ticker', 'sentiment_score', 'ebitda', 'five_yr_rev_cagr', 'ev_ebitda', 'roic', 'fcf_yield', 'volatility', 'implied_upside'])
+            'ticker', 'sentiment_score', 'ebitda', 'five_yr_rev_cagr', 'ev_ebitda', 'roic', 'fcf_yield', 'volatility', 'implied_upside', 'sharpe_ratio'])
 
         # Aggregate sentiment & financial data
         for symbol in SYMBOLS:
@@ -271,7 +295,6 @@ def get_stock_profile(symbol: str):
         return jsonify({"error": stock_data["error"]}), 500
 
     stock_report = generate_stock_report(symbol, stock_data)
-
 
     # Save the AI-generated report to a text file
     output_filename = f"./data/ai_reports/{symbol}_stock_profile.txt"

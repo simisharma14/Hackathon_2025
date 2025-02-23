@@ -20,6 +20,8 @@ Steps:
 import pandas as pd
 import os
 
+RISK_FREE_RATE = 0.044  # Assume 4.4% risk-free return (adjustable)
+
 
 def build_stocks_metrics(stock: str, df: pd.DataFrame) -> pd.DataFrame:
     """
@@ -48,6 +50,7 @@ def build_stocks_metrics(stock: str, df: pd.DataFrame) -> pd.DataFrame:
         "fcf_yield": None,
         'implied_upside': None,
         'volatility': None,
+        "sharpe_ratio": None,
     }
 
     # Load Sentiment Data
@@ -71,6 +74,15 @@ def build_stocks_metrics(stock: str, df: pd.DataFrame) -> pd.DataFrame:
                 else:
                     print(
                         f"⚠️ Warning: Column '{col}' missing in {stock}'s CSV!")
+        # Compute Sharpe Ratio
+        if "implied_upside" in stock_data and "volatility" in stock_data:
+            implied_upside = stock_data["implied_upside"]
+            volatility = stock_data["volatility"]
+            if volatility > 0:
+                stock_data["sharpe_ratio"] = (
+                    implied_upside - RISK_FREE_RATE) / volatility
+            else:
+                stock_data["sharpe_ratio"] = None  # Avoid division by zero
 
     # Convert dictionary to a properly formatted DataFrame
     new_row = pd.DataFrame([stock_data])
@@ -84,31 +96,39 @@ def build_stocks_metrics(stock: str, df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-def min_max_scale(series: pd.Series) -> pd.Series:
+def min_max_scale(series: pd.Series, invert=False) -> pd.Series:
     """
-    Standard min-max scaling to [0..1].
-    If all values are the same, we return 0.5 for all to avoid division by zero.
+    Min-max scaling for normalization (0 to 1).
+    If invert=True, reverses the scale (1 - min-max scaling).
+    If all values are identical, assigns 0.5 to all entries.
     """
     if series.nunique() == 1:
         return pd.Series([0.5] * len(series), index=series.index)
+
     mn, mx = series.min(), series.max()
-    return (series - mn) / (mx - mn + 1e-9)
+    scaled = (series - mn) / (mx - mn + 1e-9)
+
+    return 1 - scaled if invert else scaled
 
 
 def rank_stocks(
     df_factors: pd.DataFrame,
-    w_sent=0.10,
+    w_sent=0.15,
     w_ebitda=0.15,
     w_rev=0.20,
     w_ev_ebitda=0.15,
-    w_roic=0.20,
-    w_fcf=0.20
+    w_roic=0.15,
+    w_fcf=0.20,
+    w_sharpe=0.30
 ) -> pd.DataFrame:
     """
     Main function to produce a final ranking.
     Returns:
       A DataFrame with the final rank_score in descending order.
     """
+
+    df_factors = df_factors[df_factors["implied_upside"]
+                            is not None and df_factors["implied_upside"] > 0]
     df_rank = pd.DataFrame()
 
     df_rank['ticker'] = df_factors['ticker']
@@ -133,13 +153,18 @@ def rank_stocks(
     # If ev_ebitda is missing, fill with median or something
     df_factors["ev_ebitda"].fillna(
         df_factors["ev_ebitda"].median(), inplace=True)
-    df_rank["ev_ebitda_scaled"] = 1 - min_max_scale(df_factors["ev_ebitda"])
+    df_rank["ev_ebitda_scaled"] = min_max_scale(
+        df_factors["ev_ebitda"], invert=True)
 
     # roic => higher is better => min-max
     df_rank["roic_scaled"] = min_max_scale(df_factors["roic"])
 
     # fcf_yield => higher is better => min-max
     df_rank["fcf_yield_scaled"] = min_max_scale(df_factors["fcf_yield"])
+
+    # Normalize implied upside (higher is better)
+    df_rank["sharpe_ratio_scaled"] = min_max_scale(
+        df_factors["sharpe_ratio"])
 
     df_rank.fillna(0, inplace=True)
     # ==============================
@@ -151,11 +176,13 @@ def rank_stocks(
         w_rev * df_rank["revCAGR5_scaled"] +
         w_ev_ebitda * df_rank["ev_ebitda_scaled"] +
         w_roic * df_rank["roic_scaled"] +
-        w_fcf * df_rank["fcf_yield_scaled"]
+        w_fcf * df_rank["fcf_yield_scaled"] +
+        w_sharpe * df_rank["sharpe_ratio_scaled"]
     )
 
     df_rank['implied_upside'] = df_factors['implied_upside']
     df_rank['volatility'] = df_factors['volatility']
+    df_rank['sharpe_ratio'] = df_factors['sharpe_ratio']
 
     # ==============================
     # 5) Sort descending
@@ -172,7 +199,7 @@ if __name__ == "__main__":
     SYMBOLS = ["NEE", "FSLR", "ENPH", "RUN", "SEDG",
                "CSIQ", "JKS", "NXT", "SPWR", "DQ", "ARRY", "NEP", "GE", "VWS", "IBDRY", "DNNGY", 'BEP', "NPI", "CWEN", "INOXWIND", "ORA", "IDA", "OPTT", "DRXGY", "EVA", "GPRE", "PLUG", "BE", "BLDP", "ARL", "OPTT", "CEG", "VST", "CCJ", "LEU", "SMR", "OKLO", "NNE", "BWXT", "BW", "TLNE"]
     df_stocks = pd.DataFrame(columns=[
-        'ticker', 'sentiment_score', 'ebitda', 'five_yr_rev_cagr', 'ev_ebitda', 'roic', 'fcf_yield', 'implied_upside', 'volatility'])
+        'ticker', 'sentiment_score', 'ebitda', 'five_yr_rev_cagr', 'ev_ebitda', 'roic', 'fcf_yield', 'implied_upside', 'volatility', 'sharpe_ratio'])
     for symbol in SYMBOLS:
         df_stocks = build_stocks_metrics(symbol, df_stocks)
 
