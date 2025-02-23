@@ -32,7 +32,11 @@ const Home = () => {
       
       return (
         <Layout>
-          <Box sx={{ padding: 4, textAlign: "center" }}>
+          <Box sx={{ padding: 10, textAlign: "center" }}>
+          <Typography variant="h3" className="home-title">
+          View Clean Energy Stock Performance, Analyses, and AI-Recommendations
+        </Typography>
+        <Box className="home-container">
             <Typography variant="h4" gutterBottom>
               Select a Stock
             </Typography>
@@ -63,6 +67,7 @@ const Home = () => {
             </Link>
 
       </div>
+      </Box>
       </Box>
     </Layout>
 
