@@ -1,25 +1,64 @@
 import openai
 import os
+import csv
+import glob
 from dotenv import load_dotenv
-
 
 load_dotenv()
 
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
-def generate_macro_outlook():
+def read_entire_csv_folder(folder_path):
+    """
+    Reads all CSV files in `folder_path` in their entirety
+    and returns a combined text summary of *all* contents.
+    
+    WARNING: This can become *very large* if the CSV files are big,
+    potentially leading to prompt size issues.
+    """
+    summary_lines = []
+    csv_files = glob.glob(os.path.join(folder_path, "*.csv"))
 
-    # Define the prompt for the macro outlook
-    prompt = (
-        "Write a comprehensive macro outlook report for the energy sector. "
-        "Include discussions of renewable energy, nuclear, solar, wind, hydropower, and geothermal trends, "
-        "as well as recent regulatory changes and government policies. "
-        "Highlight key market trends, international developments, and potential future challenges and opportunities. Talk about specific regulatory changes and policies that have been passed and how they have effected the sector as a whole"
-        "Conclude with a summary and key takeaways."
+    for csv_file in csv_files:
+        summary_lines.append(f"--- File: {os.path.basename(csv_file)} ---")
+        try:
+            with open(csv_file, "r", encoding="utf-8") as f:
+                reader = csv.reader(f)
+                header = next(reader, None)
+                if header:
+                    summary_lines.append(f"Header: {header}")
+                row_index = 0
+                for row in reader:
+                    row_index += 1
+                    summary_lines.append(f"Row {row_index}: {row}")
+        except Exception as e:
+            summary_lines.append(f"Error reading {csv_file}: {str(e)}")
+
+    return "\n".join(summary_lines)
+
+
+def generate_macro_outlook(regulatory_text, macro_news_text):
+    """
+    Creates a prompt that includes the CSV data at the top, then the main instructions.
+    """
+    combined_csv_summary = (
+        "Recent Regulatory Data (excerpted from CSVs):\n"
+        f"{regulatory_text}\n\n"
+        "Recent Macro/Energy News (excerpted from CSVs):\n"
+        f"{macro_news_text}\n\n"
     )
 
-    # Call the OpenAI API (using the ChatCompletion endpoint)
+    instructions = (
+        "Use the csv summary I gave you with current news to put an emphasis on relavant current events in the energy sector and talk about quantitiative information"
+        "Also use your information on current events to add to this data and give a very current, up to date overview of what is going on with clean and nuclear energy"
+        "Be very professional and financial"
+        "But emphasis on key takeaways and economic indicators moving foward"
+    )
+
+    prompt = combined_csv_summary + instructions
+
     response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",  # or gpt-3.5-turbo if preferred
+        model="gpt-3.5-turbo",
         messages=[
             {"role": "user", "content": prompt}
         ],
@@ -27,28 +66,29 @@ def generate_macro_outlook():
         max_tokens=800
     )
 
-    # Extract the generated content
     outlook = response.choices[0].message["content"]
     return outlook
 
 
 def main():
-    # Set your OpenAI API key
-    openai.api_key = os.getenv("OPENAI_API_KEY")
+    # 1) Read in CSV data for regulatory
+    regulatory_text = read_entire_csv_folder("./regulatory_data")
 
-    # Generate the macro outlook report
-    outlook_report = generate_macro_outlook()
+    # 2) If you have a separate folder for macro-outlook news, read that too
+    macro_news_text = read_entire_csv_folder("./macro_outlook_news")
 
-    # Print the report to the console
+    # 3) Generate the macro outlook report
+    outlook_report = generate_macro_outlook(regulatory_text, macro_news_text)
+
     print("Macro Outlook Report:")
     print(outlook_report)
 
-    # Save the report to a text file
     output_filename = "./data/ai_reports/macro_outlook_report.txt"
+    os.makedirs("./data/ai_reports", exist_ok=True)
     with open(output_filename, "w", encoding="utf-8") as f:
         f.write(outlook_report)
 
-    print(f"Saved macro outlook report to {output_filename}")
+    print(f"\n✅ Macro outlook report saved to {output_filename}")
 
 
 if __name__ == "__main__":

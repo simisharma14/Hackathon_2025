@@ -50,6 +50,7 @@ def generate_stock_report(symbol, stock_data):
     # Convert stock_data dictionary to readable text format
     stock_info_text = "\n".join(
         [f"{key}: {value}" for key, value in stock_data.items()])
+    
 
     # Define the prompt for the stock profile
     prompt = (
