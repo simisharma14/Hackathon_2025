@@ -116,8 +116,9 @@ def get_csv_data(symbol):
 def generate_macro_outlook():
     prompt = (
         "Write a comprehensive macro outlook report for the energy sector. "
-        "Include discussions of renewable energy, nuclear, solar, wind, hydropower, and geothermal trends, "
+        "Include relevant discussions on all types of clean and nuclear energy "
         "as well as recent regulatory changes and government policies. "
+        " focus on current events or regulator changes "
         "Highlight key market trends, international developments, and potential future challenges and opportunities. "
         "Conclude with a summary and key takeaways."
     )
