@@ -13,6 +13,15 @@
     text-align: center;
 }
 
+.user-date-choices {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
 /* Dark overlay for contrast */
 .fullscreen-overlay {
     position: absolute;
