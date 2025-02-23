@@ -153,17 +153,5 @@ Simran Sharma (simisharma14), Jeslyn Guo (jeslyn-guo), Andrew Verzino (drewverzi
 
 ### **Acknowledgements**
 
-We would like to thank the following resources and organizations for their contributions:
-
-# APIs & Data Sources
-- Yahoo Finance, Polygon.io, SEC EDGAR, U.S. EIA, IRENA, and Quandl for financial and macroeconomic data.
-- OpenAI and FinBERT for AI-generated insights and sentiment analysis.
-
-# Tools & Technologies
-- Flask, React, Material-UI, Recharts, and Pandas for making data analysis and visualization efficient.
-
-# Community & Support
-- The open-source community and developers contributing to finance and clean energy research.
-- Hackathon organizers, mentors, and contributors for guidance and support.
-
 # A special thanks to all those working toward making clean energy investments accessible and data-driven.
+# A special thanks to the organizers of Hacklytics 2025.
