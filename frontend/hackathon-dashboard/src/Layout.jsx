@@ -23,21 +23,17 @@ const Layout = ({ children }) => {
         <nav>
             <ul>
                 <li>
-                  <Link to="/Home"><span>🏠</span> <span className={isOpen ? "show" : "hide"}>Home</span></Link>
+                  <Link to="/Home"><span>⚙️</span> <span className={isOpen ? "show" : "hide"}>Account</span></Link>
                 </li>
                 <li>
-                  <Link to="/ETFPage"><span>💵</span> <span className={isOpen ? "show" : "hide"}>ETF Breakdown</span></Link>
+                  <Link to="/ETFPage"><span>📈</span> <span className={isOpen ? "show" : "hide"}>ETF Breakdown</span></Link>
                 </li>
                 <li>
                   <Link to="/TopPerformers"><span>📊</span> <span className={isOpen ? "show" : "hide"}>Top Performers</span></Link>
                 </li>
                 <li>
-                  <Link to="/MacroOutlook"><span>📈</span> <span className={isOpen ? "show" : "hide"}>Macro Outlook</span></Link>
+                  <Link to="/MacroOutlook"><span>🌎</span> <span className={isOpen ? "show" : "hide"}>Macro Outlook</span></Link>
                 </li>
-                <li>
-                  <Link to="/ProfileViews"><span>📜</span> <span className={isOpen ? "show" : "hide"}>Profile Views</span></Link>
-                </li>
-
             </ul>
         </nav>
       </aside>
