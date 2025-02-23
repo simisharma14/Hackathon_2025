@@ -19,7 +19,7 @@ const InvestmentStrategyPage = () => {
     setLoading(true);
     axios
       .get(
-        `http://127.0.0.1:5000/investment-strategy/${userData.riskTolerance}/${userData.energyType}`
+        `http://127.0.0.1:5000/investment-strategy/${userData.riskTolerance}/`
       )
       .then((response) => {
         setStrategy(response.data.investment_strategy);

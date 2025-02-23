@@ -28,8 +28,8 @@ def home():
 df_ranked = pd.read_csv("./stocks_ranked.csv")
 
 
-@app.route("/investment-strategy/<risk_tolerance>/<sector_preference>", methods=["GET"])
-def get_investment_strategy(risk_tolerance, sector_preference):
+@app.route("/investment-strategy/<risk_tolerance>", methods=["GET"])
+def get_investment_strategy(risk_tolerance):
     """
     API endpoint to generate a personalized investment strategy.
     Requires query parameters: risk_tolerance and sector_preference.
@@ -38,7 +38,7 @@ def get_investment_strategy(risk_tolerance, sector_preference):
     sector_preference = sector_preference.capitalize()
 
     strategy = generate_investment_strategy(
-        risk_tolerance, sector_preference, df_ranked)
+        risk_tolerance, df_ranked)
 
     return jsonify({
         "risk_tolerance": risk_tolerance,
@@ -156,7 +156,7 @@ def get_rankings():
                    "CSIQ", "JKS", "NXT", "DQ", "ARRY", "GE", "VWS", "IBDRY", "DNNGY", 'BEP', "NPI", "CWEN", "INOXWIND", "ORA", "IDA", "OPTT", "DRXGY", "EVA", "GPRE", "PLUG", "BE", "BLDP", "ARL", "OPTT", "CEG", "VST", "CCJ", "LEU", "SMR", "OKLO", "NNE", "BWXT", "BW"
                    ]
         df_stocks = pd.DataFrame(columns=[
-            'ticker', 'sentiment_score', 'ebitda', 'five_yr_rev_cagr', 'ev_ebitda', 'roic', 'fcf_yield', 'volatility', 'implied_upside'])
+            'ticker', 'sentiment_score', 'ebitda', 'five_yr_rev_cagr', 'ev_ebitda', 'roic', 'fcf_yield', 'volatility', 'implied_upside', 'sharpe_ratio'])
 
         # Aggregate sentiment & financial data
         for symbol in SYMBOLS:
