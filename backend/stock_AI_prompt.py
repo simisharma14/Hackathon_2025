@@ -32,6 +32,7 @@ def fetch_stock_data(symbol):
             "Net Income": info.get("netIncomeToCommon", "N/A"),
             "Current Price": info.get("currentPrice", "N/A"),
             "Previous Close": info.get("previousClose", "N/A"),
+            "Open": info.get("open", "N/A"),
             "Beta": info.get("beta", "N/A"),
             "EPS (TTM)": info.get("trailingEps", "N/A")
         }
@@ -55,11 +56,12 @@ def generate_stock_report(symbol, stock_data):
         f"Generate a detailed stock profile for {symbol} based on the following data:\n"
         f"{stock_info_text}\n\n"
         "The report should include:\n"
-        "- **Company Overview**: Provide a brief background, industry positioning, and recent performance.\n"
-        "- **Strengths & Weaknesses**: Discuss key advantages, risks, and challenges.\n"
-        "- **Catalysts for Growth**: Identify upcoming trends, market movements, and potential drivers for future stock price appreciation.\n"
-        "- **Market Sentiment Analysis**: Provide insight into current investor sentiment based on financial performance, earnings reports, and recent news.\n"
-        "- **Financial Health**: Evaluate the company’s financial stability, debt levels, profitability, and cash flow.\n\n"
+        "- **Company Overview:** Provide a brief background, industry positioning, and recent performance.\n"
+        "- **Strengths & Weaknesses:** Discuss key advantages, risks, and challenges.\n"
+        "- **Catalysts for Growth:** Identify upcoming trends, market movements, and potential drivers for future stock price appreciation.\n"
+        "- **Market Sentiment Analysis:** Provide insight into current investor sentiment based on financial performance, earnings reports, and recent news.\n"
+        "- **Financial Health:** Evaluate the company’s financial stability, debt levels, profitability, and cash flow.\n\n"
+        "- **Relative Valuation:** Evaluate how the comapny compares to competitors"
         "Ensure the report is professional, insightful, and data-driven. Try to focus on current events in your report, giving actionable items for a potential investor.\nAdditionally, provide information the stocks sector ETF to allow for benchmarking performance against the overall sector. Making sure to include relative valuations in the report."
     )
 
