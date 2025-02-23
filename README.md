@@ -84,8 +84,6 @@ The clean energy sector **faces uncertainty** due to:
 **Stock & ETF Data:**  
 - [Yahoo Finance API](https://finance.yahoo.com/)  
 - [Polygon.io](https://polygon.io/)  
-- [Alpha Vantage](https://www.alphavantage.co/)  
-- [Quandl](https://www.quandl.com/)  
 
 **Macro & Regulatory Data:**  
 - U.S. Energy Information Administration (EIA)  
