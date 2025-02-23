@@ -1,17 +1,21 @@
 /* Layout container */
 .layout {
   display: flex;
-  height: 100vh;
+  height: 100vh; /* or remove if you want content to scroll while sidebar stays fixed */
 }
 
 /* Sidebar styles */
 .sidebar {
+  position: fixed;      /* Pin the sidebar so it doesn't scroll */
+  top: 0;
+  left: 0;
+  height: 100vh;        /* Full viewport height */
+  width: 200px;         /* Default (expanded) width */
   background-color: #1f2937; /* Dark background */
   color: white;
   padding: 16px;
-  height: 100vh;
   transition: width 0.3s ease-in-out;
-  overflow: hidden;
+  overflow: hidden;     /* Hide any overflow so no scrollbars appear */
   display: flex;
   flex-direction: column;
 }
@@ -47,6 +51,7 @@
 nav ul {
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 
 nav ul li {
@@ -60,8 +65,7 @@ nav ul li a {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 10px;
-  padding-left: 20px; /* Adjust this for spacing from the left */
+  padding: 10px 20px; /* Adjust spacing as needed */
   border-radius: 5px;
   transition: background 0.3s ease-in-out;
 }
@@ -82,10 +86,13 @@ nav ul li a:hover {
 
 /* Main content */
 .content {
-  flex: 1;
+  /* If the sidebar is fixed at 200px, add a left margin to avoid overlap */
+  margin-left: 200px; 
   padding: 20px;
+  flex: 1;
 }
 
+/* User info in the top-right corner */
 .user-info {
   position: absolute;
   top: 20px;
