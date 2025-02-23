@@ -25,7 +25,7 @@ const Layout = ({ children }) => {
             <li>
               <Link to="/Home">
                 <span>⚙️</span>{" "}
-                <span className={isOpen ? "show" : "hide"}>Account</span>
+                <span className={isOpen ? "show" : "hide"}>Home</span>
               </Link>
             </li>
             <li>
@@ -57,7 +57,9 @@ const Layout = ({ children }) => {
       </aside>
 
       <div className="user-info">
-                <p><strong>Welcome, {userData.name}</strong></p>
+        <p>
+          <strong>Welcome, {userData.name}</strong>
+        </p>
       </div>
 
       {/* Main content */}

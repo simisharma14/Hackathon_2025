@@ -33,13 +33,15 @@ def fetch_and_analyze_news():
     print("Applying sentiment analysis...")
     return add_finbert_sentiment(all_news)
 
+
 openai.api_key = os.getenv("OPENAI_API_KEY")
+
 
 def read_entire_csv_folder(folder_path):
     """
     Reads all CSV files in `folder_path` in their entirety
     and returns a combined text summary of *all* contents.
-    
+
     WARNING: This can become *very large* if the CSV files are big,
     potentially leading to prompt size issues.
     """
@@ -64,68 +66,106 @@ def read_entire_csv_folder(folder_path):
     return "\n".join(summary_lines)
 
 
-def generate_macro_outlook(regulatory_text, macro_news_text):
-    """
-    Creates a prompt that includes the CSV data at the top, then the main instructions.
-    """
-    combined_csv_summary = (
-        "Recent Regulatory Data (excerpted from CSVs):\n"
-        f"{regulatory_text}\n\n"
-        "Recent Macro/Energy News (excerpted from CSVs):\n"
-        f"{macro_news_text}\n\n"
-    )
+# def generate_macro_outlook(regulatory_text, macro_news_text):
+#     """
+#     Creates a prompt that includes the CSV data at the top, then the main instructions.
+#     """
+#     combined_csv_summary = (
+#         "Recent Regulatory Data (excerpted from CSVs):\n"
+#         f"{regulatory_text}\n\n"
+#         "Recent Macro/Energy News (excerpted from CSVs):\n"
+#         f"{macro_news_text}\n\n"
+#     )
 
-    instructions = (
-        "Use the csv summary I gave you with current news to put an emphasis on relavant current events in the energy sector and talk about quantitiative information"
-        "Also use your information on current events to add to this data and give a very current, up to date overview of what is going on with clean and nuclear energy"
-        "Be very professional and financial"
-        "But emphasis on key takeaways and economic indicators moving foward"
-    )
+#     instructions = (
+#         "Use the csv summary I gave you with current news to put an emphasis on relavant current events in the energy sector and talk about quantitiative information"
+#         "Also use your information on current events to add to this data and give a very current, up to date overview of what is going on with clean and nuclear energy"
+#         "Be very professional and financial"
+#         "But emphasis on key takeaways and economic indicators moving foward"
+#     )
 
-    prompt = combined_csv_summary + instructions
+#     prompt = combined_csv_summary + instructions
 
 def generate_macro_outlook():
     """
-    Generates a macro outlook report incorporating sentiment analysis from macro and regulatory news.
+    Generates a comprehensive macro outlook report for the energy sector
+    by incorporating sentiment analysis from macroeconomic and regulatory news.
     """
-    all_news = fetch_and_analyze_news()
-    if all_news is None:
-        return "No recent macroeconomic or regulatory news available."
 
-    # Aggregate sentiment scores
-    avg_sentiment = all_news[["positive",
-                              "neutral", "negative"]].mean().to_dict()
-    sentiment_summary = (
-        f"Sentiment Analysis of Macro & Regulatory News:\n"
-        f"- Positive: {avg_sentiment['positive']:.2f}\n"
-        f"- Neutral: {avg_sentiment['neutral']:.2f}\n"
-        f"- Negative: {avg_sentiment['negative']:.2f}\n"
+    # =============================
+    # Step 1: Fetch Macro & Regulatory News
+    # =============================
+    print("Fetching macroeconomic and regulatory news...")
+    df_macro_news = get_polygon_news(
+        "energy", api_key=os.getenv("POLYGON_API_KEY"), limit=30)
+
+    # Define keywords for regulatory news
+    SYMBOLS = ["clean energy", "renewable energy", "energy efficiency", "nuclear energy", "nuclear regulation",
+               "solar energy", "solar power", "wind power", "wind energy", "hydropower", "geothermal", "climate change"]
+
+    df_regulatory_news = pd.DataFrame()
+    for symbol in SYMBOLS:
+        temp_df = get_federal_register_docs(symbol)
+        df_regulatory_news = pd.concat(
+            [df_regulatory_news, temp_df], ignore_index=True)
+
+    if df_macro_news.empty and df_regulatory_news.empty:
+        return "No relevant macroeconomic or regulatory news found."
+
+    # =============================
+    # Step 2: Apply Sentiment Analysis
+    # =============================
+    if not df_macro_news.empty:
+        df_macro_news = add_finbert_sentiment(df_macro_news)
+        df_macro_news["net_sentiment"] = df_macro_news["prob_positive"] - \
+            df_macro_news["prob_negative"]
+        macro_sentiment_score = df_macro_news["net_sentiment"].mean()
+    else:
+        macro_sentiment_score = None
+
+    if not df_regulatory_news.empty:
+        df_regulatory_news = add_finbert_sentiment(df_regulatory_news)
+        df_regulatory_news["net_sentiment"] = df_regulatory_news["prob_positive"] - \
+            df_regulatory_news["prob_negative"]
+        regulatory_sentiment_score = df_regulatory_news["net_sentiment"].mean()
+    else:
+        regulatory_sentiment_score = None
+
+    # =============================
+    # Step 3: Aggregate Sentiment Data
+    # =============================
+    sentiment_summary = ""
+    if macro_sentiment_score is not None:
+        sentiment_summary += f"Macroeconomic sentiment score: {macro_sentiment_score:.2f}\n"
+    if regulatory_sentiment_score is not None:
+        sentiment_summary += f"Regulatory sentiment score: {regulatory_sentiment_score:.2f}\n"
+
+    sentiment_summary += (
+        "A positive sentiment score indicates optimism in the energy sector, while a negative score suggests concerns "
+        "over policy changes, economic uncertainty, or regulatory risks."
     )
 
-    # Define the AI prompt
+    # =============================
+    # Step 4: Generate Macro Outlook Using OpenAI
+    # =============================
     prompt = (
-        "Write a comprehensive macro outlook report for the energy sector. "
-        "Include discussions of renewable energy, nuclear, solar, wind, hydropower, and geothermal trends, "
-        "as well as recent regulatory changes and government policies. "
-        "Highlight key market trends, international developments, and potential future challenges and opportunities. "
-        "Discuss specific regulatory changes and policies that have been passed and how they have affected the sector as a whole.\n"
-        f"{sentiment_summary}\n"
-        "Conclude with a summary and key takeaways."
+        "Write a detailed macro outlook report for the energy sector, incorporating the following sentiment analysis data:\n\n"
+        f"{sentiment_summary}\n\n"
+        "Include discussions on renewable energy, nuclear, solar, wind, hydropower, and geothermal trends. "
+        "Analyze recent regulatory changes, government policies, and market trends. Highlight potential future challenges and opportunities. "
+        "Discuss how the sentiment trends may impact investment decisions in the clean energy sector. Use markdown syntax to make nice and clear sections and bullet points. Be extremely thorough."
     )
 
-    # Call the OpenAI API
     response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": "user", "content": prompt}
-        ],
+        model="gpt-3.5-turbo",  # Use GPT-4 for better insights
+        messages=[{"role": "user", "content": prompt}],
         temperature=0.7,
-        max_tokens=1000
+        max_tokens=1200
     )
 
-    outlook = response.choices[0].message["content"]
-    return outlook
+    outlook_report = response["choices"][0]["message"]["content"]
 
+    return outlook_report
 
 
 def save_report(report, filename):
