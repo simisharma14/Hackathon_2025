@@ -5,8 +5,8 @@ import "./Layout.css"; // Import the CSS file
 import { useGlobalContext } from "./GlobalContext";
 
 const Layout = ({ children }) => {
-    const [isOpen, setIsOpen] = useState(true);
-    const { userData } = useGlobalContext();
+  const [isOpen, setIsOpen] = useState(true);
+  const { userData } = useGlobalContext();
 
   return (
     <div className="layout">
@@ -15,7 +15,7 @@ const Layout = ({ children }) => {
         {/* Toggle Button */}
         <button className="toggle-btn" onClick={() => setIsOpen(!isOpen)}>
           {isOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>        
+        </button>
 
         <h2 className="sidebar-title">My App</h2>
 
@@ -39,15 +39,16 @@ const Layout = ({ children }) => {
       </aside>
 
       <div className="user-info">
-                <p><strong>Welcome, {userData.name}</strong></p>
-                <p>Energy: {userData.energyType}</p>
-                <p>Risk: {userData.riskType}</p>
+        <p>
+          <strong>Welcome, {userData.name}</strong>
+        </p>
+        <p>Energy: {userData.energyType}</p>
+        <p>Risk: {userData.riskType}</p>
       </div>
 
       {/* Main content */}
       <main className="content">{children}</main>
     </div>
-    
   );
 };
 

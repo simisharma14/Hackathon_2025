@@ -9,6 +9,7 @@ import TopPerformers from "./TopPerformers";
 import ProfileViews from "./ProfileViews";
 import StockProfile from "./StockProfile";
 import MacroOutlook from "./MacroOutlook";
+import InvestmentStrategy from "./InvestmentStrategy";
 import { GlobalProvider } from "./GlobalContext";
 
 function App() {
@@ -36,6 +37,10 @@ function App() {
             <Route path="/ProfileViews" element={<ProfileViews />} />
             <Route path="/stock/:symbol" element={<StockProfile />} />
             <Route path="/MacroOutlook" element={<MacroOutlook />} />
+            <Route
+              path="/InvestmentStrategy"
+              element={<InvestmentStrategy />}
+            />
           </Routes>
         </div>
       </Router>
