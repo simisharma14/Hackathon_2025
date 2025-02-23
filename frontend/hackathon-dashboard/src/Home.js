@@ -70,6 +70,7 @@ const Home = () => {
       </div>
       </Box>
     </Layout>
+
   );
 };
 
