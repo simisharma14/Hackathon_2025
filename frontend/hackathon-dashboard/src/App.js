@@ -9,9 +9,6 @@ import TopPerformers from "./TopPerformers";
 import ProfileViews from "./ProfileViews";
 import StockProfile from "./StockProfile";
 import MacroOutlook from "./MacroOutlook";
-// import MacroOutlook from "./pages/MacroOutlook";
-// import StockProfile from "./pages/StockProfile";
-// import TopPerformers from "./pages/TopPerformers";
 import { GlobalProvider } from "./GlobalContext";
 
 function App() {

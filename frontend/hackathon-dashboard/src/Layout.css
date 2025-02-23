@@ -85,6 +85,17 @@
     flex: 1;
     padding: 20px;
   }
+
+  .user-info {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    z-index: 1000; /* Ensure it stays on top */
+    text-align: right;
+  }
   
   
   
