@@ -32,6 +32,7 @@ def fetch_stock_data(symbol):
             "Net Income": info.get("netIncomeToCommon", "N/A"),
             "Current Price": info.get("currentPrice", "N/A"),
             "Previous Close": info.get("previousClose", "N/A"),
+            "Open": info.get("open", "N/A"),
             "Beta": info.get("beta", "N/A"),
             "EPS (TTM)": info.get("trailingEps", "N/A")
         }
@@ -65,7 +66,7 @@ def generate_stock_report(symbol, stock_data):
 
     # Call the OpenAI API (using the ChatCompletion endpoint)
     response = openai.ChatCompletion.create(
-        model="gpt-4",  # or gpt-3.5-turbo if preferred
+        model="gpt-3.5-turbo",  # or gpt-3.5-turbo if preferred
         messages=[
             {"role": "user", "content": prompt}
         ],
