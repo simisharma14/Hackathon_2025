@@ -23,7 +23,7 @@ const Layout = ({ children }) => {
         <nav>
             <ul>
                 <li>
-                  <Link to="/Home"><span>⚙️</span> <span className={isOpen ? "show" : "hide"}>Account</span></Link>
+                  <Link to="/Home"><span>⚙️</span> <span className={isOpen ? "show" : "hide"}>Home</span></Link>
                 </li>
                 <li>
                   <Link to="/ETFPage"><span>📈</span> <span className={isOpen ? "show" : "hide"}>ETF Breakdown</span></Link>
