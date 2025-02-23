@@ -17,7 +17,7 @@ const Layout = ({ children }) => {
           {isOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
 
-        <h2 className="sidebar-title">My App</h2>
+        <h2 className="sidebar-title">Green Thumb</h2>
 
         {/* Navigation Links */}
         <nav>
