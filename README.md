@@ -123,30 +123,26 @@ Potential data sets and APIs include:
    ```bash
    git clone https://github.com/yourusername/GreenThumb.git
    cd GreenThumb
-Set Up a Python Virtual Environment:
 
-bash
-Copy
-python3 -m venv venv
-source venv/bin/activate
-Install Dependencies:
+2. **Set Up a Python Virtual Environment:**
+  '''bash 
+  python3 -m venv venv
+  source venv/bin/activate
 
-bash
-Copy
-pip install -r requirements.txt
-Configure Environment Variables:
+3. **Install Dependencies:**
+  '''bash
+  pip install -r requirements.txt
 
-Create a .env file in the backend directory with:
+4. **Configure Environment Variables:**
+  Create a .env file in the backend directory with:
+  dotenv
+  OPENAI_API_KEY=your_openai_api_key
+  POLYGON_API_KEY=your_polygon_api_key
 
-dotenv
-Copy
-OPENAI_API_KEY=your_openai_api_key
-POLYGON_API_KEY=your_polygon_api_key
-Start the Flask Server:
+5. **Start the Flask Server:**
+  '''bash
+  python app.py
 
-bash
-Copy
-python app.py
 Frontend
 Navigate to the Frontend Directory:
 
