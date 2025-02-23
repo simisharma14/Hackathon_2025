@@ -21,6 +21,7 @@ const Layout = ({ children }) => {
 
         {/* Navigation Links */}
         <nav>
+=======
           <ul>
             <li>
               <Link to="/Home">
@@ -57,7 +58,9 @@ const Layout = ({ children }) => {
       </aside>
 
       <div className="user-info">
-                <p><strong>Welcome, {userData.name}</strong></p>
+        <p>
+          <strong>Welcome, {userData.name}</strong>
+        </p>
       </div>
 
       {/* Main content */}

@@ -6,16 +6,16 @@
 
 /* Sidebar styles */
 .sidebar {
-  position: fixed;      /* Pin the sidebar so it doesn't scroll */
+  position: fixed; /* Pin the sidebar so it doesn't scroll */
   top: 0;
   left: 0;
-  height: 100vh;        /* Full viewport height */
-  width: 200px;         /* Default (expanded) width */
+  height: 100vh; /* Full viewport height */
+  width: 200px; /* Default (expanded) width */
   background-color: #1f2937; /* Dark background */
   color: white;
   padding: 16px;
   transition: width 0.3s ease-in-out;
-  overflow: hidden;     /* Hide any overflow so no scrollbars appear */
+  overflow: hidden; /* Hide any overflow so no scrollbars appear */
   display: flex;
   flex-direction: column;
 }
@@ -45,6 +45,7 @@
   font-size: 1.2rem;
   font-weight: bold;
   margin-bottom: 15px;
+  text-decoration: underline;
 }
 
 /* Navigation styles */
@@ -87,7 +88,7 @@ nav ul li a:hover {
 /* Main content */
 .content {
   /* If the sidebar is fixed at 200px, add a left margin to avoid overlap */
-  margin-left: 200px; 
+  margin-left: 200px;
   padding: 20px;
   flex: 1;
 }

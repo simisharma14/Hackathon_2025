@@ -10,6 +10,7 @@ from sentiment_analysis import add_finbert_sentiment
 from company_profile_builder import pull_advanced_metrics
 from ranking_algorithm import build_stocks_metrics, rank_stocks
 from stock_AI_prompt import fetch_stock_data, generate_stock_report
+from macro_AI_prompt import generate_macro_outlook
 from flask_cors import CORS
 from investment_strategy import generate_investment_strategy
 
@@ -28,21 +29,67 @@ def home():
 df_ranked = pd.read_csv("./stocks_ranked.csv")
 
 
+def generate_investment_strategy(risk_tolerance, top_stocks):
+    """
+    Generates a tailored investment strategy based on risk tolerance and top-rated stocks.
+
+    Args:
+        risk_tolerance (str): "Low", "Medium", or "High"
+        top_stocks (pd.DataFrame): DataFrame of ranked stocks
+
+    Returns:
+        str: AI-generated investment strategy
+    """
+    # Select top 5 based on ranking
+    recommended_stocks = top_stocks.head(
+        5) if not top_stocks.empty else top_stocks.head(5)
+
+    # Convert recommended stocks to a text list
+    stock_list = "\n".join(
+        [f"- {row['ticker']} - Sharpe Ratio: {row['sharpe_ratio']:.2f}"
+         for _, row in recommended_stocks.iterrows()]
+    )
+
+    # Define the AI prompt
+    prompt = (
+        f"Create a personalized investment strategy for an investor with {risk_tolerance.lower()} risk tolerance. "
+        f"Here are the top-rated stocks based on our financial ranking system:\n\n{stock_list}\n\n"
+        "The strategy should include:\n"
+        "- An overview of the sector and why it's a strong investment choice.\n"
+        "- Portfolio allocation recommendations (e.g., % allocation to each stock).\n"
+        "- Risk mitigation strategies based on risk tolerance.\n"
+        "- Key market trends, financial metrics, and potential catalysts for growth.\n"
+        "- Diversification suggestions and alternative energy sectors to consider.\n"
+        "The investment strategy should be professional, insightful, and data-driven."
+    )
+
+    # Call OpenAI API
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[{"role": "user", "content": prompt}],
+        temperature=0.7,
+        max_tokens=1000
+    )
+
+    return response["choices"][0]["message"]["content"]
+
+
 @app.route("/investment-strategy/<risk_tolerance>", methods=["GET"])
 def get_investment_strategy(risk_tolerance):
     """
     API endpoint to generate a personalized investment strategy.
-    Requires query parameters: risk_tolerance and sector_preference.
+
+    Args:
+        risk_tolerance (str): "Low", "Medium", or "High"
+
+    Returns:
+        JSON response with the investment strategy.
     """
     risk_tolerance = risk_tolerance.capitalize()
-    sector_preference = sector_preference.capitalize()
-
-    strategy = generate_investment_strategy(
-        risk_tolerance, df_ranked)
+    strategy = generate_investment_strategy(risk_tolerance, df_ranked)
 
     return jsonify({
         "risk_tolerance": risk_tolerance,
-        "sector_preference": sector_preference,
         "investment_strategy": strategy
     })
 
@@ -67,24 +114,26 @@ def get_csv_data(symbol):
 # ==========================
 
 
-def generate_macro_outlook():
-    prompt = (
-        "Write a comprehensive macro outlook report for the energy sector. "
-        "Include discussions of renewable energy, nuclear, solar, wind, hydropower, and geothermal trends, "
-        "as well as recent regulatory changes and government policies. "
-        "Highlight key market trends, international developments, and potential future challenges and opportunities. "
-        "Conclude with a summary and key takeaways."
-    )
+# def generate_macro_outlook():
+#     prompt = (
+#         "Write a comprehensive macro outlook report for the energy sector. "
+#         "Include relevant discussions on all types of clean and nuclear energy "
+#         "as well as recent regulatory changes and government policies. "
+#         " focus on current events or regulator changes "
+#         "Highlight key market trends, international developments, and potential future challenges and opportunities. "
+#         "Conclude with a summary and key takeaways."
+#         "Bold important words and put in paragraph form except for key takeaways can be centered bullet points"
+#     )
 
-    response = openai.ChatCompletion.create(
-        model="gpt-4",
-        messages=[{"role": "user", "content": prompt}],
-        temperature=0.7,
-        max_tokens=800
-    )
+#     response = openai.ChatCompletion.create(
+#         model="gpt-3.5-turbo",
+#         messages=[{"role": "user", "content": prompt}],
+#         temperature=0.7,
+#         max_tokens=800
+#     )
 
-    outlook = response.choices[0].message["content"]
-    return outlook
+#     outlook = response.choices[0].message["content"]
+#     return outlook
 
 
 @app.route("/macro-outlook", methods=["GET"])
