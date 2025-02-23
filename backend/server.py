@@ -28,21 +28,67 @@ def home():
 df_ranked = pd.read_csv("./stocks_ranked.csv")
 
 
+def generate_investment_strategy(risk_tolerance, top_stocks):
+    """
+    Generates a tailored investment strategy based on risk tolerance and top-rated stocks.
+
+    Args:
+        risk_tolerance (str): "Low", "Medium", or "High"
+        top_stocks (pd.DataFrame): DataFrame of ranked stocks
+
+    Returns:
+        str: AI-generated investment strategy
+    """
+    # Select top 5 based on ranking
+    recommended_stocks = top_stocks.head(
+        5) if not top_stocks.empty else top_stocks.head(5)
+
+    # Convert recommended stocks to a text list
+    stock_list = "\n".join(
+        [f"- {row['ticker']} - Sharpe Ratio: {row['sharpe_ratio']:.2f}"
+         for _, row in recommended_stocks.iterrows()]
+    )
+
+    # Define the AI prompt
+    prompt = (
+        f"Create a personalized investment strategy for an investor with {risk_tolerance.lower()} risk tolerance. "
+        f"Here are the top-rated stocks based on our financial ranking system:\n\n{stock_list}\n\n"
+        "The strategy should include:\n"
+        "- An overview of the sector and why it's a strong investment choice.\n"
+        "- Portfolio allocation recommendations (e.g., % allocation to each stock).\n"
+        "- Risk mitigation strategies based on risk tolerance.\n"
+        "- Key market trends, financial metrics, and potential catalysts for growth.\n"
+        "- Diversification suggestions and alternative energy sectors to consider.\n"
+        "The investment strategy should be professional, insightful, and data-driven."
+    )
+
+    # Call OpenAI API
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[{"role": "user", "content": prompt}],
+        temperature=0.7,
+        max_tokens=1000
+    )
+
+    return response["choices"][0]["message"]["content"]
+
+
 @app.route("/investment-strategy/<risk_tolerance>", methods=["GET"])
 def get_investment_strategy(risk_tolerance):
     """
     API endpoint to generate a personalized investment strategy.
-    Requires query parameters: risk_tolerance and sector_preference.
+
+    Args:
+        risk_tolerance (str): "Low", "Medium", or "High"
+
+    Returns:
+        JSON response with the investment strategy.
     """
     risk_tolerance = risk_tolerance.capitalize()
-    sector_preference = sector_preference.capitalize()
-
-    strategy = generate_investment_strategy(
-        risk_tolerance, df_ranked)
+    strategy = generate_investment_strategy(risk_tolerance, df_ranked)
 
     return jsonify({
         "risk_tolerance": risk_tolerance,
-        "sector_preference": sector_preference,
         "investment_strategy": strategy
     })
 
