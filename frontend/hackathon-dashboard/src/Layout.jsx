@@ -21,6 +21,7 @@ const Layout = ({ children }) => {
 
         {/* Navigation Links */}
         <nav>
+=======
           <ul>
             <li>
               <Link to="/Home">
