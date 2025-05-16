@@ -155,3 +155,9 @@ Simran Sharma (simisharma14), Jeslyn Guo (jeslyn-guo), Andrew Verzino (drewverzi
 
 A special thanks to all those working toward making clean energy investments accessible and data-driven.
 A special thanks to the organizers of Hacklytics 2025.
+
+
+
+
+https://github.com/user-attachments/assets/22f3c336-e86c-4e11-8356-4f0c028dc5c9
+
